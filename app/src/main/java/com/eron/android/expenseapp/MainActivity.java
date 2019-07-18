@@ -5,22 +5,27 @@ import android.content.SharedPreferences;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.eron.android.expenseapp.Database.DataBaseHandler;
 import com.eron.android.expenseapp.Model.User;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
-    Button btn_login;
+    TextView btn_login;
     EditText phone_number, password;
     CheckBox remember_me;
+    ImageView pswdimage;
     TextView mlink;
     DataBaseHandler db;
     String dbphone_no, dbpass;
@@ -32,24 +37,34 @@ public class MainActivity extends AppCompatActivity {
     private static final String PASS_PREFS = "passprefs";
     private static final String CHECK_PREFS = "checkprefs";
     ArrayList<User> userArrayList;
-    User user;
+    String signdate;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main1);
 
 
         phone_number = findViewById(R.id.input_phonenumber);
         password = findViewById(R.id.input_password);
         remember_me = findViewById(R.id.ch_rememberme);
+        pswdimage=findViewById(R.id.eye);
+
+
+        pswdimage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                }
+        });
+
 
         mlink = findViewById(R.id.link_signup);
 
         db = new DataBaseHandler(this);
-       // userArrayList=db.getAllUser();
 
-        //db.clearTable();
 
         sharedPreferences = getSharedPreferences(PREFS, 0);
         editor = sharedPreferences.edit();
@@ -64,33 +79,18 @@ public class MainActivity extends AppCompatActivity {
  if(sboolean){
            Intent intent=new Intent(MainActivity.this,DashBoardActivity.class);
            startActivity(intent);
+     phone_number.setText(spphone);
+     password.setText(sppass);
+     remember_me.setChecked(sboolean);
        }
-       /* for (int i = 0; i < userArrayList.size(); i++) {
-     user=new User();
-
-            user = userArrayList.get(i);
-            dbphone_no = user.getPhone_no();
-            dbpass = user.getPassword();
-            if (uphone_no.matches(dbphone_no) && upass.matches(dbpass)) {
-
-                Intent intent = new Intent(MainActivity.this, DashBoardActivity.class);
-                startActivity(intent);
-
-                Toast.makeText(MainActivity.this, "Signed In Successfully" + Build.MODEL, Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(MainActivity.this, "Autherization Error!", Toast.LENGTH_SHORT).show();
-            }
-        }
-*/
-
-
-       phone_number.setText(spphone);
-       password.setText(sppass);
-       remember_me.setChecked(sboolean);
-
         btn_login.setOnClickListener(new View.OnClickListener() {
                                          @Override
                                          public void onClick(View v) {
+
+                                             String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
+
+// textView is the TextView view that should display it
+                                             signdate=currentDateTimeString;
 
                                              User user = new User();
                                           userArrayList = new ArrayList<>();
@@ -111,6 +111,8 @@ public class MainActivity extends AppCompatActivity {
                                                  user = userArrayList.get(i);
                                                  dbphone_no = user.getPhone_no();
                                                  dbpass = user.getPassword();
+                                                 user.setSignedin_date(signdate);
+                                                 db.addUserDetails(user);
                                                  if (uphone_no.matches(dbphone_no) && upass.matches(dbpass)) {
 
                                                      Intent intent = new Intent(MainActivity.this, DashBoardActivity.class);
@@ -128,8 +130,6 @@ public class MainActivity extends AppCompatActivity {
                                                  editor.putString(PASS_PREFS, upass);
                                                  editor.putBoolean(CHECK_PREFS, true);
                                                  editor.apply();
-                                                 /*Intent intent1 = new Intent(MainActivity.this, DashBoardActivity.class);
-                                                 startActivity(intent1);*/
 
                                              } else {
                                                  editor.putBoolean(CHECK_PREFS, false);

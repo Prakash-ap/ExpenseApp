@@ -6,15 +6,72 @@
     android:layout_height="match_parent"
     tools:context=".DashBoardActivity">
 
-    <TextView
+    <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/title"
-        android:text="Welcome to Dashboard"
-        android:gravity="center"
-        android:textColor="@android:color/black"
-        android:textSize="18sp"
-        android:layout_centerInParent="true"
-        />
+        android:minHeight="?attr/actionBarSize"
+        android:id="@+id/parentcardview"
+        >
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/title"
+            android:text="Month"
+            android:textColor="@android:color/black"
+            android:textSize="18sp"
+            android:padding="8dp"
+            />
+
+            <ImageView
+                android:id="@+id/add"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_toLeftOf="@+id/list"
+                android:layout_marginTop="10dp"
+                android:src="@drawable/add"
+                android:layout_marginRight="10dp"/>
+
+            <ImageView
+                android:id="@+id/list"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_alignParentEnd="true"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:src="@drawable/list" />
+
+
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+
+    <android.support.design.widget.TabLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/maintablayout"
+        android:layout_below="@+id/parentcardview"
+        android:background="@color/colorPrimary"
+        app:tabSelectedTextColor="@android:color/white"
+        app:tabTextColor="@android:color/darker_gray"
+        app:tabIndicatorColor="@android:color/white"
+        app:tabMode="fixed"/>
+    <android.support.v4.view.ViewPager
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/mainviewpager"
+        android:layout_below="@+id/maintablayout"
+
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+    </android.support.v4.view.ViewPager>
+
+
+
+
+
+
+
 
 </RelativeLayout>

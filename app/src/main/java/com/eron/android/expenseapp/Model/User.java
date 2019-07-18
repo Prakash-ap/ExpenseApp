@@ -6,6 +6,18 @@ public class User {
     private String phone_no;
     private String password;
     private String phone_model;
+    private String registered_date;
+    private String signedin_date;
+
+    public User(int id, String name, String phone_no, String password, String phone_model, String registered_date, String signedin_date) {
+        this.id = id;
+        this.name = name;
+        this.phone_no = phone_no;
+        this.password = password;
+        this.phone_model = phone_model;
+        this.registered_date = registered_date;
+        this.signedin_date = signedin_date;
+    }
 
     public User(int id, String name, String phone_no, String password, String phone_model) {
         this.id = id;
@@ -13,6 +25,22 @@ public class User {
         this.phone_no = phone_no;
         this.password = password;
         this.phone_model = phone_model;
+    }
+
+    public String getRegistered_date() {
+        return registered_date;
+    }
+
+    public void setRegistered_date(String registered_date) {
+        this.registered_date = registered_date;
+    }
+
+    public String getSignedin_date() {
+        return signedin_date;
+    }
+
+    public void setSignedin_date(String signedin_date) {
+        this.signedin_date = signedin_date;
     }
 
     public User() {

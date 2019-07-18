@@ -15,22 +15,25 @@ import android.widget.Toast;
 import com.eron.android.expenseapp.Database.DataBaseHandler;
 import com.eron.android.expenseapp.Model.User;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class SignUpActivity extends AppCompatActivity {
-    EditText name,phone_no,password;
-    Button register_btn;
+    TextView name,phone_no,password;
+    TextView register_btn;
     TextView link;
-    String sname,sphone,spass,smodel;
+    String sname,sphone,spass,smodel,sregdate;
     User user;
     ArrayList<User>userArrayList;
     DataBaseHandler db;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sign_up);
+        setContentView(R.layout.activity_sign_up1);
 
         name=findViewById(R.id.input_signup_name);
         phone_no=findViewById(R.id.input_signup_phonenumber);
@@ -54,6 +57,10 @@ public class SignUpActivity extends AppCompatActivity {
                 sphone=phone_no.getText().toString();
                 spass=password.getText().toString();
                 smodel= Build.MODEL;
+                String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
+                sregdate=currentDateTimeString;
+
+
 
                 if(sname.equals("")||sphone.equals("")||spass.equals("")){
                     Toast.makeText(SignUpActivity.this, "Enter All the Credentials", Toast.LENGTH_SHORT).show();
@@ -63,6 +70,7 @@ public class SignUpActivity extends AppCompatActivity {
                 user.setPhone_no(sphone);
                 user.setPassword(spass);
                 user.setPhone_model(smodel);
+                user.setRegistered_date(sregdate);
 
 
 

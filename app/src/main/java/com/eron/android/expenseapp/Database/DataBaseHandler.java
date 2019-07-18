@@ -12,14 +12,16 @@ import java.util.ArrayList;
 
 public class DataBaseHandler extends SQLiteOpenHelper {
 
-    private static final String DATABASE_NAME="expenseapp";
+    private static final String DATABASE_NAME="kakeibo_db";
     private static final int DATABASE_VERSION=1;
-    private static final String TABLE_NAME="expenses_signup";
-    private static final String KEY_ID="id";
-    private static final String KEY_PHONE_NO="phone_no";
-    private static final String KEY_USERNAME="username";
-    private static final String KEY_PASSWORD="password";
-    private static final String KEY_PHONE_MODEL="phone_model";
+    private static final String TABLE_NAME="kakeibo_signup";
+    private static final String KEY_ID="sno";
+    private static final String KEY_PHONE_NO="user_mobile_no";
+    private static final String KEY_USERNAME="user_name";
+    private static final String KEY_PASSWORD="user_pass";
+    private static final String KEY_PHONE_MODEL="user_device_info";
+    private static final String KEY_USER_REGISTERED="user_registered";
+    private static final String KEY_USER_SIGNIN="user_signedin";
 
     public DataBaseHandler(Context context) {
         super(context,DATABASE_NAME,null,DATABASE_VERSION);
@@ -30,7 +32,7 @@ public class DataBaseHandler extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         String CREATE_TABLE=" CREATE TABLE "+TABLE_NAME+"("+ KEY_ID +" INTEGER PRIMARY KEY AUTOINCREMENT,"+KEY_USERNAME+" TEXT,"
-                +KEY_PHONE_NO+ " TEXT,"+KEY_PASSWORD+" TEXT,"+KEY_PHONE_MODEL+" TEXT"+")";
+                +KEY_PHONE_NO+ " TEXT,"+KEY_PASSWORD+" TEXT,"+KEY_PHONE_MODEL+" TEXT,"+KEY_USER_REGISTERED+ " TEXT," +KEY_USER_SIGNIN + " TEXT"+")";
         db.execSQL(CREATE_TABLE);
 
     }
@@ -48,6 +50,9 @@ public class DataBaseHandler extends SQLiteOpenHelper {
         contentValues.put(KEY_PHONE_NO,user.getPhone_no());
         contentValues.put(KEY_PASSWORD,user.getPassword());
         contentValues.put(KEY_PHONE_MODEL,user.getPhone_model());
+        contentValues.put(KEY_USER_REGISTERED,user.getRegistered_date());
+        contentValues.put(KEY_USER_SIGNIN,user.getSignedin_date());
+
 
         db.insert(TABLE_NAME,null,contentValues);
         db.close();
@@ -69,6 +74,8 @@ public class DataBaseHandler extends SQLiteOpenHelper {
                 user.setPhone_no(cursor.getString(2));
                 user.setPassword(cursor.getString(3));
                 user.setPhone_model(cursor.getString(4));
+                user.setRegistered_date(cursor.getString(5));
+                user.setSignedin_date(cursor.getString(6));
                 userArrayList.add(user);
             }while (cursor.moveToNext());
         }
