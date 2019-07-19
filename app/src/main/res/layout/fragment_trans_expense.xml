@@ -165,6 +165,8 @@
                 android:id="@+id/btn_cancel"
                 android:text="Cancel"
                 android:layout_weight=".5"
+                android:background="@color/colorPrimaryDark"
+                android:textColor="@android:color/white"
                 android:layout_margin="10dp"
                 />
             <Button
@@ -173,7 +175,8 @@
                 android:id="@+id/btnsave"
                 android:text="Save"
                 android:layout_margin="10dp"
-
+                android:background="@color/colorPrimaryDark"
+                android:textColor="@android:color/white"
                 android:layout_weight=".5"/>
         </LinearLayout>
     </LinearLayout>

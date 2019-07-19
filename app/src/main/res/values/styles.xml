@@ -8,4 +8,9 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <!--<style name="customfontstyle" parent="@android:style/TextAppearance.Small">
+        <item name="android:fontFamily">@font/productsans_regular/</item>
+
+    </style>
+-->
 </resources>

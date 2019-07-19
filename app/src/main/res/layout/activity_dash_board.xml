@@ -6,62 +6,68 @@
     android:layout_height="match_parent"
     tools:context=".DashBoardActivity">
 
-    <android.support.v7.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:minHeight="?attr/actionBarSize"
-        android:id="@+id/parentcardview"
-        >
+
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-        <TextView
-            android:layout_width="match_parent"
+            android:background="@color/colorPrimaryDark"
             android:layout_height="wrap_content"
-            android:id="@+id/title"
-            android:text="Month"
+            android:minHeight="?attr/actionBarSize"
+            android:id="@+id/linear_layout"
+            android:orientation="horizontal"
+
+            >
+        <Spinner
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/monthspinner"
             android:textColor="@android:color/black"
             android:textSize="18sp"
-            android:padding="8dp"
+            android:layout_marginStart="10dp"
+
             />
 
             <ImageView
                 android:id="@+id/add"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
-                android:layout_toLeftOf="@+id/list"
                 android:layout_marginTop="10dp"
                 android:src="@drawable/add"
-                android:layout_marginRight="10dp"/>
+                android:visibility="gone"
+
+               />
+
 
             <ImageView
                 android:id="@+id/list"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
-                android:layout_alignParentEnd="true"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="10dp"
-                android:src="@drawable/list" />
+                android:src="@drawable/list1"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="20dp"
+                />
 
 
         </RelativeLayout>
-    </android.support.v7.widget.CardView>
 
     <android.support.design.widget.TabLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/maintablayout"
-        android:layout_below="@+id/parentcardview"
+        android:layout_below="@+id/linear_layout"
         android:background="@color/colorPrimary"
         app:tabSelectedTextColor="@android:color/white"
         app:tabTextColor="@android:color/darker_gray"
+
         app:tabIndicatorColor="@android:color/white"
+        android:padding="10dp"
         app:tabMode="fixed"/>
     <android.support.v4.view.ViewPager
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/mainviewpager"
         android:layout_below="@+id/maintablayout"
+
+        android:padding="8dp"
 
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
