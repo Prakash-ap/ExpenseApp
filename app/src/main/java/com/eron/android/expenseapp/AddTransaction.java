@@ -1,5 +1,6 @@
 package com.eron.android.expenseapp;
 
+import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -7,6 +8,8 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.TableLayout;
 
 import com.eron.android.expenseapp.Fragments.TransExpenseFragment;
@@ -16,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AddTransaction extends AppCompatActivity {
+    ImageView backicon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +29,15 @@ public class AddTransaction extends AppCompatActivity {
         ViewPager viewPager=findViewById(R.id.transviewpager);
         setUpViewPager(viewPager);
         tabLayout.setupWithViewPager(viewPager);
+        backicon=findViewById(R.id.backicon);
+
+        backicon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(AddTransaction.this,DashBoardActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void setUpViewPager(ViewPager viewPager) {

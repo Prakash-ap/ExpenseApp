@@ -1,19 +1,18 @@
 package com.eron.android.expenseapp;
 
-import android.content.Context;
 import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
@@ -31,12 +30,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DashBoardActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
-    ImageView add,list;
+     public  static ImageView add,list;
     TabLayout tabLayout;
     ViewPager viewPager;
     static final String[] Months = new String[] { "January", "February",
             "March", "April", "May", "June", "July", "August", "September",
             "October", "November", "December" };
+
+    FragmentTransaction fragmentTransaction;
+    FragmentManager fragmentManager;
+    public static String spinnervalue="";
+
 
 
     @Override
@@ -49,6 +53,10 @@ public class DashBoardActivity extends AppCompatActivity implements AdapterView.
                 R.layout.spinnertext,Months);
     adapter.setDropDownViewResource(R.layout.spinnertext);
         spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(DashBoardActivity.this);
+        add=findViewById(R.id.add);
+
+        add.setVisibility(View.GONE);
 
         list=findViewById(R.id.list);
 
@@ -81,16 +89,78 @@ public class DashBoardActivity extends AppCompatActivity implements AdapterView.
         tabLayout = findViewById(R.id.maintablayout);
       viewPager = findViewById(R.id.mainviewpager);
         setUpViewPager(viewPager);
-        tabLayout.setupWithViewPager(viewPager);
-        createTabIcons();
-        add=findViewById(R.id.add);
-        add.setOnClickListener(new View.OnClickListener() {
+
+
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
-            public void onClick(View v) {
-                Intent in=new Intent(DashBoardActivity.this,AddTransaction.class);
-                startActivity(in);
+            public void onPageScrolled(int i, float v, int i1) {
+                if(i==0){
+                    add.setVisibility(View.GONE);
+
+                }else if(i==1){
+
+                    add.setVisibility(View.VISIBLE);
+                    add.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent in=new Intent(DashBoardActivity.this,AddTransaction.class);
+                            startActivity(in);
+
+                        }
+                    });
+
+                }else if(i==2){
+                    add.setVisibility(View.VISIBLE);
+                    add.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent in=new Intent(DashBoardActivity.this,AddnewIncomeCategory.class);
+                            startActivity(in);
+                            Toast.makeText(DashBoardActivity.this, "this is Category Screen", Toast.LENGTH_SHORT).show();
+
+
+                        }
+                    });
+
+
+
+                }
+
+            }
+
+            @Override
+            public void onPageSelected(int i) {
+
+                if(i==0){
+                    add.setVisibility(View.GONE);
+                }else if(i==1){
+                   /* add.setVisibility(View.VISIBLE);
+                    add.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent in=new Intent(DashBoardActivity.this,AddTransaction.class);
+                            startActivity(in);
+                        }
+                    });*/
+                }else if(i==2){
+                   // add.setVisibility(View.VISIBLE);
+                   // Toast.makeText(DashBoardActivity.this, "this is Category Screen", Toast.LENGTH_SHORT).show();
+                }else{
+
+                }
+
+
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int i) {
+
             }
         });
+        tabLayout.setupWithViewPager(viewPager);
+        createTabIcons();
+
 
 
 
@@ -98,7 +168,7 @@ public class DashBoardActivity extends AppCompatActivity implements AdapterView.
 
     private void createTabIcons() {
         TextView tabone=(TextView)LayoutInflater.from(this).inflate(R.layout.customtab_layout,null);
-        tabone.setText("Dashboard");
+        tabone.setText("Dashboad");
         tabone.setCompoundDrawablesWithIntrinsicBounds(0,R.drawable.dashboard,0,0);
         tabLayout.getTabAt(0).setCustomView(tabone);
 
@@ -114,7 +184,7 @@ public class DashBoardActivity extends AppCompatActivity implements AdapterView.
 
         TextView tabfourth=(TextView)LayoutInflater.from(this).inflate(R.layout.customtab_layout,null);
         tabfourth.setText("Account");
-        tabfourth.setCompoundDrawablesWithIntrinsicBounds(0,R.drawable.account,0,0);
+        tabfourth.setCompoundDrawablesWithIntrinsicBounds(0,R.drawable.accounts,0,0);
         tabLayout.getTabAt(3).setCustomView(tabfourth);
 
     }
@@ -127,6 +197,10 @@ public class DashBoardActivity extends AppCompatActivity implements AdapterView.
         adapter.addFragment(new AccountFragment(), "Account");
         viewPager.setAdapter(adapter);
     }
+
+    /*public void AddFunction(View view) {
+
+    }*/
 
     static class ViewAdapter extends FragmentPagerAdapter {
         private final List<Fragment> fragmentList = new ArrayList<>();
@@ -167,11 +241,11 @@ public class DashBoardActivity extends AppCompatActivity implements AdapterView.
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        Bundle bundle=new Bundle();
-        bundle.putString("SpinnerValue",view.toString());
-        SpendingFragment spendingFragment=new SpendingFragment();
-        spendingFragment.setArguments(bundle);
-        Toast.makeText(this, "Value"+bundle, Toast.LENGTH_SHORT).show();
+
+
+        spinnervalue=parent.getItemAtPosition(position).toString();
+        Log.d("Dashbord", "onItemSelected: "+spinnervalue);
+
 
     }
 
@@ -180,4 +254,11 @@ public class DashBoardActivity extends AppCompatActivity implements AdapterView.
 
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent=new Intent(DashBoardActivity.this,SignUpActivity.class);
+        startActivity(intent);
+        finish();
+    }
 }

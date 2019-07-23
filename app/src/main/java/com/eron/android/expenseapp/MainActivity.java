@@ -87,10 +87,6 @@ public class MainActivity extends AppCompatActivity {
                                          @Override
                                          public void onClick(View v) {
 
-                                             String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
-
-// textView is the TextView view that should display it
-                                             signdate=currentDateTimeString;
 
                                              User user = new User();
                                           userArrayList = new ArrayList<>();
@@ -104,24 +100,24 @@ public class MainActivity extends AppCompatActivity {
                                                  Toast.makeText(MainActivity.this, "Enter the Credentials", Toast.LENGTH_SHORT).show();
                                              }
 
-
                                              userArrayList = db.getAllUser();
                                              for (int i = 0; i < userArrayList.size(); i++) {
 
                                                  user = userArrayList.get(i);
                                                  dbphone_no = user.getPhone_no();
                                                  dbpass = user.getPassword();
-                                                 user.setSignedin_date(signdate);
-                                                 db.addUserDetails(user);
-                                                 if (uphone_no.matches(dbphone_no) && upass.matches(dbpass)) {
 
-                                                     Intent intent = new Intent(MainActivity.this, DashBoardActivity.class);
-                                                     startActivity(intent);
+                                             }
+                                             if (dbphone_no==null || dbpass==null) {
+                                                 Toast.makeText(MainActivity.this, "No Account is found", Toast.LENGTH_SHORT).show();
+                                             }else if (uphone_no.matches(dbphone_no) && upass.matches(dbpass)) {
 
-                                                     Toast.makeText(MainActivity.this, "Signed In Successfully" + Build.MODEL, Toast.LENGTH_SHORT).show();
-                                                 } else {
-                                                     Toast.makeText(MainActivity.this, "Autherization Error!", Toast.LENGTH_SHORT).show();
-                                                 }
+                                                 Intent intent = new Intent(MainActivity.this, DashBoardActivity.class);
+                                                 startActivity(intent);
+
+                                                 Toast.makeText(MainActivity.this, "Signed In Successfully" + Build.MODEL, Toast.LENGTH_SHORT).show();
+                                             } else {
+                                                 Toast.makeText(MainActivity.this, "Autherization Error!", Toast.LENGTH_SHORT).show();
                                              }
 
 

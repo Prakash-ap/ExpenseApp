@@ -5,10 +5,23 @@
     android:layout_height="match_parent"
     tools:context=".Fragments.TransIncomeFragment">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginLeft="8dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:id="@+id/parentlayout"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginLeft="8dp">
 
         <TextView
             android:layout_width="match_parent"
@@ -17,55 +30,71 @@
             android:textSize="18sp"
             android:textStyle="bold"
             android:padding="8dp"
-            android:textColor="@android:color/black"/>
+            android:textColor="#333333"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginLeft="8dp"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:weightSum="1"
+            android:padding="8dp"
             android:layout_marginTop="8dp"
-            android:padding="8dp">
+            android:layout_marginBottom="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginLeft="8dp">
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/textdate"
                 android:text="Date:"
                 android:padding="8dp"
-                android:gravity="center"
+                android:textSize="18sp"
+                android:textColor="#333333"
+                android:textAlignment="viewStart"
                 android:layout_weight=".5"
                 />
-            <EditText
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/edtdate"
                 android:hint="date"
-                android:gravity="center"
-
+                android:textAlignment="viewStart"
                 android:padding="8dp"
+                android:textSize="18sp"
+                android:textColor="#333333"
                 android:layout_weight=".5"/>
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:weightSum="1"
             android:layout_marginTop="8dp"
-            android:weightSum="1">
+            android:layout_marginBottom="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginLeft="8dp">
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/textcategory"
                 android:text="Category:"
-                android:gravity="center"
-
+                android:textAlignment="viewStart"
+                android:textColor="#333333"
+                android:textSize="18sp"
                 android:padding="8dp"
                 android:layout_weight=".5"
                 />
             <Spinner
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/spinner"
+                android:id="@+id/spinnercat"
                 android:layout_marginTop="8dp"
+                android:textColor="#333333"
 
+                android:textSize="18sp"
                 android:layout_weight=".5"/>
         </LinearLayout>
         <LinearLayout
@@ -73,23 +102,30 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginLeft="8dp"
             android:weightSum="1">
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/textaccount"
                 android:text="Account:"
-                android:gravity="center"
-
+                android:textAlignment="viewStart"
+                android:textColor="#333333"
                 android:layout_weight=".5"
                 android:padding="8dp"
+                android:textSize="18sp"
+
 
                 />
             <Spinner
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/spinneraccount"
+                android:textSize="18sp"
                 android:layout_marginTop="8dp"
+                android:textColor="#333333"
                 android:layout_weight=".5"/>
         </LinearLayout>
         <LinearLayout
@@ -97,6 +133,9 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginLeft="8dp"
             android:weightSum="1">
             <TextView
                 android:layout_width="match_parent"
@@ -104,10 +143,10 @@
                 android:id="@+id/textamount"
                 android:text="Amount:"
                 android:layout_weight=".5"
-                android:gravity="center"
-
+                android:textAlignment="viewStart"
+                android:textSize="18sp"
                 android:padding="8dp"
-
+                android:textColor="#333333"
                 />
             <EditText
                 android:layout_width="match_parent"
@@ -115,9 +154,10 @@
                 android:id="@+id/edtamount"
                 android:hint="amount"
                 android:padding="8dp"
-                android:gravity="center"
+                android:textAlignment="viewStart"
+                android:textColor="#333333"
 
-
+                android:textSize="18sp"
                 android:layout_weight=".5"/>
         </LinearLayout>
         <LinearLayout
@@ -125,6 +165,9 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginLeft="8dp"
             android:weightSum="1">
             <TextView
                 android:layout_width="match_parent"
@@ -133,8 +176,9 @@
                 android:text="Note:"
                 android:layout_weight=".5"
                 android:padding="8dp"
-                android:gravity="center"
-
+                android:textAlignment="viewStart"
+                android:textSize="18sp"
+                android:textColor="#333333"
 
                 />
             <EditText
@@ -143,17 +187,23 @@
                 android:id="@+id/edtnote"
                 android:hint="notes"
                 android:padding="8dp"
-                android:gravity="center"
-
+                android:textAlignment="viewStart"
+                android:textColor="#333333"
+                android:textSize="18sp"
                 android:layout_weight=".5"/>
         </LinearLayout>
+        </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:weightSum="1"
-            android:layout_marginTop="100dp"
             android:padding="8dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginLeft="8dp"
 
             >
             <Button
@@ -163,7 +213,7 @@
                 android:text="Cancel"
                 android:layout_weight=".5"
                 android:layout_margin="10dp"
-                android:background="@color/colorPrimaryDark"
+                android:background="@drawable/btn_shape"
                 android:textColor="@android:color/white"
                 />
             <Button
@@ -172,10 +222,9 @@
                 android:id="@+id/btnsave"
                 android:text="Save"
                 android:layout_margin="10dp"
-                android:background="@color/colorPrimaryDark"
+                android:background="@drawable/btn_shape"
                 android:textColor="@android:color/white"
-
                 android:layout_weight=".5"/>
         </LinearLayout>
-    </LinearLayout>
+    </RelativeLayout>
 </FrameLayout>
