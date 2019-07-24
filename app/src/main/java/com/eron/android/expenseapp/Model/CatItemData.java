@@ -5,9 +5,9 @@ import android.widget.TextView;
 public class CatItemData {
 
     String text;
-    String imageId;
+    int imageId;
 
-    public CatItemData(String text, String imageId) {
+    public CatItemData(String text, int imageId) {
         this.text = text;
         this.imageId = imageId;
     }
@@ -20,11 +20,11 @@ public class CatItemData {
         this.text = text;
     }
 
-    public String getImageId() {
+    public int getImageId() {
         return imageId;
     }
 
-    public void setImageId(String imageId) {
+    public void setImageId(int imageId) {
         this.imageId = imageId;
     }
 }

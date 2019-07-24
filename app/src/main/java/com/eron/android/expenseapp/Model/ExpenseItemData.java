@@ -3,9 +3,9 @@ package com.eron.android.expenseapp.Model;
 public class ExpenseItemData {
 
     String text;
-    Integer imageId;
+    int imageId;
 
-    public ExpenseItemData(String text, Integer imageId) {
+    public ExpenseItemData(String text, int imageId) {
         this.text = text;
         this.imageId = imageId;
     }
@@ -18,11 +18,11 @@ public class ExpenseItemData {
         this.text = text;
     }
 
-    public Integer getImageId() {
+    public int getImageId() {
         return imageId;
     }
 
-    public void setImageId(Integer imageId) {
+    public void setImageId(int imageId) {
         this.imageId = imageId;
     }
 }

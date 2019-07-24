@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="icon_email">&#xf0e0;</string>
+    <string name="icon_password">&#xf084;</string>
+    <string name="icon_user">&#xf2bd;</string>
+    <string name="icon_lock">&#xf023;</string>
+    <string name="icon_checkbox_checked">&#xf046;</string>
+    <string name="icon_eye">&#xf06e;</string>
+    <string name="icon_eye_closed">&#xf070;</string>
+    <string name="cash">&#xf0d6;</string>
+    <string name="salary">&#xf156;</string>
+    <string name="food">&#xf2e7;</string>
+    <string name="Shopping">&#xf217;</string>
+    <string name="card">&#xf09d;</string>
+    <string name="Travel">&#xf1b9;</string>
+    <string name="Holidays">&#xf0b1;</string>
+    <string name="Entertainment">&#xf008;</string>
+    <string name="gift">&#xf06b;</string>
+    <string name="Education">&#xf19d;</string>
+    <string name="home">&#xf015;</string>
+    <string name="Hospital">&#xf015;</string>
+    <string name="Transport">&#xf015;</string>
+    <string name="Television">&#xf26c;</string>
+    <string name="Account">&#xf007;</string>
+    <string name="Wifi">&#xf1eb;</string>
+    <string name="Bank">&#xf19c;</string>
+
+
+</resources>

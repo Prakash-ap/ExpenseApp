@@ -208,6 +208,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/btn_cancel"
                 android:text="Cancel"
+                android:visibility="gone"
                 android:layout_weight=".5"
                 android:background="@drawable/btn_shape"
                 android:textColor="@android:color/white"

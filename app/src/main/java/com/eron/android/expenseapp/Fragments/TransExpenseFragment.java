@@ -46,16 +46,16 @@ public class TransExpenseFragment extends Fragment {
         expenseItemDataArrayList=new ArrayList<>();
         expenseAccItemDataArrayList=new ArrayList<>();
 
-        expenseItemDataArrayList.add(new ExpenseItemData("Food",R.drawable.food));
-        expenseItemDataArrayList.add(new ExpenseItemData("Travel",R.drawable.travel));
-        expenseItemDataArrayList.add(new ExpenseItemData("Shopping",R.drawable.shopping));
-        expenseItemDataArrayList.add(new ExpenseItemData("Gift",R.drawable.gift));
-        expenseItemDataArrayList.add(new ExpenseItemData("Holiday",R.drawable.holiday));
-        expenseItemDataArrayList.add(new ExpenseItemData("Fuel",R.drawable.fuel));
+        expenseItemDataArrayList.add(new ExpenseItemData("Food",R.string.food));
+        expenseItemDataArrayList.add(new ExpenseItemData("Travel",R.string.Travel));
+        expenseItemDataArrayList.add(new ExpenseItemData("Shopping",R.string.Shopping));
+        expenseItemDataArrayList.add(new ExpenseItemData("Gift",R.string.gift));
+        expenseItemDataArrayList.add(new ExpenseItemData("Holiday",R.string.Holidays));
+        expenseItemDataArrayList.add(new ExpenseItemData("Wifi",R.string.Wifi));
 
-        expenseAccItemDataArrayList.add(new ExpenseItemData("Cash",R.drawable.cash));
-        expenseAccItemDataArrayList.add(new ExpenseItemData("Card",R.drawable.card));
-        expenseAccItemDataArrayList.add(new ExpenseItemData("Account",R.drawable.account));
+        expenseAccItemDataArrayList.add(new ExpenseItemData("Cash",R.string.cash));
+        expenseAccItemDataArrayList.add(new ExpenseItemData("Card",R.string.card));
+        expenseAccItemDataArrayList.add(new ExpenseItemData("Account",R.string.Account));
 
 
         SpinnerExpAdapter adapter=new SpinnerExpAdapter(getContext(),R.id.exp_cat_text,R.layout.child_expenselayout,expenseItemDataArrayList);

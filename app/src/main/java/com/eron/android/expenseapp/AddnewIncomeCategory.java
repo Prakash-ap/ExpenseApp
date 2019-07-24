@@ -3,6 +3,8 @@ package com.eron.android.expenseapp;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Color;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,6 +15,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.eron.android.expenseapp.Adapter.IconAdapter;
@@ -25,18 +28,23 @@ import com.maltaisn.icondialog.IconView;
 import java.util.Arrays;
 import java.util.Comparator;
 
+import info.androidhive.fontawesome.FontDrawable;
+
 public class AddnewIncomeCategory extends Activity {
 
     EditText name;
-    ImageView icon;
+    TextView icon;
     Button ok,cancel;
     String nam;
     String img;
     private int[] selectedIconIds;
     private int disabledCatg;
 
-    private Integer[] iconList = {
-            android.R.drawable.ic_media_play, android.R.drawable.ic_media_pause,
+    private int[] iconList = {
+            R.string.icon_eye,R.string.fa_eye_dropper_solid,R.string.fa_eye,R.string.fa_address_book,
+    R.string.Account,R.string.Bank,R.string.card,R.string.cash,R.string.Education,R.string.Entertainment,
+    R.string.Transport,R.string.Travel,R.string.Wifi,R.string.food,R.string.Shopping,R.string.gift};
+           /* android.R.drawable.ic_media_play, android.R.drawable.ic_media_pause,
             android.R.drawable.ic_delete, android.R.drawable.ic_btn_speak_now,
             android.R.drawable.ic_media_previous, android.R.drawable.ic_media_next,
             android.R.drawable.ic_menu_my_calendar, android.R.drawable.ic_menu_agenda,
@@ -49,7 +57,8 @@ public class AddnewIncomeCategory extends Activity {
             android.R.drawable.ic_media_previous, android.R.drawable.ic_media_next,
             android.R.drawable.ic_menu_my_calendar, android.R.drawable.ic_menu_agenda,
             android.R.drawable.ic_menu_gallery,R.drawable.next
-    };
+*/
+
 
 
 
@@ -65,9 +74,16 @@ public class AddnewIncomeCategory extends Activity {
         ok=findViewById(R.id.catincomeok);
         cancel=findViewById(R.id.catcancel);
         context=getApplicationContext();
+
+        FontDrawable drawable=new FontDrawable(this,R.string.cash,true,false);
+        drawable.setTextColor(ContextCompat.getColor(this, android.R.color.white));
+        drawable.setTextSize(50);
+       // icon.setText(drawable);
+
         icon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 showselectIconDialog(getApplicationContext());
 
             }
@@ -77,7 +93,7 @@ public class AddnewIncomeCategory extends Activity {
             @Override
             public void onClick(View v) {
                 nam=name.getText().toString();
-                img=icon.getDrawable().toString();
+                img=icon.getText().toString();
 
 
 
@@ -101,9 +117,11 @@ public class AddnewIncomeCategory extends Activity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
+
             //   icon.setImageIcon(iconList.length);
 
-                icon.setImageResource(iconList[position]);
+                icon.setText(iconList[position]);
+
 
 
 

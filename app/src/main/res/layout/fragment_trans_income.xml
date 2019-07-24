@@ -93,7 +93,6 @@
                 android:id="@+id/spinnercat"
                 android:layout_marginTop="8dp"
                 android:textColor="#333333"
-
                 android:textSize="18sp"
                 android:layout_weight=".5"/>
         </LinearLayout>
@@ -154,6 +153,7 @@
                 android:id="@+id/edtamount"
                 android:hint="amount"
                 android:padding="8dp"
+                android:inputType="number"
                 android:textAlignment="viewStart"
                 android:textColor="#333333"
 
@@ -211,6 +211,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/btn_cancel"
                 android:text="Cancel"
+                android:visibility="gone"
                 android:layout_weight=".5"
                 android:layout_margin="10dp"
                 android:background="@drawable/btn_shape"

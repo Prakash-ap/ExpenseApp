@@ -36,8 +36,8 @@ public class SpinnerExpAdapter extends ArrayAdapter<ExpenseItemData>{
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
 
         View itemview=layoutInflater.inflate(R.layout.child_expenselayout,parent,false);
-        ImageView imageView=(ImageView)itemview.findViewById(R.id.exp_cat_img);
-        imageView.setImageResource(expenseItemDataArrayList.get(position).getImageId());
+        TextView imageView=(TextView) itemview.findViewById(R.id.exp_cat_img);
+        imageView.setText(expenseItemDataArrayList.get(position).getImageId());
         TextView textView=(TextView)itemview.findViewById(R.id.exp_cat_text);
         textView.setText(expenseItemDataArrayList.get(position).getText());
         return itemview;
