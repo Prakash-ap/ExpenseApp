@@ -14,6 +14,8 @@ import com.eron.android.expenseapp.R;
 
 import java.util.ArrayList;
 
+import info.androidhive.fontawesome.FontTextView;
+
 public class TransAdapter extends RecyclerView.Adapter<TransAdapter.MyViewHolder> {
 
     private Context context;
@@ -40,8 +42,10 @@ public class TransAdapter extends RecyclerView.Adapter<TransAdapter.MyViewHolder
     public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, int i) {
 
         TransModel transModel=transModelArrayList.get(i);
-        myViewHolder.category.setText(transModel.getCategory());
-        myViewHolder.account.setText(transModel.getAccount());
+        myViewHolder.categoryname.setText(transModel.getCategory_name());
+        myViewHolder.catimg.setText(transModel.getCategory_img());
+        myViewHolder.accountname.setText(transModel.getAccount_name());
+        myViewHolder.accimg.setText(transModel.getAccount_img());
         myViewHolder.dayofmonth.setText(transModel.getDay_of_month());
         myViewHolder.note.setText(transModel.getNote());
         myViewHolder.amount.setText(transModel.getAmount());
@@ -58,12 +62,16 @@ public class TransAdapter extends RecyclerView.Adapter<TransAdapter.MyViewHolder
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
-        TextView category,account,dayofmonth,amount,note,month;
+        TextView categoryname,accountname,dayofmonth,amount,note,month;
+        FontTextView catimg;
+        FontTextView accimg;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            category=itemView.findViewById(R.id.child_cat);
-            account=itemView.findViewById(R.id.child_type);
+            categoryname=itemView.findViewById(R.id.child_cat_name);
+            catimg=itemView.findViewById(R.id.child_cat_img);
+            accountname=itemView.findViewById(R.id.child_type);
+            accimg=itemView.findViewById(R.id.child_acc_img);
             dayofmonth=itemView.findViewById(R.id.child_dat);
             month=itemView.findViewById(R.id.child_month);
             amount=itemView.findViewById(R.id.child_amount);

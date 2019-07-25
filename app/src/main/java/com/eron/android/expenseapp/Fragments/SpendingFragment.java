@@ -64,6 +64,8 @@ public class SpendingFragment extends Fragment {
             transModel=transModelArrayList.get(i);
             String dbdate=transModel.getDate();
             if(dbdate.equals(date1)){
+                transModelArrayList=new ArrayList<>();
+                transModelArrayList=db.getTodayNewIncome(date1);
 
                 transAdapter=new TransAdapter(getContext(),transModelArrayList);
                 RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(getContext());
@@ -73,6 +75,7 @@ public class SpendingFragment extends Fragment {
 
 
             }else{
+               // transModelArrayList.clear();
                 Toast.makeText(getContext(), "No Data Available on Todays date", Toast.LENGTH_SHORT).show();
             }
         }

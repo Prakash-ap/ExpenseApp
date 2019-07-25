@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -16,6 +17,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.eron.android.expenseapp.Adapter.CopySpinnerAccAdapter;
+import com.eron.android.expenseapp.Adapter.CopySpinnerCatAdapter;
 import com.eron.android.expenseapp.Adapter.SpinnerCatAdapter;
 import com.eron.android.expenseapp.DashBoardActivity;
 import com.eron.android.expenseapp.Database.DataBaseHandler;
@@ -27,6 +30,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 
@@ -41,12 +45,34 @@ public class TransIncomeFragment extends Fragment implements View.OnClickListene
     DataBaseHandler db;
     TransModel transModel;
     ArrayList<TransModel>transModelArrayList;
+    List<String> categoryList;
+    List<String> accountList;
+    CatItemData catItemData;
+    CatItemData catItemData1;
+    CatItemData catItemData2;
+    CatItemData catItemData3;
+    CatItemData catItemData4;
+
+
+    String cattext;
+    String catimage;
 
     String dateval,catval,accval,amountval,noteval,type;
+    String accname;
+    int accimg;
 
     SimpleDateFormat simpleDateFormat;
     String month;
     int dayofmonth;
+    String catvalues,accvalues;
+    int catimg;
+    String[] catnames={"Salary","Lease"};
+    int[] caticons={R.string.salary,R.string.home};
+    String[] accnames={"Cash","Card","Account"};
+    int[] accicons={R.string.cash,R.string.card,R.string.Account};
+    CopySpinnerCatAdapter copySpinnerCatAdapter;
+    CopySpinnerAccAdapter copySpinnerAccAdapter;
+    ArrayAdapter<String>catadapter;
 
 
     @Override
@@ -66,31 +92,43 @@ public class TransIncomeFragment extends Fragment implements View.OnClickListene
 
         save.setOnClickListener(this);
         cancel.setOnClickListener(this);
+        category.setOnItemSelectedListener(this);
+        account.setOnItemSelectedListener(this);
+
+       // loadCatg();
 
         catItemDataArrayList=new ArrayList<>();
 
+        copySpinnerCatAdapter=new CopySpinnerCatAdapter(catnames,caticons,getContext());
+        category.setAdapter(copySpinnerCatAdapter);
 
-        catItemDataArrayList.add(new CatItemData("Salary",R.string.salary));
-        catItemDataArrayList.add(new CatItemData("Lease",R.string.home));
+        copySpinnerAccAdapter=new CopySpinnerAccAdapter(accnames,accicons,getContext());
+        account.setAdapter(copySpinnerAccAdapter);
+
+
+
+
+
+       /* catItemDataArrayList.add(new CatItemData("Salary",R.string.salary));
+        catItemDataArrayList.add(new CatItemData("Lease",R.string.home));*/
       //  catItemDataArrayList.add(new CatItemData("Salary",R.string.cash));
      //   catItemDataArrayList.add(new CatItemData("Other",R.drawable.others));
 
-        SpinnerCatAdapter adapter=new SpinnerCatAdapter(getContext(),R.id.cat_text,R.layout.child_catlayout,catItemDataArrayList);
+       /* SpinnerCatAdapter adapter=new SpinnerCatAdapter(getContext(),R.id.cat_text,R.layout.child_catlayout,catItemDataArrayList);
         category.setAdapter(adapter);
-
         accItemDataArrayList=new ArrayList<>();
 
         accItemDataArrayList.add(new CatItemData("Cash",R.string.cash));
         accItemDataArrayList.add(new CatItemData("Card",R.string.card));
         accItemDataArrayList.add(new CatItemData("Account",R.string.Account));
-
+*/
        // accItemDataArrayList.add(new CatItemData("Account",R.drawable.account));
 
 
 
-        SpinnerCatAdapter adapter1=new SpinnerCatAdapter(getContext(),R.id.cat_text,R.layout.child_catlayout,accItemDataArrayList);
+      /*  SpinnerCatAdapter adapter1=new SpinnerCatAdapter(getContext(),R.id.cat_text,R.layout.child_catlayout,accItemDataArrayList);
         account.setAdapter(adapter1);
-
+*/
 
 
         final DatePickerDialog.OnDateSetListener dateSetListener=new DatePickerDialog.OnDateSetListener() {
@@ -117,6 +155,63 @@ public class TransIncomeFragment extends Fragment implements View.OnClickListene
         return view;
 
 
+    }
+
+    private void loadCatg() {
+        categoryList=new ArrayList<String>();
+        catItemData=new CatItemData();
+        catItemDataArrayList=new ArrayList<>();
+        catItemDataArrayList=db.getAllCatg();
+
+        if(catItemDataArrayList.size()==0){
+
+            catItemDataArrayList.add(new CatItemData("Salary",R.string.salary));
+
+            db.addCatg(catItemData);
+
+            catItemData1=new CatItemData();
+            catItemData1.setText("Allowance");
+            catItemData1.setImageId(R.string.Allowance);
+            db.addCatg(catItemData1);
+
+            catItemData2=new CatItemData();
+            catItemData2.setText("Bonus");
+            catItemData2.setImageId(R.string.Bonus);
+            db.addCatg(catItemData2);
+
+
+            catItemDataArrayList=db.getAllCatg();
+            for (int i=0;i<catItemDataArrayList.size();i++){
+                catItemData=catItemDataArrayList.get(i);
+                cattext=catItemData.getText();
+                catimage= String.valueOf(catItemData.getImageId());
+                categoryList.add(cattext);
+                categoryList.add(catimage);
+
+            }
+
+            catadapter=new ArrayAdapter<String>(getContext(),android.R.layout.simple_spinner_item,categoryList);
+            catadapter.setDropDownViewResource(R.layout.child_catlayout);
+            category.setAdapter(catadapter);
+
+
+
+        }else{
+            catItemData=new CatItemData();
+            catItemDataArrayList=new ArrayList<>();
+            catItemDataArrayList=db.getAllCatg();
+            for(int i=0;i<catItemDataArrayList.size();i++){
+                catItemData=catItemDataArrayList.get(i);
+                cattext=catItemData.getText();
+                catimage= String.valueOf(catItemData.getImageId());
+                categoryList.add(cattext);
+                categoryList.add(catimage);
+            }
+            catadapter=new ArrayAdapter<String>(getContext(),android.R.layout.simple_spinner_item,categoryList);
+            catadapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
+            category.setAdapter(catadapter);
+
+        }
     }
 
     private void updateLabel() {
@@ -147,8 +242,10 @@ public class TransIncomeFragment extends Fragment implements View.OnClickListene
          transModelArrayList=new ArrayList<>();
          transModel=new TransModel();
          transModel.setDate(dateval);
-         transModel.setCategory(catval);
-         transModel.setAccount(accval);
+         transModel.setCategory_name(catval);
+         transModel.setCategory_img(catimg);
+         transModel.setAccount_name(accval);
+         transModel.setAccount_img(accimg);
          transModel.setAmount(amountval);
          transModel.setNote(noteval);
          transModel.setType(type);
@@ -174,12 +271,23 @@ public class TransIncomeFragment extends Fragment implements View.OnClickListene
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         switch (parent.getId()){
             case R.id.spinnercat:
-                catval=parent.getItemAtPosition(position).toString();
+               /* catval=catItemData.getText().toString();
+                catimg=catItemData.getImageId();*/
+                catval=catnames[position];
+                catimg=caticons[position];
+
+                Log.d("CatValue", "onItemSelected: "+catval);
 
 
                 break;
             case R.id.spinneraccount:
-                accval=parent.getItemAtPosition(position).toString();
+              //  accval=parent.getItemAtPosition(position).toString();
+
+                accname=accnames[position];
+                accimg=accicons[position];
+
+
+
                 break;
         }
 

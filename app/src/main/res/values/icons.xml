@@ -24,6 +24,8 @@
     <string name="Account">&#xf007;</string>
     <string name="Wifi">&#xf1eb;</string>
     <string name="Bank">&#xf19c;</string>
+    <string name="Allowance">&#xf1f1;</string>
+    <string name="Bonus">&#xf003;</string>
 
 
 </resources>

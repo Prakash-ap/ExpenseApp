@@ -4,29 +4,48 @@ import android.print.PrinterId;
 
 public class TransModel {
     private int id;
-    private String category;
+    private String category_name;
+    private int category_img;
     private String type;
     private String date;
     private String note;
     private String amount;
-    private String account;
+    private String account_name;
+    private int account_img;
     private String day_of_month;
     private String month;
 
     public TransModel() {
     }
 
-
-    public TransModel(int id, String category, String type, String date, String note, String amount, String account, String day_of_month, String month) {
+    public TransModel(int id, String category_name, int category_img, String type, String date, String note, String amount, String account_name, int account_img, String day_of_month, String month) {
         this.id = id;
-        this.category = category;
+        this.category_name = category_name;
+        this.category_img = category_img;
         this.type = type;
         this.date = date;
         this.note = note;
         this.amount = amount;
-        this.account = account;
+        this.account_name = account_name;
+        this.account_img = account_img;
         this.day_of_month = day_of_month;
         this.month = month;
+    }
+
+    public String getCategory_name() {
+        return category_name;
+    }
+
+    public void setCategory_name(String category_name) {
+        this.category_name = category_name;
+    }
+
+    public int getCategory_img() {
+        return category_img;
+    }
+
+    public void setCategory_img(int category_img) {
+        this.category_img = category_img;
     }
 
     public String getDay_of_month() {
@@ -53,20 +72,20 @@ public class TransModel {
         this.id = id;
     }
 
-    public String getAccount() {
-        return account;
+    public String getAccount_name() {
+        return account_name;
     }
 
-    public void setAccount(String account) {
-        this.account = account;
+    public void setAccount_name(String account_name) {
+        this.account_name = account_name;
     }
 
-    public String getCategory() {
-        return category;
+    public int getAccount_img() {
+        return account_img;
     }
 
-    public void setCategory(String category) {
-        this.category = category;
+    public void setAccount_img(int account_img) {
+        this.account_img = account_img;
     }
 
     public String getType() {
