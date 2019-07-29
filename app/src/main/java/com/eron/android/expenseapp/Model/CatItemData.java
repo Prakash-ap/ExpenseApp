@@ -5,7 +5,21 @@ import android.widget.TextView;
 public class CatItemData {
     int id;
     String text;
-    int imageId;
+    int imageId=-1;
+    String type;
+
+    public CatItemData(int id, String text, int imageId, String type) {
+        this.id = id;
+        this.text = text;
+        this.imageId = imageId;
+        this.type = type;
+    }
+
+    public CatItemData(String text, int imageId, String type) {
+        this.text = text;
+        this.imageId = imageId;
+        this.type = type;
+    }
 
     public CatItemData(String text, int imageId) {
         this.text = text;
@@ -19,6 +33,14 @@ public class CatItemData {
     }
 
     public CatItemData() {
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public int getId() {

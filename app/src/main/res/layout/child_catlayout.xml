@@ -12,7 +12,6 @@
         android:id="@+id/cat_img"
         android:padding="10dp"
         app:solid_icon="true"
-        android:text="@string/icon_eye"
         android:layout_gravity="center_vertical"/>
 
     <TextView

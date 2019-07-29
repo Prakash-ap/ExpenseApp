@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.eron.android.expenseapp.Adapter.TransAdapter;
@@ -38,8 +39,12 @@ public class SpendingFragment extends Fragment {
     TransModel transModel;
     Calendar calendar;
     Date c;
-    String date1;
+    String  date1;
     SimpleDateFormat simpleDateFormat;
+    long tempincome=0;
+    long tempexpense=0;
+    TextView totalincome,totalexpense;
+    String in,exp;
 
 
     @Override
@@ -48,6 +53,9 @@ public class SpendingFragment extends Fragment {
         // Inflate the layout for this fragment
         View view= inflater.inflate(R.layout.fragment_spending1, container, false);
         addtrans=view.findViewById(R.id.addtransbtn);
+        totalincome=view.findViewById(R.id.sincomevalue);
+        totalexpense=view.findViewById(R.id.sexpensevalue);
+
         db=new DataBaseHandler(getContext());
        c=Calendar.getInstance().getTime();
         String format="MM/dd/YYYY";
@@ -57,7 +65,37 @@ public class SpendingFragment extends Fragment {
         recyclerView=view.findViewById(R.id.srecyclerview);
         transModelArrayList=new ArrayList<>();
         transModelArrayList=db.getAllNewIncome();
+        transModel=new TransModel();
 
+        for(int j=0;j<transModelArrayList.size();j++){
+            transModel=transModelArrayList.get(j);
+            if(transModel.getType().equals("income")){
+
+                in=transModel.getAmount();
+                if(in.equals("")){
+
+                }else{
+                    tempincome +=Long.parseLong(in);
+                }
+
+            }else if(transModel.getType().equals("expenses")){
+                exp=transModel.getAmount();
+
+                if(exp.equals("")){
+
+                }else {
+                    tempexpense +=Long.parseLong(exp);
+                }
+            }else {
+                Toast.makeText(getContext(), "No Values", Toast.LENGTH_SHORT).show();
+            }
+
+        }
+        totalincome.setText(String.valueOf(tempincome));
+        totalexpense.setText(String.valueOf(tempexpense));
+
+        transModelArrayList=new ArrayList<>();
+        transModelArrayList=db.getAllNewIncome();
         transModel=new TransModel();
 
         for (int i=0;i<transModelArrayList.size();i++){
@@ -65,7 +103,7 @@ public class SpendingFragment extends Fragment {
             String dbdate=transModel.getDate();
             if(dbdate.equals(date1)){
                 transModelArrayList=new ArrayList<>();
-                transModelArrayList=db.getTodayNewIncome(date1);
+                transModelArrayList=db.getTodayNewList(date1);
 
                 transAdapter=new TransAdapter(getContext(),transModelArrayList);
                 RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(getContext());

@@ -19,9 +19,11 @@ import android.widget.Toast;
 
 import com.eron.android.expenseapp.Adapter.CopySpinnerAccAdapter;
 import com.eron.android.expenseapp.Adapter.CopySpinnerCatAdapter;
+import com.eron.android.expenseapp.Adapter.CopySpinnerCatAdapter1;
 import com.eron.android.expenseapp.Adapter.SpinnerCatAdapter;
 import com.eron.android.expenseapp.DashBoardActivity;
 import com.eron.android.expenseapp.Database.DataBaseHandler;
+import com.eron.android.expenseapp.Model.Acc_Model;
 import com.eron.android.expenseapp.Model.CatItemData;
 import com.eron.android.expenseapp.Model.TransModel;
 import com.eron.android.expenseapp.R;
@@ -47,32 +49,48 @@ public class TransIncomeFragment extends Fragment implements View.OnClickListene
     ArrayList<TransModel>transModelArrayList;
     List<String> categoryList;
     List<String> accountList;
+    List<Integer> caticon;
+    List<Integer> accicon;
     CatItemData catItemData;
     CatItemData catItemData1;
     CatItemData catItemData2;
     CatItemData catItemData3;
     CatItemData catItemData4;
+    String ocat,oacc;
+
+    Acc_Model acc_model1;
+    Acc_Model acc_model2;
+    Acc_Model acc_model3;
+    CopySpinnerCatAdapter1 copySpinnerCatAdapter1;
+    ArrayList<CatItemData>catItemDataArrayList1=null;
+    Acc_Model acc_model;
+    ArrayList<Acc_Model>acc_modelArrayList;
 
 
     String cattext;
     String catimage;
 
+
+
     String dateval,catval,accval,amountval,noteval,type;
-    String accname;
-    int accimg;
+    String acctype;
+    String accimg;
 
     SimpleDateFormat simpleDateFormat;
     String month;
     int dayofmonth;
     String catvalues,accvalues;
     int catimg;
-    String[] catnames={"Salary","Lease"};
-    int[] caticons={R.string.salary,R.string.home};
-    String[] accnames={"Cash","Card","Account"};
-    int[] accicons={R.string.cash,R.string.card,R.string.Account};
+  //  String[] catnames={"Salary","Lease"};
+ //   int[] caticons={R.string.salary,R.string.home};
+  //  String[] accnames={"Cash","Card","Account"};
+ //   int[] accicons={R.string.cash,R.string.card,R.string.Account};
     CopySpinnerCatAdapter copySpinnerCatAdapter;
     CopySpinnerAccAdapter copySpinnerAccAdapter;
     ArrayAdapter<String>catadapter;
+    ArrayAdapter<String>accadapter;
+    ArrayAdapter<Integer>caticonadapter;
+    ArrayAdapter<Integer>acciconadapter;
 
 
     @Override
@@ -89,47 +107,53 @@ public class TransIncomeFragment extends Fragment implements View.OnClickListene
         amount=view.findViewById(R.id.edtamount);
         notes=view.findViewById(R.id.edtnote);
         db=new DataBaseHandler(getContext());
-
+       /* catItemDataArrayList1=new ArrayList<>();
+        catItemDataArrayList1=populateCategory(catItemDataArrayList1);
+*/
         save.setOnClickListener(this);
         cancel.setOnClickListener(this);
         category.setOnItemSelectedListener(this);
         account.setOnItemSelectedListener(this);
 
-       // loadCatg();
+       loadCatg();
+       loadAct();
 
-        catItemDataArrayList=new ArrayList<>();
+        /*copySpinnerCatAdapter1=new CopySpinnerCatAdapter1(getContext(),catItemDataArrayList1);
+        category.setAdapter(copySpinnerCatAdapter1);
+*/
 
-        copySpinnerCatAdapter=new CopySpinnerCatAdapter(catnames,caticons,getContext());
+
+
+      /*  copySpinnerCatAdapter=new CopySpinnerCatAdapter(catnames,caticons,getContext());
         category.setAdapter(copySpinnerCatAdapter);
 
         copySpinnerAccAdapter=new CopySpinnerAccAdapter(accnames,accicons,getContext());
         account.setAdapter(copySpinnerAccAdapter);
-
+*/
 
 
 
 
        /* catItemDataArrayList.add(new CatItemData("Salary",R.string.salary));
-        catItemDataArrayList.add(new CatItemData("Lease",R.string.home));*/
+        catItemDataArrayList.add(new CatItemData("Lease",R.string.home));
       //  catItemDataArrayList.add(new CatItemData("Salary",R.string.cash));
      //   catItemDataArrayList.add(new CatItemData("Other",R.drawable.others));
 
-       /* SpinnerCatAdapter adapter=new SpinnerCatAdapter(getContext(),R.id.cat_text,R.layout.child_catlayout,catItemDataArrayList);
+
+        SpinnerCatAdapter adapter=new SpinnerCatAdapter(getContext(),R.id.cat_text,R.layout.child_catlayout,catItemDataArrayList);
         category.setAdapter(adapter);
         accItemDataArrayList=new ArrayList<>();
 
         accItemDataArrayList.add(new CatItemData("Cash",R.string.cash));
         accItemDataArrayList.add(new CatItemData("Card",R.string.card));
         accItemDataArrayList.add(new CatItemData("Account",R.string.Account));
-*/
        // accItemDataArrayList.add(new CatItemData("Account",R.drawable.account));
 
 
 
-      /*  SpinnerCatAdapter adapter1=new SpinnerCatAdapter(getContext(),R.id.cat_text,R.layout.child_catlayout,accItemDataArrayList);
+        SpinnerCatAdapter adapter1=new SpinnerCatAdapter(getContext(),R.id.cat_text,R.layout.child_catlayout,accItemDataArrayList);
         account.setAdapter(adapter1);
 */
-
 
         final DatePickerDialog.OnDateSetListener dateSetListener=new DatePickerDialog.OnDateSetListener() {
             @Override
@@ -157,17 +181,86 @@ public class TransIncomeFragment extends Fragment implements View.OnClickListene
 
     }
 
+    private void loadAct() {
+        accountList=new ArrayList<>();
+        acc_model =new Acc_Model();
+        acc_modelArrayList=new ArrayList<>();
+        acc_modelArrayList=db.getAllAccType();
+        if(acc_modelArrayList.size()==0){
+            acc_model.setIn_acc_type("Cash");
+            acc_model.setImageid(R.string.cash);
+            db.addAcc(acc_model);
+
+
+            acc_model1=new Acc_Model();
+            acc_model1.setIn_acc_type("Card");
+            acc_model1.setImageid(R.string.card);
+            db.addAcc(acc_model1);
+
+            acc_model2=new Acc_Model();
+            acc_model2.setIn_acc_type("Account");
+            acc_model2.setImageid(R.string.Account);
+            db.addAcc(acc_model2);
+
+            acc_modelArrayList=db.getAllAccType();
+            for(int j=0;j<acc_modelArrayList.size();j++){
+                acc_model=acc_modelArrayList.get(j);
+                acctype=acc_model.getIn_acc_type();
+                accimg= String.valueOf(acc_model.getImageid());
+                accountList.add(acctype);
+
+            }
+
+            accadapter=new ArrayAdapter<String>(getContext(),android.R.layout.simple_spinner_item,accountList);
+            accadapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
+            account.setAdapter(accadapter);
+
+
+        }else {
+
+            acc_model=new Acc_Model();
+            acc_modelArrayList=new ArrayList<>();
+            acc_modelArrayList=db.getAllAccType();
+            for(int j=0;j<acc_modelArrayList.size();j++){
+                acc_model=acc_modelArrayList.get(j);
+                acctype=acc_model.getIn_acc_type();
+                accimg= String.valueOf(acc_model.getImageid());
+                accountList.add(acctype);
+
+            }
+
+            accadapter=new ArrayAdapter<String>(getContext(),android.R.layout.simple_spinner_item,accountList);
+            accadapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
+            account.setAdapter(accadapter);
+
+        }
+    }
+
+  /*  private ArrayList<CatItemData> populateCategory(ArrayList<CatItemData> catItemDataArrayList1) {
+
+        catItemDataArrayList1.add(new CatItemData("Salary",R.string.salary));
+        catItemDataArrayList1.add(new CatItemData("Allowance",R.string.Allowance));
+        catItemDataArrayList1.add(new CatItemData("Bonus",R.string.Bonus));
+        return catItemDataArrayList1;
+    }*/
+
     private void loadCatg() {
         categoryList=new ArrayList<String>();
+        caticon=new ArrayList<Integer>();
+
         catItemData=new CatItemData();
         catItemDataArrayList=new ArrayList<>();
         catItemDataArrayList=db.getAllCatg();
 
         if(catItemDataArrayList.size()==0){
 
-            catItemDataArrayList.add(new CatItemData("Salary",R.string.salary));
-
+            catItemData.setText("Salary");
+            catItemData.setImageId(R.string.salary);
             db.addCatg(catItemData);
+
+           /* catItemDataArrayList.add(new CatItemData("Salary",R.string.salary));
+
+            db.addCatg(catItemData);*/
 
             catItemData1=new CatItemData();
             catItemData1.setText("Allowance");
@@ -186,12 +279,13 @@ public class TransIncomeFragment extends Fragment implements View.OnClickListene
                 cattext=catItemData.getText();
                 catimage= String.valueOf(catItemData.getImageId());
                 categoryList.add(cattext);
-                categoryList.add(catimage);
+                caticon.add(Integer.valueOf(catimage));
+               // categoryList.add(catimage);
 
             }
 
             catadapter=new ArrayAdapter<String>(getContext(),android.R.layout.simple_spinner_item,categoryList);
-            catadapter.setDropDownViewResource(R.layout.child_catlayout);
+            catadapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
             category.setAdapter(catadapter);
 
 
@@ -205,12 +299,12 @@ public class TransIncomeFragment extends Fragment implements View.OnClickListene
                 cattext=catItemData.getText();
                 catimage= String.valueOf(catItemData.getImageId());
                 categoryList.add(cattext);
-                categoryList.add(catimage);
+               // categoryList.add(catimage);
             }
             catadapter=new ArrayAdapter<String>(getContext(),android.R.layout.simple_spinner_item,categoryList);
             catadapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
             category.setAdapter(catadapter);
-
+//            android.R.layout.simple_dropdown_item_1line
         }
     }
 
@@ -242,10 +336,11 @@ public class TransIncomeFragment extends Fragment implements View.OnClickListene
          transModelArrayList=new ArrayList<>();
          transModel=new TransModel();
          transModel.setDate(dateval);
-         transModel.setCategory_name(catval);
-         transModel.setCategory_img(catimg);
-         transModel.setAccount_name(accval);
-         transModel.setAccount_img(accimg);
+         transModel.setCategory_name(ocat);
+         transModel.setAccount_name(oacc);
+        // transModel.setCategory_img(catimg);
+         /*transModel.setAccount_name(accname);
+         transModel.setAccount_img(accimg);*/
          transModel.setAmount(amountval);
          transModel.setNote(noteval);
          transModel.setType(type);
@@ -273,20 +368,24 @@ public class TransIncomeFragment extends Fragment implements View.OnClickListene
             case R.id.spinnercat:
                /* catval=catItemData.getText().toString();
                 catimg=catItemData.getImageId();*/
-                catval=catnames[position];
-                catimg=caticons[position];
+                //catval=parent.getItemAtPosition(position).toString();
+             //   catimg= Integer.parseInt(parent.getItemAtPosition(position).toString());
+
+                ocat=category.getSelectedItem().toString();
 
                 Log.d("CatValue", "onItemSelected: "+catval);
 
 
                 break;
             case R.id.spinneraccount:
+
+           oacc=account.getSelectedItem().toString();
               //  accval=parent.getItemAtPosition(position).toString();
 
-                accname=accnames[position];
+              /*  accname=accnames[position];
                 accimg=accicons[position];
 
-
+*/
 
                 break;
         }

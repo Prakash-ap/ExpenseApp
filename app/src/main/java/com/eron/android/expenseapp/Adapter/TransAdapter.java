@@ -43,9 +43,9 @@ public class TransAdapter extends RecyclerView.Adapter<TransAdapter.MyViewHolder
 
         TransModel transModel=transModelArrayList.get(i);
         myViewHolder.categoryname.setText(transModel.getCategory_name());
-        myViewHolder.catimg.setText(transModel.getCategory_img());
+//        myViewHolder.catimg.setText(transModel.getCategory_img());
         myViewHolder.accountname.setText(transModel.getAccount_name());
-        myViewHolder.accimg.setText(transModel.getAccount_img());
+    //    myViewHolder.accimg.setText(transModel.getAccount_img());
         myViewHolder.dayofmonth.setText(transModel.getDay_of_month());
         myViewHolder.note.setText(transModel.getNote());
         myViewHolder.amount.setText(transModel.getAmount());
