@@ -4,21 +4,24 @@
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:id="@+id/icons_container">
+    android:id="@+id/icons_container"
+    android:padding="8dp"
+    android:weightSum="1">
 
     <info.androidhive.fontawesome.FontTextView
-        android:layout_width="50dp"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/cat_img"
-        android:padding="10dp"
         app:solid_icon="true"
-        android:layout_gravity="center_vertical"/>
+        android:layout_weight=".9"
+       />
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:id="@+id/cat_text"
-        android:padding="10dp"
+        android:textColor="#333333"
+        android:layout_weight=".1"
         android:layout_gravity="center_vertical"
         />
 

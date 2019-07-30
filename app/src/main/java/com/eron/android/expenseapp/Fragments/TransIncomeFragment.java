@@ -57,6 +57,7 @@ public class TransIncomeFragment extends Fragment implements View.OnClickListene
     CatItemData catItemData3;
     CatItemData catItemData4;
     String ocat,oacc;
+    String ocatimg,oaccimg;
 
     Acc_Model acc_model1;
     Acc_Model acc_model2;
@@ -264,17 +265,17 @@ public class TransIncomeFragment extends Fragment implements View.OnClickListene
 
             catItemData1=new CatItemData();
             catItemData1.setText("Allowance");
-            catItemData1.setImageId(R.string.Allowance);
+            catItemData1.setImageId(R.string.card);
             db.addCatg(catItemData1);
 
             catItemData2=new CatItemData();
             catItemData2.setText("Bonus");
-            catItemData2.setImageId(R.string.Bonus);
+            catItemData2.setImageId(R.string.cash);
             db.addCatg(catItemData2);
 
 
             catItemDataArrayList=db.getAllCatg();
-            for (int i=0;i<catItemDataArrayList.size();i++){
+           /* for (int i=0;i<catItemDataArrayList.size();i++){
                 catItemData=catItemDataArrayList.get(i);
                 cattext=catItemData.getText();
                 catimage= String.valueOf(catItemData.getImageId());
@@ -283,18 +284,22 @@ public class TransIncomeFragment extends Fragment implements View.OnClickListene
                // categoryList.add(catimage);
 
             }
-
-            catadapter=new ArrayAdapter<String>(getContext(),android.R.layout.simple_spinner_item,categoryList);
+*/
+           copySpinnerCatAdapter1=new CopySpinnerCatAdapter1(catItemDataArrayList,getContext());
+           category.setAdapter(copySpinnerCatAdapter1);
+           /* catadapter=new ArrayAdapter<String>(getContext(),android.R.layout.simple_spinner_item,categoryList);
             catadapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
             category.setAdapter(catadapter);
 
-
+*/
 
         }else{
             catItemData=new CatItemData();
             catItemDataArrayList=new ArrayList<>();
             catItemDataArrayList=db.getAllCatg();
-            for(int i=0;i<catItemDataArrayList.size();i++){
+            copySpinnerCatAdapter1=new CopySpinnerCatAdapter1(catItemDataArrayList,getContext());
+            category.setAdapter(copySpinnerCatAdapter1);
+            /*for(int i=0;i<catItemDataArrayList.size();i++){
                 catItemData=catItemDataArrayList.get(i);
                 cattext=catItemData.getText();
                 catimage= String.valueOf(catItemData.getImageId());
@@ -303,7 +308,7 @@ public class TransIncomeFragment extends Fragment implements View.OnClickListene
             }
             catadapter=new ArrayAdapter<String>(getContext(),android.R.layout.simple_spinner_item,categoryList);
             catadapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
-            category.setAdapter(catadapter);
+            category.setAdapter(catadapter);*/
 //            android.R.layout.simple_dropdown_item_1line
         }
     }
@@ -338,7 +343,7 @@ public class TransIncomeFragment extends Fragment implements View.OnClickListene
          transModel.setDate(dateval);
          transModel.setCategory_name(ocat);
          transModel.setAccount_name(oacc);
-        // transModel.setCategory_img(catimg);
+         transModel.setCategory_img(Integer.parseInt(ocatimg));
          /*transModel.setAccount_name(accname);
          transModel.setAccount_img(accimg);*/
          transModel.setAmount(amountval);
@@ -370,8 +375,11 @@ public class TransIncomeFragment extends Fragment implements View.OnClickListene
                 catimg=catItemData.getImageId();*/
                 //catval=parent.getItemAtPosition(position).toString();
              //   catimg= Integer.parseInt(parent.getItemAtPosition(position).toString());
+                catItemDataArrayList1=db.getAllCatg();
 
-                ocat=category.getSelectedItem().toString();
+               ocat=catItemDataArrayList1.get(position).getText();
+               ocatimg= String.valueOf(catItemDataArrayList1.get(position).getImageId());
+
 
                 Log.d("CatValue", "onItemSelected: "+catval);
 

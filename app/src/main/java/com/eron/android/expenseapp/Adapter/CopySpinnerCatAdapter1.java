@@ -17,45 +17,43 @@ import java.util.ArrayList;
 
 import info.androidhive.fontawesome.FontTextView;
 
-public class CopySpinnerCatAdapter1 extends ArrayAdapter<CatItemData>{
+public class CopySpinnerCatAdapter1 extends BaseAdapter{
 
-    ArrayList<CatItemData>catItemDataArrayList;
+    private ArrayList<CatItemData>catItemDataArrayList;
+    private Context context;
+    LayoutInflater layoutInflater;
 
-    public CopySpinnerCatAdapter1(Context context, ArrayList<CatItemData> catItemDataArrayList) {
-        super(context,R.layout.child_catlayout,R.id.cat_text,catItemDataArrayList);
+    public CopySpinnerCatAdapter1(ArrayList<CatItemData> catItemDataArrayList, Context context) {
         this.catItemDataArrayList = catItemDataArrayList;
-    }
-
-    @NonNull
-    @Override
-    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        return initView(position, convertView, parent);
+        this.context = context;
+        layoutInflater=(LayoutInflater.from(context));
     }
 
     @Override
-    public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        return initView(position, convertView, null);
+    public int getCount() {
+        return catItemDataArrayList.size();
     }
 
-    private View initView(int position,View convertView,ViewGroup parent){
-        CatItemData catItemData=getItem(position);
-        if(convertView==null){
-            if(parent==null){
-                convertView=LayoutInflater.from(getContext()).inflate(R.layout.child_catlayout,null);
-            }else{
-                convertView=LayoutInflater.from(getContext()).inflate(R.layout.child_catlayout,null,false);
+    @Override
+    public Object getItem(int position) {
+        return null;
+    }
 
-            }
+    @Override
+    public long getItemId(int position) {
+        return 0;
+    }
 
-            TextView catname=(TextView)convertView.findViewById(R.id.cat_text);
-            FontTextView catimg=(FontTextView)convertView.findViewById(R.id.cat_img);
-            if(catname!=null){
-                catname.setText(catItemData.getText());
-            }
-            if(catimg !=null){
-                catimg.setText(catItemData.getImageId());
-            }
-        }
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+
+        convertView=layoutInflater.inflate(R.layout.child_catlayout,null);
+        FontTextView fontTextView=(FontTextView)convertView.findViewById(R.id.cat_img);
+        TextView textView=(TextView)convertView.findViewById(R.id.cat_text);
+        fontTextView.setText(catItemDataArrayList.get(position).getImageId());
+        textView.setText(catItemDataArrayList.get(position).getText());
+
+
         return convertView;
     }
 }
