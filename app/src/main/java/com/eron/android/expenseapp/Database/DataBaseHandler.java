@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import com.eron.android.expenseapp.Model.Acc_Model;
 import com.eron.android.expenseapp.Model.CatItemData;
+import com.eron.android.expenseapp.Model.ExpenseItemData;
 import com.eron.android.expenseapp.Model.TransModel;
 import com.eron.android.expenseapp.Model.User;
 
@@ -20,6 +21,7 @@ public class DataBaseHandler extends SQLiteOpenHelper {
     private static final String TABLE_NAME="kakeibo_signup";
     private static final String ADD_INCOME_TABLE_NAME="add_new_income";
     private static final String ADD_INCOME_CAT_TABLE="add_cat_table";
+    private static final String ADD_EXPENSE_CAT_TABLE="add_exp_cat_table";
     private static final String ADD_ACC_TABLE="add_acc_table";
     private static final String KEY_ID="sno";
     private static final String KEY_PHONE_NO="user_mobile_no";
@@ -44,6 +46,14 @@ public class DataBaseHandler extends SQLiteOpenHelper {
 
     private static final String KEY_ADD_CAT_NAME="cat_name";
     private static final String KEY_ADD_CAT_IMG="cat_img";
+    private static final String KEY_ADD_CAT_TYPE="cat_type";
+
+
+
+    private static final String KEY_ADD_EXP_CAT_NAME="exp_cat_name";
+    private static final String KEY_ADD_EXP_CAT_IMG="exp_cat_img";
+    private static final String KEY_ADD_EXP_CAT_TYPE="exp_cat_exp_type";
+
 
     private static final String KEY_ADD_ACC_NAME="acc_name";
     private static final String KEY_ADD_ACC_ICON="acc_img";
@@ -69,7 +79,10 @@ public class DataBaseHandler extends SQLiteOpenHelper {
                 " TEXT,"+KEY_NEWINCOME_NOTE+ " TEXT,"+ KEY_NEWINCOME_TYPE +" TEXT,"+ KEY_NEWINCOME_DAY_OF_MONTH + " TEXT,"+ KEY_NEWINCOME_MONTH +" TEXT"+")";
 
         String CREATE_NEW_CAT_TABLE=" CREATE TABLE "+ADD_INCOME_CAT_TABLE+ "("+KEY_ID+ " INTEGER PRIMARY KEY AUTOINCREMENT,"+
-                KEY_ADD_CAT_NAME+" TEXT,"+KEY_ADD_CAT_IMG+" TEXT,"+KEY_NEWINCOME_TYPE+ " TEXT "+")";
+                KEY_ADD_CAT_NAME+" TEXT,"+KEY_ADD_CAT_IMG+" TEXT,"+KEY_ADD_CAT_TYPE+ " TEXT "+")";
+
+        String CREATE_NEW_EXP_CAT_TABLE=" CREATE TABLE "+ADD_EXPENSE_CAT_TABLE+ "("+KEY_ID+ " INTEGER PRIMARY KEY AUTOINCREMENT,"+
+                KEY_ADD_EXP_CAT_NAME+" TEXT,"+KEY_ADD_EXP_CAT_IMG+" TEXT,"+KEY_ADD_EXP_CAT_TYPE+ " TEXT "+")";
 
         String CREATE_NEW_ACC_TABLE=" CREATE TABLE "+ADD_ACC_TABLE+ "("+KEY_ID+ " INTEGER PRIMARY KEY AUTOINCREMENT,"+
                 KEY_ADD_ACC_NAME+" TEXT,"+KEY_ADD_ACC_ICON+" TEXT"+")";
@@ -77,6 +90,7 @@ public class DataBaseHandler extends SQLiteOpenHelper {
          db.execSQL(CREATE_TABLE);
          db.execSQL(CREATE_NEWICOME_TABLE);
          db.execSQL(CREATE_NEW_CAT_TABLE);
+         db.execSQL(CREATE_NEW_EXP_CAT_TABLE);
          db.execSQL(CREATE_NEW_ACC_TABLE);
 
     }
@@ -86,6 +100,7 @@ public class DataBaseHandler extends SQLiteOpenHelper {
         db.execSQL(" DROP TABLE IF EXISTS "+TABLE_NAME);
         db.execSQL(" DROP TABLE IF EXISTS "+ADD_INCOME_TABLE_NAME);
         db.execSQL(" DROP TABLE IF EXISTS "+ADD_INCOME_CAT_TABLE);
+        db.execSQL(" DROP TABLE IF EXISTS "+ADD_EXPENSE_CAT_TABLE);
         db.execSQL(" DROP TABLE IF EXISTS "+ADD_ACC_TABLE);
 
     }
@@ -107,8 +122,18 @@ public class DataBaseHandler extends SQLiteOpenHelper {
         ContentValues contentValues=new ContentValues();
        contentValues.put(KEY_ADD_CAT_NAME,catItemData.getText());
        contentValues.put(KEY_ADD_CAT_IMG,catItemData.getImageId());
-       contentValues.put(KEY_NEWINCOME_TYPE,catItemData.getType());
+       contentValues.put(KEY_ADD_CAT_TYPE,catItemData.getType());
         db.insert(ADD_INCOME_CAT_TABLE,null,contentValues);
+        db.close();
+    }
+
+    public void addExpCatg(ExpenseItemData expenseItemData){
+        SQLiteDatabase db=this.getWritableDatabase();
+        ContentValues contentValues=new ContentValues();
+        contentValues.put(KEY_ADD_EXP_CAT_NAME,expenseItemData.getText());
+        contentValues.put(KEY_ADD_EXP_CAT_IMG,expenseItemData.getImageId());
+        contentValues.put(KEY_ADD_EXP_CAT_TYPE,expenseItemData.getType());
+        db.insert(ADD_EXPENSE_CAT_TABLE,null,contentValues);
         db.close();
     }
 
@@ -181,6 +206,28 @@ public class DataBaseHandler extends SQLiteOpenHelper {
         }
         return catItemDataArrayList;
     }
+
+    public ArrayList<ExpenseItemData>getAllExpenseCat(){
+        ArrayList<ExpenseItemData>expenseItemDataArrayList=new ArrayList<>();
+
+        String selectAllQuery=" SELECT * FROM "+ADD_EXPENSE_CAT_TABLE;
+        SQLiteDatabase db=this.getReadableDatabase();
+
+        Cursor cursor=db.rawQuery(selectAllQuery,null);
+
+        if(cursor.moveToFirst()){
+            do{
+                ExpenseItemData expenseItemData=new ExpenseItemData();
+                expenseItemData.setId(Integer.parseInt(cursor.getString(0)));
+                expenseItemData.setText(cursor.getString(1));
+                expenseItemData.setImageId(Integer.parseInt(cursor.getString(2)));
+                expenseItemData.setType(cursor.getString(3));
+                expenseItemDataArrayList.add(expenseItemData);
+            }while (cursor.moveToNext());
+        }
+        return expenseItemDataArrayList;
+    }
+
 
     public ArrayList<Acc_Model>getAllAccType(){
         ArrayList<Acc_Model>acc_modelArrayList=new ArrayList<>();

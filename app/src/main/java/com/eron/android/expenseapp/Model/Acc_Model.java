@@ -3,7 +3,7 @@ package com.eron.android.expenseapp.Model;
 public class Acc_Model {
     private int id;
     private String in_acc_type;
-    private int imageid;
+    private int imageid=-1;
 
     public Acc_Model(int id, String in_acc_type, int imageid) {
         this.id = id;

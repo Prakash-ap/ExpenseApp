@@ -1,6 +1,7 @@
 package com.eron.android.expenseapp.Adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -20,6 +21,7 @@ public class TransAdapter extends RecyclerView.Adapter<TransAdapter.MyViewHolder
 
     private Context context;
     private ArrayList<TransModel>transModelArrayList;
+    DataBaseHandler db;
 
 
     public TransAdapter(Context context, ArrayList<TransModel> transModelArrayList) {
@@ -43,13 +45,31 @@ public class TransAdapter extends RecyclerView.Adapter<TransAdapter.MyViewHolder
 
         TransModel transModel=transModelArrayList.get(i);
         myViewHolder.categoryname.setText(transModel.getCategory_name());
-//        myViewHolder.catimg.setText(transModel.getCategory_img());
+        myViewHolder.catimg.setText(transModel.getCategory_img());
         myViewHolder.accountname.setText(transModel.getAccount_name());
-    //    myViewHolder.accimg.setText(transModel.getAccount_img());
+        myViewHolder.accimg.setText(transModel.getAccount_img());
         myViewHolder.dayofmonth.setText(transModel.getDay_of_month());
         myViewHolder.note.setText(transModel.getNote());
-        myViewHolder.amount.setText(transModel.getAmount());
+       // myViewHolder.amount.setText(transModel.getAmount());
         myViewHolder.month.setText(transModel.getMonth());
+        db=new DataBaseHandler(context);
+        transModelArrayList=new ArrayList<>();
+        transModelArrayList=db.getAllNewIncome();
+
+        for(int j=0;j< transModelArrayList.size();j++){
+            transModel=transModelArrayList.get(i);
+            if(transModel.getType().equals("income")){
+                myViewHolder.amount.setTextColor(Color.BLUE);
+                myViewHolder.amount.setText(transModel.getAmount());
+            }else if(transModel.getType().equals("expense")){
+                myViewHolder.amount.setTextColor(Color.RED);
+                myViewHolder.amount.setText(transModel.getAmount());
+
+            }else {
+
+            }
+        }
+
 
 
 

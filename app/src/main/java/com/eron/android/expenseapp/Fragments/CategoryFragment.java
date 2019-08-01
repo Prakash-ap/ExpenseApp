@@ -1,6 +1,7 @@
 package com.eron.android.expenseapp.Fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -19,6 +20,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.eron.android.expenseapp.Adapter.IconAdapter;
+import com.eron.android.expenseapp.Database.DataBaseHandler;
+import com.eron.android.expenseapp.Model.CatItemData;
 import com.eron.android.expenseapp.R;
 
 import java.util.ArrayList;
@@ -29,28 +32,38 @@ public class CategoryFragment extends Fragment {
     TextView text;
     TabLayout tabLayout;
     ViewPager viewPager;
+    DataBaseHandler db;
+    CatItemData catItemData;
+    ArrayList<CatItemData>catItemDataArrayList;
+
 
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+
         View view= inflater.inflate(R.layout.fragment_category, container, false);
-   // text=view.findViewById(R.id.text);
+        db=new DataBaseHandler(getContext());
+
 
         viewPager=view.findViewById(R.id.catviewpager);
 
         setUpViewPager(viewPager);
         tabLayout=view.findViewById(R.id.cattablayout);
 
+
         tabLayout.setupWithViewPager(viewPager);
 
 
-        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+      /*  viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int i, float v, int i1) {
                 if(i==0){
+                    catItemDataArrayList=new ArrayList<>();
+                    catItemDataArrayList=db.getAllCatg();
+
+
 
                 }
             }
@@ -64,10 +77,7 @@ public class CategoryFragment extends Fragment {
             public void onPageScrollStateChanged(int i) {
 
             }
-        });
-
-
-
+        });*/
 
         return view;
     }
@@ -95,12 +105,19 @@ public class CategoryFragment extends Fragment {
 
         @Override
         public Fragment getItem(int i) {
-            return fragmentList.get(i);
+            Fragment fragment=null;
+            if(i==0){
+                fragment=new IncomecatFragment();
+            }else if(i==1){
+                fragment=new ExpenseCatFragment();
+            }
+
+            return fragment;
         }
 
         @Override
         public int getCount() {
-            return fragmentList.size();
+            return 2;
         }
 
         public void addFragment(Fragment fragment,String title){

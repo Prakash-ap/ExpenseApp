@@ -19,12 +19,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.eron.android.expenseapp.Adapter.IconAdapter;
+import com.eron.android.expenseapp.Database.DataBaseHandler;
 import com.eron.android.expenseapp.Fragments.CategoryFragment;
+import com.eron.android.expenseapp.Model.CatItemData;
 import com.maltaisn.icondialog.Icon;
 import com.maltaisn.icondialog.IconDialog;
 import com.maltaisn.icondialog.IconFilter;
 import com.maltaisn.icondialog.IconView;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 
@@ -36,9 +39,12 @@ public class AddnewIncomeCategory extends Activity {
     TextView icon;
     Button ok,cancel;
     String nam;
-    String img;
+    String  img;
     private int[] selectedIconIds;
     private int disabledCatg;
+    DataBaseHandler db;
+    CatItemData catItemData;
+    ArrayList<CatItemData>catItemDataArrayList;
 
     private int[] iconList = {
             R.string.icon_eye,R.string.fa_eye_dropper_solid,R.string.fa_eye,R.string.fa_address_book,
@@ -65,6 +71,7 @@ public class AddnewIncomeCategory extends Activity {
     private Icon[] selectedIcons;
     private IconAdapter iconAdapter;
     private Context context;
+    String ic;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,8 +81,9 @@ public class AddnewIncomeCategory extends Activity {
         ok=findViewById(R.id.catincomeok);
         cancel=findViewById(R.id.catcancel);
         context=getApplicationContext();
+        db=new DataBaseHandler(this);
 
-        FontDrawable drawable=new FontDrawable(this,R.string.cash,true,false);
+        final FontDrawable drawable=new FontDrawable(this,R.string.cash,true,false);
         drawable.setTextColor(ContextCompat.getColor(this, android.R.color.white));
         drawable.setTextSize(50);
        // icon.setText(drawable);
@@ -93,7 +101,16 @@ public class AddnewIncomeCategory extends Activity {
             @Override
             public void onClick(View v) {
                 nam=name.getText().toString();
-                img=icon.getText().toString();
+                img=(String.valueOf(icon));
+                catItemDataArrayList=new ArrayList<>();
+                catItemData=new CatItemData();
+                catItemData.setText(nam);
+                catItemData.setImageId(Integer.parseInt((img)));
+                catItemData.setType("income");
+
+
+                db.addCatg(catItemData);
+
 
 
 
@@ -121,11 +138,6 @@ public class AddnewIncomeCategory extends Activity {
             //   icon.setImageIcon(iconList.length);
 
                 icon.setText(iconList[position]);
-
-
-
-
-
                 // TODO: Implement
                 Toast.makeText(view.getContext(), "Clicked position is: " + position, Toast.LENGTH_LONG).show();
             }

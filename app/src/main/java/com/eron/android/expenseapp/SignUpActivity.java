@@ -64,23 +64,28 @@ public class SignUpActivity extends AppCompatActivity {
 
                 if(sname.equals("")||sphone.equals("")||spass.equals("")){
                     Toast.makeText(SignUpActivity.this, "Enter All the Credentials", Toast.LENGTH_SHORT).show();
+                }else{
+
+                    user.setName(sname);
+                    user.setPhone_no(sphone);
+                    user.setPassword(spass);
+                    user.setPhone_model(smodel);
+                    user.setRegistered_date(sregdate);
+
+
+
+                    db.addUserDetails(user);
+
+                    Toast.makeText(SignUpActivity.this, "Added Successfully", Toast.LENGTH_SHORT).show();
+
+                    name.setText("");
+                    phone_no.setText("");
+                    password.setText("");
+                    Intent intent=new Intent(SignUpActivity.this,MainActivity.class);
+                    startActivity(intent);
                 }
 
-                user.setName(sname);
-                user.setPhone_no(sphone);
-                user.setPassword(spass);
-                user.setPhone_model(smodel);
-                user.setRegistered_date(sregdate);
 
-
-
-                db.addUserDetails(user);
-
-                Toast.makeText(SignUpActivity.this, "Added Successfully", Toast.LENGTH_SHORT).show();
-
-                name.setText("");
-                phone_no.setText("");
-                password.setText("");
 
 
             }

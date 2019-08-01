@@ -152,6 +152,7 @@
                 android:id="@+id/edtamount"
                 android:hint="amount"
                 android:padding="8dp"
+                android:inputType="number"
                 android:textAlignment="viewStart"
                 android:textColor="#333333"
                 android:textSize="18sp"

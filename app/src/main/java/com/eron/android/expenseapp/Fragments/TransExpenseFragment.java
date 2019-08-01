@@ -1,21 +1,29 @@
 package com.eron.android.expenseapp.Fragments;
 
 import android.app.DatePickerDialog;
-import android.content.Context;
-import android.net.Uri;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.eron.android.expenseapp.Adapter.AccountSpinnerAdapter;
+import com.eron.android.expenseapp.Adapter.ExpenseSpinnerCatAdapter;
 import com.eron.android.expenseapp.Adapter.SpinnerExpAdapter;
-import com.eron.android.expenseapp.Model.CatItemData;
+import com.eron.android.expenseapp.DashBoardActivity;
+import com.eron.android.expenseapp.Database.DataBaseHandler;
+import com.eron.android.expenseapp.Model.Acc_Model;
 import com.eron.android.expenseapp.Model.ExpenseItemData;
+import com.eron.android.expenseapp.Model.TransModel;
 import com.eron.android.expenseapp.R;
 
 import java.text.SimpleDateFormat;
@@ -24,14 +32,43 @@ import java.util.Calendar;
 import java.util.Locale;
 
 
-public class TransExpenseFragment extends Fragment {
+public class TransExpenseFragment extends Fragment implements View.OnClickListener,AdapterView.OnItemSelectedListener{
     Calendar calendar;
     TextView date;
     Spinner category,account;
     EditText amount,notes;
+    Button save;
     ArrayList<ExpenseItemData>expenseItemDataArrayList;
+    ArrayList<ExpenseItemData>expenseItemDataArrayList1;
     ArrayList<ExpenseItemData>expenseAccItemDataArrayList;
+    ExpenseItemData expenseItemData;
+    ExpenseItemData expenseItemData1;
+    ExpenseItemData expenseItemData2;
+    ExpenseItemData expenseItemData3;
+    ExpenseItemData expenseItemData4;
+    ExpenseItemData expenseItemData5;
+    ExpenseItemData expenseItemData6;
+    ExpenseItemData expenseItemData7;
+   // ArrayList<CatItemData>catItemDataArrayList;
+    DataBaseHandler db;
+    ExpenseSpinnerCatAdapter expenseSpinnerCatAdapter;
+    AccountSpinnerAdapter accountSpinnerAdapter;
 
+    Acc_Model acc_model;
+    Acc_Model acc_model1;
+    Acc_Model acc_model2;
+    ArrayList<Acc_Model>acc_modelArrayList;
+
+    ArrayList<Acc_Model>acc_modelArrayList1;
+
+    String adate,acat,aacc,aamnt,anotes;
+    int acatimg,aaccimg;
+    String type;
+    ArrayList<TransModel>transModelArrayList;
+    ArrayList<TransModel>transModelArrayList1;
+    TransModel transModel;
+    String month;
+    int dayofmonth;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -43,26 +80,21 @@ public class TransExpenseFragment extends Fragment {
         date=view.findViewById(R.id.exedtdate);
         category=view.findViewById(R.id.exspinner);
         account=view.findViewById(R.id.exaccount);
-        expenseItemDataArrayList=new ArrayList<>();
-        expenseAccItemDataArrayList=new ArrayList<>();
+        amount=view.findViewById(R.id.edtamount);
+        notes=view.findViewById(R.id.edtnote);
+        save=view.findViewById(R.id.btnsave);
+        db=new DataBaseHandler(getContext());
 
-        expenseItemDataArrayList.add(new ExpenseItemData("Food",R.string.food));
-        expenseItemDataArrayList.add(new ExpenseItemData("Travel",R.string.Travel));
-        expenseItemDataArrayList.add(new ExpenseItemData("Shopping",R.string.Shopping));
-        expenseItemDataArrayList.add(new ExpenseItemData("Gift",R.string.gift));
-        expenseItemDataArrayList.add(new ExpenseItemData("Holiday",R.string.Holidays));
-        expenseItemDataArrayList.add(new ExpenseItemData("Wifi",R.string.Wifi));
+        save.setOnClickListener(this);
+        category.setOnItemSelectedListener(this);
+        account.setOnItemSelectedListener(this);
 
-        expenseAccItemDataArrayList.add(new ExpenseItemData("Cash",R.string.cash));
-        expenseAccItemDataArrayList.add(new ExpenseItemData("Card",R.string.card));
-        expenseAccItemDataArrayList.add(new ExpenseItemData("Account",R.string.Account));
+       /* expenseItemDataArrayList=new ArrayList<>();
+        expenseAccItemDataArrayList=new ArrayList<>();*/
+        loadCatg();
+        loadAct();
 
 
-        SpinnerExpAdapter adapter=new SpinnerExpAdapter(getContext(),R.id.exp_cat_text,R.layout.child_expenselayout,expenseItemDataArrayList);
-        category.setAdapter(adapter);
-
-        SpinnerExpAdapter adapter1=new SpinnerExpAdapter(getContext(),R.id.exp_cat_text,R.layout.child_expenselayout,expenseAccItemDataArrayList);
-        account.setAdapter(adapter1);
 
 
         final DatePickerDialog.OnDateSetListener dateSetListener=new DatePickerDialog.OnDateSetListener() {
@@ -91,12 +123,194 @@ public class TransExpenseFragment extends Fragment {
 
     }
 
+    private void loadCatg() {
+        expenseItemData=new ExpenseItemData();
+        expenseItemDataArrayList=new ArrayList<>();
+        expenseItemDataArrayList=db.getAllExpenseCat();
+
+        if(expenseItemDataArrayList.size()==0){
+
+            expenseItemData.setText("Rent");
+            expenseItemData.setImageId(R.string.Roomrent);
+            expenseItemData.setType("expense");
+            db.addExpCatg(expenseItemData);
+
+            expenseItemData1=new ExpenseItemData();
+            expenseItemData1.setText("Food");
+            expenseItemData1.setImageId(R.string.food);
+            expenseItemData1.setType("expense");
+
+            db.addExpCatg(expenseItemData1);
+
+            expenseItemData2=new ExpenseItemData();
+            expenseItemData2.setText("Fuel");
+            expenseItemData2.setImageId(R.string.fa_gas_pump_solid);
+            expenseItemData2.setType("expense");
+
+            db.addExpCatg(expenseItemData2);
+
+            expenseItemData3=new ExpenseItemData();
+            expenseItemData3.setText("Travel");
+            expenseItemData3.setImageId(R.string.Travel);
+            expenseItemData3.setType("expense");
+
+            db.addExpCatg(expenseItemData3);
+
+            expenseItemData4=new ExpenseItemData();
+            expenseItemData4.setText("Shopping");
+            expenseItemData4.setImageId(R.string.Shopping);
+            expenseItemData4.setType("expense");
+
+            db.addExpCatg(expenseItemData4);
+
+            expenseItemData5=new ExpenseItemData();
+            expenseItemData5.setText("Gift");
+            expenseItemData5.setImageId(R.string.gift);
+            expenseItemData5.setType("expense");
+
+            db.addExpCatg(expenseItemData5);
+
+            expenseItemData6=new ExpenseItemData();
+            expenseItemData6.setText("Wifi");
+            expenseItemData6.setImageId(R.string.Wifi);
+            expenseItemData6.setType("expense");
+
+            db.addExpCatg(expenseItemData6);
+
+
+            expenseItemDataArrayList=db.getAllExpenseCat();
+
+            expenseSpinnerCatAdapter=new ExpenseSpinnerCatAdapter(expenseItemDataArrayList,getContext());
+            category.setAdapter(expenseSpinnerCatAdapter);
+
+
+        }else{
+            expenseItemData=new ExpenseItemData();
+            expenseItemDataArrayList=new ArrayList<>();
+            expenseItemDataArrayList=db.getAllExpenseCat();
+            expenseSpinnerCatAdapter=new ExpenseSpinnerCatAdapter(expenseItemDataArrayList,getContext());
+            category.setAdapter(expenseSpinnerCatAdapter);
+
+        }
+    }
+
+    private void loadAct() {
+
+        acc_model=new Acc_Model();
+        acc_modelArrayList=new ArrayList<>();
+        acc_modelArrayList=db.getAllAccType();
+        if(acc_modelArrayList.size()==0){
+            acc_model.setIn_acc_type("Cash");
+            acc_model.setImageid(R.string.cash);
+            db.addAcc(acc_model);
+
+
+            acc_model1=new Acc_Model();
+            acc_model1.setIn_acc_type("Card");
+            acc_model1.setImageid(R.string.card);
+            db.addAcc(acc_model1);
+
+            acc_model2=new Acc_Model();
+            acc_model2.setIn_acc_type("Account");
+            acc_model2.setImageid(R.string.Account);
+            db.addAcc(acc_model2);
+
+            acc_modelArrayList=db.getAllAccType();
+
+            accountSpinnerAdapter=new AccountSpinnerAdapter(acc_modelArrayList,getContext());
+            account.setAdapter(accountSpinnerAdapter);
+
+        }else {
+
+            acc_model=new Acc_Model();
+            acc_modelArrayList=new ArrayList<>();
+            acc_modelArrayList=db.getAllAccType();
+
+
+            accountSpinnerAdapter=new AccountSpinnerAdapter(acc_modelArrayList,getContext());
+            account.setAdapter(accountSpinnerAdapter);
+
+        }
+    }
+
     private void updateLabel() {
         String format="MM/dd/YYYY";
         SimpleDateFormat simpleDateFormat=new SimpleDateFormat(format, Locale.getDefault());
         date.setText(simpleDateFormat.format(calendar.getTime()));
+        dayofmonth = calendar.get(Calendar.DAY_OF_MONTH);
+        month = new SimpleDateFormat("MMMM").format(calendar.getTime());
     }
 
+    @Override
+    public void onClick(View v) {
+
+        if(v.getId()==R.id.btnsave){
+
+            adate=date.getText().toString();
+            aamnt=amount.getText().toString();
+            anotes=notes.getText().toString();
+            type="expense";
+
+            if(adate.equals("")||aamnt.equals("")){
+                Toast.makeText(getContext(), "Enter the Credentials", Toast.LENGTH_SHORT).show();
+            }else {
+
+                transModelArrayList=new ArrayList<>();
+                transModel=new TransModel();
+                transModel.setDate(adate);
+                transModel.setCategory_name(acat);
+                transModel.setCategory_img(acatimg);
+                transModel.setAccount_name(aacc);
+                transModel.setAccount_img(aaccimg);
+                transModel.setAmount(aamnt);
+                transModel.setNote(anotes);
+                transModel.setType(type);
+                transModel.setDay_of_month(String.valueOf(dayofmonth));
+                transModel.setMonth(month);
+                transModelArrayList.add(transModel);
+                db.addNewIncome(transModel);
+
+                Intent intent=new Intent(getContext(),DashBoardActivity.class);
+                startActivity(intent);
+
+
+
+            }
+
+
+
+
+        }
+
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        switch (parent.getId()){
+            case R.id.exspinner:
+
+                expenseItemDataArrayList1=db.getAllExpenseCat();
+
+                acat=expenseItemDataArrayList1.get(position).getText();
+                acatimg= (expenseItemDataArrayList1.get(position).getImageId());
+
+                break;
+            case R.id.exaccount:
+
+                acc_modelArrayList1=db.getAllAccType();
+                aacc=acc_modelArrayList1.get(position).getIn_acc_type();
+                aaccimg= (acc_modelArrayList1.get(position).getImageid());
+
+
+                break;
+        }
+
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
+    }
 }
 
 

@@ -2,6 +2,7 @@ package com.eron.android.expenseapp.Fragments;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -78,7 +79,7 @@ public class SpendingFragment extends Fragment {
                     tempincome +=Long.parseLong(in);
                 }
 
-            }else if(transModel.getType().equals("expenses")){
+            }else if(transModel.getType().equals("expense")){
                 exp=transModel.getAmount();
 
                 if(exp.equals("")){
@@ -92,7 +93,9 @@ public class SpendingFragment extends Fragment {
 
         }
         totalincome.setText(String.valueOf(tempincome));
+        totalincome.setTextColor(Color.WHITE);
         totalexpense.setText(String.valueOf(tempexpense));
+        totalexpense.setTextColor(Color.RED);
 
         transModelArrayList=new ArrayList<>();
         transModelArrayList=db.getAllNewIncome();

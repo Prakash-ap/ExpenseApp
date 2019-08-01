@@ -50,6 +50,7 @@ public class TransactionFragment extends Fragment {
     long temptotal=0;
     TextView totalincometext,totalexpensetext,total,tcurrentdate;
     String in,exp,currentdate;
+    String selected_month;
 
 
 
@@ -75,6 +76,7 @@ public class TransactionFragment extends Fragment {
 
         dateselector.setText(monthpicker);
         tcurrentdate.setText(currentdate);
+        selected_month=dateselector.getText().toString();
 
         dateselector.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -148,7 +150,7 @@ public class TransactionFragment extends Fragment {
                     tempincome +=Long.parseLong(in);
                 }
 
-            }else if(transModel.getType().equals("expenses")){
+            }else if(transModel.getType().equals("expense")){
                 exp=transModel.getAmount();
 
                 if(exp.equals("")){

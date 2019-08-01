@@ -13,7 +13,9 @@
         android:layout_height="match_parent"
         android:id="@+id/cat_img"
         app:solid_icon="true"
+        android:gravity="center"
         android:layout_weight=".9"
+        android:layout_gravity="center_vertical"
        />
 
     <TextView
@@ -22,6 +24,7 @@
         android:id="@+id/cat_text"
         android:textColor="#333333"
         android:layout_weight=".1"
+        android:layout_marginLeft="5dp"
         android:layout_gravity="center_vertical"
         />
 
