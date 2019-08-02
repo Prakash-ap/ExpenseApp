@@ -3,6 +3,7 @@ package com.eron.android.expenseapp.Fragments;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -98,12 +99,14 @@ public class TransIncomeFragment extends Fragment implements View.OnClickListene
         cancel=view.findViewById(R.id.btn_cancel);
         amount=view.findViewById(R.id.edtamount);
         notes=view.findViewById(R.id.edtnote);
+
         db=new DataBaseHandler(getContext());
 
         save.setOnClickListener(this);
         cancel.setOnClickListener(this);
         category.setOnItemSelectedListener(this);
         account.setOnItemSelectedListener(this);
+
 
        loadCatg();
        loadAct();
@@ -301,4 +304,6 @@ public class TransIncomeFragment extends Fragment implements View.OnClickListene
     public void onNothingSelected(AdapterView<?> parent) {
 
     }
+
+
 }

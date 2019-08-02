@@ -2,6 +2,7 @@ package com.eron.android.expenseapp.Fragments;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -20,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.eron.android.expenseapp.Adapter.IconAdapter;
+import com.eron.android.expenseapp.DashBoardActivity;
 import com.eron.android.expenseapp.Database.DataBaseHandler;
 import com.eron.android.expenseapp.Model.CatItemData;
 import com.eron.android.expenseapp.R;
@@ -35,6 +37,12 @@ public class CategoryFragment extends Fragment {
     DataBaseHandler db;
     CatItemData catItemData;
     ArrayList<CatItemData>catItemDataArrayList;
+    public static final String mypreference = "mypref";
+    public static final String catType = "typeKey";
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
+    DashBoardActivity dashBoardActivity;
+
 
 
 
@@ -45,7 +53,9 @@ public class CategoryFragment extends Fragment {
 
         View view= inflater.inflate(R.layout.fragment_category, container, false);
         db=new DataBaseHandler(getContext());
-
+        sharedPreferences = this.getActivity().getSharedPreferences(mypreference,
+                Context.MODE_PRIVATE);
+        editor=sharedPreferences.edit();
 
         viewPager=view.findViewById(R.id.catviewpager);
 
@@ -56,20 +66,41 @@ public class CategoryFragment extends Fragment {
         tabLayout.setupWithViewPager(viewPager);
 
 
-      /*  viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+     /*   viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int i, float v, int i1) {
-                if(i==0){
-                    catItemDataArrayList=new ArrayList<>();
-                    catItemDataArrayList=db.getAllCatg();
+                if(i==0) {
+                    editor.putString(catType, "income");
+                    editor.commit();
+
+                }else if(i==1){
+
+                    editor.putString(catType, "expense");
+                    editor.commit();
 
 
+
+                }else{
 
                 }
             }
 
             @Override
             public void onPageSelected(int i) {
+                if(i==0) {
+                    editor.putString(catType, "income");
+                    editor.commit();
+
+                }else if(i==1){
+
+                    editor.putString(catType, "expense");
+                    editor.commit();
+
+
+
+                }else{
+
+                }
 
             }
 
@@ -105,19 +136,20 @@ public class CategoryFragment extends Fragment {
 
         @Override
         public Fragment getItem(int i) {
-            Fragment fragment=null;
+           /* Fragment fragment=null;
             if(i==0){
                 fragment=new IncomecatFragment();
             }else if(i==1){
                 fragment=new ExpenseCatFragment();
             }
 
-            return fragment;
+            return fragment;*/
+            return fragmentList.get(i);
         }
 
         @Override
         public int getCount() {
-            return 2;
+            return fragmentList.size();
         }
 
         public void addFragment(Fragment fragment,String title){

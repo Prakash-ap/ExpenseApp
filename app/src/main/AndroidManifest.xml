@@ -20,9 +20,9 @@
         <activity android:name=".SignUpActivity" />
         <activity android:name=".DashBoardActivity" />
         <activity android:name=".AddTransaction" />
-        <activity android:name=".AddnewIncomeCategory"
-
-           />
+        <activity android:name=".AddnewIncomeCategory1" />
+        <activity android:name=".AddnewExpenseCategory" />
+        <activity android:name=".AddnewAccountType" />
     </application>
 
 </manifest>

@@ -65,7 +65,7 @@ public class SpendingFragment extends Fragment {
 
         recyclerView=view.findViewById(R.id.srecyclerview);
         transModelArrayList=new ArrayList<>();
-        transModelArrayList=db.getAllNewIncome();
+        transModelArrayList=db.getTodayNewList(date1);
         transModel=new TransModel();
 
         for(int j=0;j<transModelArrayList.size();j++){

@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.eron.android.expenseapp.Adapter.Add_New_AccountAdapter;
 import com.eron.android.expenseapp.Database.DataBaseHandler;
@@ -45,4 +46,33 @@ public class AccountFragment extends Fragment {
     }
 
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        acc_modelArrayList=new ArrayList<>();
+        acc_modelArrayList=db.getAllAccType();
+        add_new_accountAdapter=new Add_New_AccountAdapter(acc_modelArrayList,getContext());
+        RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(add_new_accountAdapter);
+      //  Toast.makeText(getContext(), "onResume", Toast.LENGTH_SHORT).show();
+    }
+
+  /*  @Override
+    public void onStart() {
+        super.onStart();
+        Toast.makeText(getContext(), "onStat", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        Toast.makeText(getContext(), "onPause", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        Toast.makeText(getContext(), "Onstop", Toast.LENGTH_SHORT).show();
+    }*/
 }

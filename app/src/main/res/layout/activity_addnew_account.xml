@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AddnewAccountType">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+       >
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/acc_title"
+            android:text="Add Account Type"
+            android:background="@color/colorPrimaryDark"
+            android:textColor="#ffffff"
+            android:textSize="18sp"
+            android:padding="8dp"
+
+            />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="1"
+            android:layout_marginTop="20dp"
+            >
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/acc_name"
+                android:text="Name"
+                android:padding="8dp"
+                android:textColor="#333333"
+                android:textSize="18sp"
+                android:layout_weight=".5"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/edt_nameacc"
+                android:hint="name"
+                android:textSize="18sp"
+                android:layout_weight=".5"
+                />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="1">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/accicon"
+                android:text="Icon"
+                android:padding="8dp"
+                android:textColor="#333333"
+                android:textSize="18sp"
+                android:layout_weight=".5"/>
+
+            <info.androidhive.fontawesome.FontTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/icon_acc"
+                android:layout_weight=".5"
+                app:solid_icon="true"
+                android:layout_gravity="center"
+                android:padding="8dp"
+                android:textSize="18sp"
+
+                android:text="@string/icon_lock"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="1"
+            android:layout_marginTop="50dp">
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/acccancel"
+                android:text="Cancel"
+                android:padding="8dp"
+                android:textColor="#ffffff"
+                android:textSize="15sp"
+                android:background="@drawable/btn_shape"
+                android:layout_marginRight="8dp"
+                android:layout_weight=".5"/>
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/accincomeok"
+               android:text="Ok"
+                android:textColor="#ffffff"
+                android:background="@drawable/btn_shape"
+                android:layout_weight=".5"
+                />
+        </LinearLayout>
+    </LinearLayout>
+
+
+
+</RelativeLayout>

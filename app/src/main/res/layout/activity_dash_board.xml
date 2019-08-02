@@ -85,6 +85,20 @@
     </android.support.v4.view.ViewPager>
 
 
+    <android.support.design.widget.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/fab"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="20sp"
+        android:layout_marginBottom="20dp"
+        android:src="@drawable/floatadd"
+        app:fabSize="mini"
+        android:visibility="gone"
+        app:backgroundTint="@color/colorPrimaryDark"/>
+
+
 
 
 

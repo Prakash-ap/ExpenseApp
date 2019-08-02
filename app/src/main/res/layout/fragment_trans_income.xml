@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -8,224 +9,241 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
+        android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
-        android:layout_marginLeft="8dp">
+        android:layout_marginTop="8dp"
+        android:orientation="vertical">
+
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
             android:id="@+id/parentlayout"
-            android:layout_marginTop="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
+            android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
-            android:layout_marginLeft="8dp">
+            android:layout_marginTop="8dp"
+            android:orientation="vertical">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="TRANSACTION DETAILS:"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:padding="8dp"
-            android:textColor="#333333"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginLeft="8dp"/>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:weightSum="1"
-            android:padding="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginLeft="8dp">
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/textdate"
-                android:text="Date:"
-                android:padding="8dp"
-                android:textSize="18sp"
-                android:textColor="#333333"
-                android:textAlignment="viewStart"
-                android:layout_weight=".5"
-                />
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/edtdate"
-                android:hint="date"
-                android:textAlignment="viewStart"
-                android:padding="8dp"
-                android:textSize="18sp"
-                android:textColor="#333333"
-                android:layout_weight=".5"/>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:weightSum="1"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginLeft="8dp">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/textcategory"
-                android:text="Category:"
-                android:textAlignment="viewStart"
-                android:textColor="#333333"
-                android:textSize="18sp"
-                android:padding="8dp"
-                android:layout_weight=".5"
-                />
-            <Spinner
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/spinnercat"
+                android:layout_marginBottom="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
                 android:layout_marginTop="8dp"
-                android:textColor="#333333"
-                android:textSize="18sp"
-                android:layout_weight=".5"/>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginLeft="8dp"
-            android:weightSum="1">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/textaccount"
-                android:text="Account:"
-                android:textAlignment="viewStart"
-                android:textColor="#333333"
-                android:layout_weight=".5"
                 android:padding="8dp"
+                android:text="TRANSACTION DETAILS:"
+                android:textColor="#333333"
                 android:textSize="18sp"
+                android:textStyle="bold" />
 
-
-                />
-            <Spinner
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/spinneraccount"
-                android:textSize="18sp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
                 android:layout_marginTop="8dp"
-                android:textColor="#333333"
-                android:layout_weight=".5"/>
+                android:orientation="horizontal"
+                android:padding="8dp"
+                android:weightSum="1">
+
+                <TextView
+                    android:id="@+id/textdate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".5"
+                    android:padding="8dp"
+                    android:text="Date:"
+                    android:textAlignment="viewStart"
+                    android:textColor="#333333"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/edtdate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".5"
+                    android:hint="date"
+                    android:padding="8dp"
+                    android:textAlignment="viewStart"
+                    android:textColor="#333333"
+                    android:textSize="18sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal"
+                android:weightSum="1">
+
+                <TextView
+                    android:id="@+id/textcategory"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".5"
+                    android:padding="8dp"
+                    android:text="Category:"
+                    android:textAlignment="viewStart"
+                    android:textColor="#333333"
+                    android:textSize="18sp" />
+
+                <Spinner
+                    android:id="@+id/spinnercat"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_weight=".5"
+                    android:textColor="#333333"
+                    android:textSize="18sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal"
+                android:weightSum="1">
+
+                <TextView
+                    android:id="@+id/textaccount"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".5"
+                    android:padding="8dp"
+                    android:text="Account:"
+                    android:textAlignment="viewStart"
+                    android:textColor="#333333"
+                    android:textSize="18sp"
+
+
+                    />
+
+                <Spinner
+                    android:id="@+id/spinneraccount"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_weight=".5"
+                    android:textColor="#333333"
+                    android:textSize="18sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal"
+                android:weightSum="1">
+
+                <TextView
+                    android:id="@+id/textamount"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".5"
+                    android:padding="8dp"
+                    android:text="Amount:"
+                    android:textAlignment="viewStart"
+                    android:textColor="#333333"
+                    android:textSize="18sp" />
+
+                <EditText
+                    android:id="@+id/edtamount"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".5"
+                    android:hint="amount"
+                    android:inputType="number"
+                    android:padding="8dp"
+                    android:textAlignment="viewStart"
+
+                    android:textColor="#333333"
+                    android:textSize="18sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal"
+                android:weightSum="1">
+
+                <TextView
+                    android:id="@+id/textnote"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".5"
+                    android:padding="8dp"
+                    android:text="Note:"
+                    android:textAlignment="viewStart"
+                    android:textColor="#333333"
+                    android:textSize="18sp"
+
+                    />
+
+                <EditText
+                    android:id="@+id/edtnote"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".5"
+                    android:hint="notes"
+                    android:padding="8dp"
+                    android:textAlignment="viewStart"
+                    android:textColor="#333333"
+                    android:textSize="18sp" />
+            </LinearLayout>
         </LinearLayout>
+
+
         <LinearLayout
+            android:id="@+id/linearbottom"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginLeft="8dp"
-            android:weightSum="1">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/textamount"
-                android:text="Amount:"
-                android:layout_weight=".5"
-                android:textAlignment="viewStart"
-                android:textSize="18sp"
-                android:padding="8dp"
-                android:textColor="#333333"
-                />
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/edtamount"
-                android:hint="amount"
-                android:padding="8dp"
-                android:inputType="number"
-                android:textAlignment="viewStart"
-                android:textColor="#333333"
-
-                android:textSize="18sp"
-                android:layout_weight=".5"/>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginLeft="8dp"
-            android:weightSum="1">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/textnote"
-                android:text="Note:"
-                android:layout_weight=".5"
-                android:padding="8dp"
-                android:textAlignment="viewStart"
-                android:textSize="18sp"
-                android:textColor="#333333"
-
-                />
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/edtnote"
-                android:hint="notes"
-                android:padding="8dp"
-                android:textAlignment="viewStart"
-                android:textColor="#333333"
-                android:textSize="18sp"
-                android:layout_weight=".5"/>
-        </LinearLayout>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:weightSum="1"
-            android:padding="8dp"
             android:layout_alignParentBottom="true"
-            android:layout_marginTop="8dp"
-            android:layout_marginRight="8dp"
             android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal"
+            android:padding="8dp"
+            android:weightSum="1"
 
             >
+
             <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:id="@+id/btn_cancel"
-                android:text="Cancel"
-                android:visibility="gone"
-                android:layout_weight=".5"
-                android:layout_margin="10dp"
-                android:background="@drawable/btn_shape"
-                android:textColor="@android:color/white"
-                />
-            <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/btnsave"
-                android:text="Save"
                 android:layout_margin="10dp"
+                android:layout_weight=".5"
                 android:background="@drawable/btn_shape"
+                android:text="Cancel"
                 android:textColor="@android:color/white"
-                android:layout_weight=".5"/>
+                android:visibility="gone" />
+
+            <Button
+                android:id="@+id/btnsave"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:layout_weight=".5"
+                android:background="@drawable/btn_shape"
+                android:text="Save"
+                android:textColor="@android:color/white" />
         </LinearLayout>
+
     </RelativeLayout>
 </FrameLayout>

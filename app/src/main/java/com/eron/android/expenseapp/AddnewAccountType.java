@@ -3,38 +3,38 @@ package com.eron.android.expenseapp;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.graphics.Color;
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.eron.android.expenseapp.Adapter.IconAdapter;
 import com.eron.android.expenseapp.Database.DataBaseHandler;
-import com.eron.android.expenseapp.Fragments.CategoryFragment;
-import com.eron.android.expenseapp.Model.CatItemData;
+import com.eron.android.expenseapp.Fragments.AccountFragment;
+import com.eron.android.expenseapp.Fragments.TransExpenseFragment;
+import com.eron.android.expenseapp.Model.Acc_Model;
+import com.eron.android.expenseapp.Model.ExpenseItemData;
 import com.maltaisn.icondialog.Icon;
-import com.maltaisn.icondialog.IconDialog;
-import com.maltaisn.icondialog.IconFilter;
-import com.maltaisn.icondialog.IconView;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
 
 import info.androidhive.fontawesome.FontDrawable;
 
-public class AddnewIncomeCategory extends Activity {
+public class AddnewAccountType extends AppCompatActivity {
 
+    int IconsPosition=0;
     EditText name;
     TextView icon;
     Button ok,cancel;
@@ -43,8 +43,8 @@ public class AddnewIncomeCategory extends Activity {
     private int[] selectedIconIds;
     private int disabledCatg;
     DataBaseHandler db;
-    CatItemData catItemData;
-    ArrayList<CatItemData>catItemDataArrayList;
+    Acc_Model acc_model;
+    ArrayList<Acc_Model>acc_modelArrayList;
 
     private int[] iconList = {
             R.string.icon_eye,R.string.fa_eye_dropper_solid,R.string.fa_eye,R.string.fa_address_book,
@@ -75,11 +75,11 @@ public class AddnewIncomeCategory extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_addnew_income_category);
-        name=findViewById(R.id.edt_namecat);
-        icon=findViewById(R.id.icon_cat);
-        ok=findViewById(R.id.catincomeok);
-        cancel=findViewById(R.id.catcancel);
+        setContentView(R.layout.activity_addnew_account);
+        name=findViewById(R.id.edt_nameacc);
+        icon=findViewById(R.id.icon_acc);
+        ok=findViewById(R.id.accincomeok);
+        cancel=findViewById(R.id.acccancel);
         context=getApplicationContext();
         db=new DataBaseHandler(this);
 
@@ -100,18 +100,28 @@ public class AddnewIncomeCategory extends Activity {
         ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                nam=name.getText().toString();
-                img=(String.valueOf(icon));
-                catItemDataArrayList=new ArrayList<>();
-                catItemData=new CatItemData();
-                catItemData.setText(nam);
-                catItemData.setImageId(Integer.parseInt((img)));
-                catItemData.setType("income");
+                if(IconsPosition != 0) {
+                    nam = name.getText().toString();
+                    // img=icon.getText().toString();
+                    acc_modelArrayList = new ArrayList<>();
+                    acc_model = new Acc_Model();
+                    acc_model.setIn_acc_type(nam);
+                    acc_model.setImageid(iconList[IconsPosition]);
 
 
-                db.addCatg(catItemData);
+
+                    db.addAcc(acc_model);
+                   // Toast.makeText(context, "Added", Toast.LENGTH_SHORT).show();
+                   /* db.getAllAccType();
+                    finish();
+                    */
+                   finish();
+                  /* Intent intent=new Intent(AddnewAccountType.this,AccountFragment.class);
+                    startActivity(intent);*/
+                    //finish();
 
 
+                }
 
 
             }
@@ -136,10 +146,11 @@ public class AddnewIncomeCategory extends Activity {
 
 
             //   icon.setImageIcon(iconList.length);
-
+                IconsPosition = position;
                 icon.setText(iconList[position]);
                 // TODO: Implement
-                Toast.makeText(view.getContext(), "Clicked position is: " + position, Toast.LENGTH_LONG).show();
+                Log.d("icon", "onItemClick: "+icon);
+             //   Toast.makeText(view.getContext(), "Clicked position is: " + icon, Toast.LENGTH_LONG).show();
             }
         });
 
