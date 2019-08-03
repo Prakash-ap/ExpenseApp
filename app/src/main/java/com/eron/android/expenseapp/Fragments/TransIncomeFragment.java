@@ -66,6 +66,7 @@ public class TransIncomeFragment extends Fragment implements View.OnClickListene
     ArrayList<Acc_Model>acc_modelArrayList;
     AccountSpinnerAdapter accountSpinnerAdapter;
     ArrayList<Acc_Model>acc_modelArrayList1;
+    int year;
 
 
     String cattext;
@@ -84,6 +85,7 @@ public class TransIncomeFragment extends Fragment implements View.OnClickListene
     int dayofmonth;
     String catvalues,accvalues;
     int catimg;
+    String selectmonthyear;
 
 
     @Override
@@ -221,11 +223,13 @@ public class TransIncomeFragment extends Fragment implements View.OnClickListene
     }
 
     private void updateLabel() {
-        String format="MM/dd/YYYY";
+        String format="MMMM dd, yyyy";
       simpleDateFormat=new SimpleDateFormat(format, Locale.getDefault());
         date.setText(simpleDateFormat.format(calendar.getTime()));
         dayofmonth = calendar.get(Calendar.DAY_OF_MONTH);
         month = new SimpleDateFormat("MMMM").format(calendar.getTime());
+        year=calendar.get(Calendar.YEAR);
+        selectmonthyear=month + " " + String.valueOf(year);
     }
 
 
@@ -257,6 +261,8 @@ public class TransIncomeFragment extends Fragment implements View.OnClickListene
          transModel.setType(type);
          transModel.setDay_of_month(String.valueOf(dayofmonth));
          transModel.setMonth(month);
+         transModel.setYear(year);
+         transModel.setSelectedmonthyear(selectmonthyear);
          transModelArrayList.add(transModel);
          db.addNewIncome(transModel);
          Log.d("Insert", "Inserting from Income: " + transModel);

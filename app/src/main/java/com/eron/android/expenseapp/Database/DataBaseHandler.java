@@ -41,6 +41,8 @@ public class DataBaseHandler extends SQLiteOpenHelper {
     private static final String KEY_NEWINCOME_TYPE="newincome_type";
     private static final String KEY_NEWINCOME_DAY_OF_MONTH="newincome_day_of_month";
     private static final String KEY_NEWINCOME_MONTH="newincome_month";
+    private static final String KEY_NEWINCOME_YEAR="newincome_year";
+    private static final String KEY_NEWINCOME_SELECTED_MONYEAR="newincome_selected_monthyear";
 
 
 
@@ -76,7 +78,7 @@ public class DataBaseHandler extends SQLiteOpenHelper {
 
         String CREATE_NEWICOME_TABLE=" CREATE TABLE "+ADD_INCOME_TABLE_NAME+"("+KEY_ID+ " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 KEY_NEWINCOME_DATE + " TEXT," +KEY_NEWINCOME_CATG_NAME+ " TEXT,"+KEY_NEWINCOME_CATG_IMG+" TEXT," +KEY_NEWINCOME_ACC_NAME+ " TEXT,"+KEY_NEWINCOME_ACC_IMG +" TEXT,"+KEY_NEWINCOME_AMNT+
-                " TEXT,"+KEY_NEWINCOME_NOTE+ " TEXT,"+ KEY_NEWINCOME_TYPE +" TEXT,"+ KEY_NEWINCOME_DAY_OF_MONTH + " TEXT,"+ KEY_NEWINCOME_MONTH +" TEXT"+")";
+                " TEXT,"+KEY_NEWINCOME_NOTE+ " TEXT,"+ KEY_NEWINCOME_TYPE +" TEXT,"+ KEY_NEWINCOME_DAY_OF_MONTH + " TEXT,"+ KEY_NEWINCOME_MONTH +" TEXT,"+KEY_NEWINCOME_YEAR+ " TEXT, "+KEY_NEWINCOME_SELECTED_MONYEAR+" TEXT " +")";
 
         String CREATE_NEW_CAT_TABLE=" CREATE TABLE "+ADD_INCOME_CAT_TABLE+ "("+KEY_ID+ " INTEGER PRIMARY KEY AUTOINCREMENT,"+
                 KEY_ADD_CAT_NAME+" TEXT,"+KEY_ADD_CAT_IMG+" TEXT,"+KEY_ADD_CAT_TYPE+ " TEXT "+")";
@@ -159,6 +161,8 @@ public class DataBaseHandler extends SQLiteOpenHelper {
         contentValues.put(KEY_NEWINCOME_TYPE,transModel.getType());
         contentValues.put(KEY_NEWINCOME_DAY_OF_MONTH,transModel.getDay_of_month());
         contentValues.put(KEY_NEWINCOME_MONTH,transModel.getMonth());
+        contentValues.put(KEY_NEWINCOME_YEAR,transModel.getYear());
+        contentValues.put(KEY_NEWINCOME_SELECTED_MONYEAR,transModel.getSelectedmonthyear());
 
         db.insert(ADD_INCOME_TABLE_NAME,null,contentValues);
         db.close();
@@ -272,6 +276,8 @@ public class DataBaseHandler extends SQLiteOpenHelper {
                 transModel.setType(cursor.getString(8));
                 transModel.setDay_of_month(cursor.getString(9));
                 transModel.setMonth(cursor.getString(10));
+                transModel.setYear(Integer.parseInt(cursor.getString(11)));
+                transModel.setSelectedmonthyear(cursor.getString(12));
                 transModelArrayList.add(transModel);
             }while (cursor.moveToNext());
         }
@@ -289,7 +295,7 @@ public class DataBaseHandler extends SQLiteOpenHelper {
         ArrayList<TransModel>transModelArrayList=new ArrayList<>();
         SQLiteDatabase db=this.getReadableDatabase();
 
-        Cursor cursor=db.query(ADD_INCOME_TABLE_NAME,new String[]{KEY_ID,KEY_NEWINCOME_DATE,KEY_NEWINCOME_CATG_NAME,KEY_NEWINCOME_CATG_IMG,KEY_NEWINCOME_ACC_NAME,KEY_NEWINCOME_ACC_IMG,KEY_NEWINCOME_AMNT,KEY_NEWINCOME_NOTE,KEY_NEWINCOME_TYPE,KEY_NEWINCOME_DAY_OF_MONTH,KEY_NEWINCOME_MONTH},
+        Cursor cursor=db.query(ADD_INCOME_TABLE_NAME,new String[]{KEY_ID,KEY_NEWINCOME_DATE,KEY_NEWINCOME_CATG_NAME,KEY_NEWINCOME_CATG_IMG,KEY_NEWINCOME_ACC_NAME,KEY_NEWINCOME_ACC_IMG,KEY_NEWINCOME_AMNT,KEY_NEWINCOME_NOTE,KEY_NEWINCOME_TYPE,KEY_NEWINCOME_DAY_OF_MONTH,KEY_NEWINCOME_MONTH,KEY_NEWINCOME_YEAR,KEY_NEWINCOME_SELECTED_MONYEAR},
                 KEY_NEWINCOME_DATE+ "=?",new String[]{String.valueOf(dates)},null,null,null,null);
 
 
@@ -307,6 +313,9 @@ public class DataBaseHandler extends SQLiteOpenHelper {
                 transModel.setType(cursor.getString(8));
                 transModel.setDay_of_month(cursor.getString(9));
                 transModel.setMonth(cursor.getString(10));
+                transModel.setYear(Integer.parseInt(cursor.getString(11)));
+                transModel.setSelectedmonthyear(cursor.getString(12));
+
                 transModelArrayList.add(transModel);
             }while (cursor.moveToNext());
         }
@@ -315,12 +324,12 @@ public class DataBaseHandler extends SQLiteOpenHelper {
 
     }
 
-    public ArrayList<TransModel>getCurrentMonthList(String month){
+    public ArrayList<TransModel>getCurrentMonthList(String selectedmonth){
         ArrayList<TransModel>transModelArrayList=new ArrayList<>();
         SQLiteDatabase db=this.getReadableDatabase();
 
-        Cursor cursor=db.query(ADD_INCOME_TABLE_NAME,new String[]{KEY_ID,KEY_NEWINCOME_DATE,KEY_NEWINCOME_CATG_NAME,KEY_NEWINCOME_CATG_IMG,KEY_NEWINCOME_ACC_NAME,KEY_NEWINCOME_ACC_IMG,KEY_NEWINCOME_AMNT,KEY_NEWINCOME_NOTE,KEY_NEWINCOME_TYPE,KEY_NEWINCOME_DAY_OF_MONTH,KEY_NEWINCOME_MONTH},
-                KEY_NEWINCOME_MONTH+ "=?",new String[]{String.valueOf(month)},null,null,null,null);
+        Cursor cursor=db.query(ADD_INCOME_TABLE_NAME,new String[]{KEY_ID,KEY_NEWINCOME_DATE,KEY_NEWINCOME_CATG_NAME,KEY_NEWINCOME_CATG_IMG,KEY_NEWINCOME_ACC_NAME,KEY_NEWINCOME_ACC_IMG,KEY_NEWINCOME_AMNT,KEY_NEWINCOME_NOTE,KEY_NEWINCOME_TYPE,KEY_NEWINCOME_DAY_OF_MONTH,KEY_NEWINCOME_MONTH,KEY_NEWINCOME_YEAR,KEY_NEWINCOME_SELECTED_MONYEAR},
+                KEY_NEWINCOME_SELECTED_MONYEAR+ "=?",new String[]{String.valueOf(selectedmonth)},null,null,null,null);
 
 
         if(cursor.moveToFirst()){
@@ -337,6 +346,8 @@ public class DataBaseHandler extends SQLiteOpenHelper {
                 transModel.setType(cursor.getString(8));
                 transModel.setDay_of_month(cursor.getString(9));
                 transModel.setMonth(cursor.getString(10));
+                transModel.setYear(Integer.parseInt(cursor.getString(11)));
+                transModel.setSelectedmonthyear(cursor.getString(12));
                 transModelArrayList.add(transModel);
             }while (cursor.moveToNext());
         }

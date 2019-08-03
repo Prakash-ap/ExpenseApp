@@ -95,7 +95,8 @@ public class DashBoardActivity extends AppCompatActivity implements AdapterView.
                             SharedPreferences.Editor editor = sharedPreferences.edit();
                             editor.clear();
                             editor.commit();
-                            finish();
+                            Intent intent=new Intent(DashBoardActivity.this,MainActivity.class);
+                            startActivity(intent);
 
                         //    Toast.makeText(DashBoardActivity.this, "logout Clicked", Toast.LENGTH_SHORT).show();
 
@@ -307,14 +308,16 @@ public class DashBoardActivity extends AppCompatActivity implements AdapterView.
     public void onNothingSelected(AdapterView<?> parent) {
 
     }
-
-    @Override
+    /*@Override
     public void onBackPressed() {
         super.onBackPressed();
-        Intent intent=new Intent(DashBoardActivity.this,SignUpActivity.class);
-        startActivity(intent);
-        finish();
+
+       finishAffinity();
+
+    }*/
+    @Override
+    protected void onResume() {
+        super.onResume();
+
     }
-
-
 }

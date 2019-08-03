@@ -53,7 +53,8 @@ public class IncomecatFragment extends Fragment {
     private int[] iconList = {
             R.string.icon_eye,R.string.fa_eye_dropper_solid,R.string.fa_eye,R.string.fa_address_book,
             R.string.Account,R.string.Bank,R.string.card,R.string.cash,R.string.Education,R.string.Entertainment,
-            R.string.Transport,R.string.Travel,R.string.Wifi,R.string.food,R.string.Shopping,R.string.gift};
+            R.string.Transport,R.string.Travel,R.string.Wifi,R.string.food,R.string.Shopping,R.string.gift,R.string.Birthday,R.string.Bitcoin,R.string.Ambulance,R.string.Barchart,R.string.Barcode
+    };
 
 
 
@@ -104,7 +105,7 @@ public class IncomecatFragment extends Fragment {
                                                         ok.setOnClickListener(new View.OnClickListener() {
                                                             @Override
                                                             public void onClick(View v) {
-                                                                if (IconsPosition != 0) {
+
                                                                     nam = name.getText().toString();
                                                                     // img=icon.getText().toString();
                                                                     catItemDataArrayList = new ArrayList<>();
@@ -130,7 +131,7 @@ public class IncomecatFragment extends Fragment {
                                                                   }
 
 
-                                                            }
+
                                                         });
 
                                                         cancel.setOnClickListener(new View.OnClickListener() {

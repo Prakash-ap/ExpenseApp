@@ -97,7 +97,7 @@ public class AddnewExpenseCategory extends Activity {
         ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(IconsPosition != 0) {
+
                     nam = name.getText().toString();
                     // img=icon.getText().toString();
                     expenseItemDataArrayList = new ArrayList<>();
@@ -115,7 +115,7 @@ public class AddnewExpenseCategory extends Activity {
                 }
 
 
-            }
+
         });
 
         cancel.setOnClickListener(new View.OnClickListener() {

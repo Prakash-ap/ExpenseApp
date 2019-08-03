@@ -69,6 +69,8 @@ public class TransExpenseFragment extends Fragment implements View.OnClickListen
     TransModel transModel;
     String month;
     int dayofmonth;
+    int year;
+    String selectmonthyear;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -234,11 +236,13 @@ public class TransExpenseFragment extends Fragment implements View.OnClickListen
     }
 
     private void updateLabel() {
-        String format="MM/dd/YYYY";
+        String format="MMMM dd, yyyy";
         SimpleDateFormat simpleDateFormat=new SimpleDateFormat(format, Locale.getDefault());
         date.setText(simpleDateFormat.format(calendar.getTime()));
         dayofmonth = calendar.get(Calendar.DAY_OF_MONTH);
         month = new SimpleDateFormat("MMMM").format(calendar.getTime());
+        year=calendar.get(Calendar.YEAR);
+        selectmonthyear=month + " " + String.valueOf(year);
     }
 
     @Override
@@ -267,8 +271,11 @@ public class TransExpenseFragment extends Fragment implements View.OnClickListen
                 transModel.setType(type);
                 transModel.setDay_of_month(String.valueOf(dayofmonth));
                 transModel.setMonth(month);
+                transModel.setYear(year);
+                transModel.setSelectedmonthyear(selectmonthyear);
                 transModelArrayList.add(transModel);
                 db.addNewIncome(transModel);
+
 
                 Intent intent=new Intent(getContext(),DashBoardActivity.class);
                 startActivity(intent);

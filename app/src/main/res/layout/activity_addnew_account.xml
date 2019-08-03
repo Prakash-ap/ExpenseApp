@@ -21,9 +21,9 @@
             android:layout_height="wrap_content"
             android:id="@+id/acc_title"
             android:text="Add Account Type"
-            android:background="@color/colorPrimaryDark"
-            android:textColor="#ffffff"
-            android:textSize="18sp"
+            android:textColor="#333333"
+            android:textStyle="bold"
+            android:textSize="20sp"
             android:padding="8dp"
 
             />
@@ -33,6 +33,7 @@
             android:orientation="horizontal"
             android:weightSum="1"
             android:layout_marginTop="20dp"
+            android:padding="8dp"
             >
             <TextView
                 android:layout_width="match_parent"
@@ -57,7 +58,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:weightSum="1">
+            android:weightSum="1"
+            android:padding="8dp">
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -78,7 +80,7 @@
                 android:padding="8dp"
                 android:textSize="18sp"
 
-                android:text="@string/icon_lock"
+                android:text="@string/icon_eye"
                 />
         </LinearLayout>
 
@@ -87,6 +89,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:weightSum="1"
+            android:padding="8dp"
             android:layout_marginTop="50dp">
             <Button
                 android:layout_width="match_parent"

@@ -59,7 +59,7 @@ public class SpendingFragment extends Fragment {
 
         db=new DataBaseHandler(getContext());
        c=Calendar.getInstance().getTime();
-        String format="MM/dd/YYYY";
+        String format="MMMM dd, YYYY";
         simpleDateFormat=new SimpleDateFormat(format);
         date1= simpleDateFormat.format(c);
 
@@ -144,4 +144,43 @@ public class SpendingFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        long tempincome=0;
+        long tempexpense=0;
+        transModelArrayList=new ArrayList<>();
+        transModelArrayList=db.getTodayNewList(date1);
+        transModel=new TransModel();
+
+        for(int j=0;j<transModelArrayList.size();j++){
+            transModel=transModelArrayList.get(j);
+            if(transModel.getType().equals("income")){
+
+                in=transModel.getAmount();
+                if(in.equals("")){
+
+                }else{
+                    tempincome +=Long.parseLong(in);
+                }
+
+            }else if(transModel.getType().equals("expense")){
+                exp=transModel.getAmount();
+
+                if(exp.equals("")){
+
+                }else {
+                    tempexpense +=Long.parseLong(exp);
+                }
+            }else {
+                Toast.makeText(getContext(), "No Values", Toast.LENGTH_SHORT).show();
+            }
+
+        }
+        totalincome.setText(String.valueOf(tempincome));
+        totalincome.setTextColor(Color.WHITE);
+        totalexpense.setText(String.valueOf(tempexpense));
+        totalexpense.setTextColor(Color.RED);
+    }
 }

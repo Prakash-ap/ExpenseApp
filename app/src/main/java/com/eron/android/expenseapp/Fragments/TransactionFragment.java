@@ -8,6 +8,8 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,10 +42,11 @@ public class TransactionFragment extends Fragment {
     ImageView previous,next;
     TextView dateselector;
     String monthYearStr;
-    SimpleDateFormat sdf = new SimpleDateFormat("MMM yyyy");
+    SimpleDateFormat sdf = new SimpleDateFormat("MMMM yyyy");
     SimpleDateFormat input = new SimpleDateFormat("yyyy-MM-dd");
     Calendar calendar;
     String currentmonth;
+    int currentyear;
     String monthpicker;
     long tempincome=0;
     long tempexpense=0;
@@ -72,11 +75,155 @@ public class TransactionFragment extends Fragment {
         calendar=Calendar.getInstance();
         monthpicker=new SimpleDateFormat("MMMM yyyy").format(calendar.getTime());
         currentmonth=new SimpleDateFormat("MMMM").format(calendar.getTime());
+        currentyear= Integer.parseInt(new SimpleDateFormat("YYYY").format(calendar.getTime()));
         currentdate=new SimpleDateFormat("MMMM dd, YYYY").format(calendar.getTime());
 
         dateselector.setText(monthpicker);
         tcurrentdate.setText(currentdate);
         selected_month=dateselector.getText().toString();
+        dateselector.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+
+                transModelArrayList=new ArrayList<>();
+                transModelArrayList=db.getCurrentMonthList(s.toString());
+                transModel=new TransModel();
+
+
+                long tempincome=0;
+                long tempexpense=0;
+                long temptotal=0;
+
+                for(int j=0;j<transModelArrayList.size();j++){
+
+                    transModel=transModelArrayList.get(j);
+                    if(transModel.getType().equals("income")){
+
+                        in=transModel.getAmount();
+                        if(in.equals("")){
+
+                        }else{
+                            tempincome +=Long.parseLong(in);
+                        }
+
+                    }else if(transModel.getType().equals("expense")){
+                        exp=transModel.getAmount();
+
+                        if(exp.equals("")){
+
+                        }else {
+                            tempexpense +=Long.parseLong(exp);
+                        }
+                    }else {
+                        Toast.makeText(getContext(), "No Values", Toast.LENGTH_SHORT).show();
+                    }
+
+                }
+                String dbdate1;
+                dbdate1=transModel.getDate();
+               /* String new_dbdate=new SimpleDateFormat("MMMM dd, YYYY").format(dbdate1);*/
+                tcurrentdate.setText(dbdate1);
+                temptotal=tempincome-tempexpense;
+                totalincometext.setText(String.valueOf(tempincome));
+                totalexpensetext.setText(String.valueOf(tempexpense));
+                total.setText(String.valueOf(temptotal));
+                transModelArrayList.clear();
+                transModelArrayList=new ArrayList<>();
+                transModel=new TransModel();
+                transModelArrayList=db.getCurrentMonthList(s.toString());
+                if(transModelArrayList.size()!=0) {
+
+                    transAdapter = new TransAdapter(getContext(), transModelArrayList);
+                    RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
+                    recyclerView.setLayoutManager(layoutManager);
+                    recyclerView.setItemAnimator(new DefaultItemAnimator());
+                    recyclerView.setAdapter(transAdapter);
+                }else{
+
+                    transModelArrayList.clear();
+                    transAdapter=new TransAdapter(getContext(),transModelArrayList);
+                    RecyclerView.LayoutManager layoutManager= new LinearLayoutManager(getContext());
+                    recyclerView.setLayoutManager(layoutManager);
+                    recyclerView.setItemAnimator(new DefaultItemAnimator());
+                    recyclerView.setAdapter(transAdapter);
+
+                    Toast.makeText(getContext(), "No Data Available for this month", Toast.LENGTH_SHORT).show();
+
+                }
+
+
+               /* for(int i=0;i<transModelArrayList.size();i++){
+
+
+                    transModel=transModelArrayList.get(i);
+                    String dbmonth=transModel.getMonth();
+                    int dbyear=transModel.getYear();
+                    String comparemonth=dbmonth+" "+dbyear;
+                    if((comparemonth).equals(s.toString())){
+                        transModelArrayList=new ArrayList<>();
+                        transModelArrayList=db.getCurrentMonthList(s.toString());
+                        transAdapter=new TransAdapter(getContext(),transModelArrayList);
+                        RecyclerView.LayoutManager layoutManager= new LinearLayoutManager(getContext());
+                        recyclerView.setLayoutManager(layoutManager);
+                        recyclerView.setItemAnimator(new DefaultItemAnimator());
+                        recyclerView.setAdapter(transAdapter);
+                    }else {
+                        transModelArrayList.clear();
+                        transAdapter=new TransAdapter(getContext(),transModelArrayList);
+                        RecyclerView.LayoutManager layoutManager= new LinearLayoutManager(getContext());
+                        recyclerView.setLayoutManager(layoutManager);
+                        recyclerView.setItemAnimator(new DefaultItemAnimator());
+                        recyclerView.setAdapter(transAdapter);
+
+                        Toast.makeText(getContext(), "No Data Available for this month", Toast.LENGTH_SHORT).show();
+                    }
+                }*/
+
+
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                /*transModelArrayList=new ArrayList<>();
+                transModel=new TransModel();
+                transModelArrayList=db.getAllNewIncome();
+
+                for(int i=0;i<transModelArrayList.size();i++){
+                    transModel=transModelArrayList.get(i);
+                    String dbmonth=transModel.getMonth();
+                    int dbyear=transModel.getYear();
+                    String comparemonth=dbmonth+" "+dbyear;
+                    if((comparemonth).equals(s)){
+
+                        transModelArrayList=new ArrayList<>();
+                        transModelArrayList=db.getCurrentMonthList(currentmonth,currentyear);
+                        transAdapter=new TransAdapter(getContext(),transModelArrayList);
+                        RecyclerView.LayoutManager layoutManager= new LinearLayoutManager(getContext());
+                        recyclerView.setLayoutManager(layoutManager);
+                        recyclerView.setItemAnimator(new DefaultItemAnimator());
+                        recyclerView.setAdapter(transAdapter);
+                    }else {
+
+                        transModelArrayList.clear();
+                        transAdapter=new TransAdapter(getContext(),transModelArrayList);
+                        RecyclerView.LayoutManager layoutManager= new LinearLayoutManager(getContext());
+                        recyclerView.setLayoutManager(layoutManager);
+                        recyclerView.setItemAnimator(new DefaultItemAnimator());
+                        recyclerView.setAdapter(transAdapter);
+                        Toast.makeText(getContext(), "No Data Available for this month", Toast.LENGTH_SHORT).show();
+                    }
+                }*/
+
+
+            }
+        });
 
         dateselector.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -136,7 +283,7 @@ public class TransactionFragment extends Fragment {
 
         recyclerView=view.findViewById(R.id.trecyclerview);
         transModelArrayList=new ArrayList<>();
-        transModelArrayList=db.getAllNewIncome();
+        transModelArrayList=db.getCurrentMonthList(selected_month);
         transModel=new TransModel();
 
         for(int j=0;j<transModelArrayList.size();j++){
@@ -168,22 +315,47 @@ public class TransactionFragment extends Fragment {
         totalexpensetext.setText(String.valueOf(tempexpense));
         total.setText(String.valueOf(temptotal));
 
-        for(int i=0;i<transModelArrayList.size();i++){
+        transModelArrayList=new ArrayList<>();
+        transModelArrayList=db.getCurrentMonthList(selected_month);
+
+        if(transModelArrayList.size()!=0) {
+            transAdapter = new TransAdapter(getContext(), transModelArrayList);
+            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
+            recyclerView.setLayoutManager(layoutManager);
+            recyclerView.setItemAnimator(new DefaultItemAnimator());
+            recyclerView.setAdapter(transAdapter);
+        }else {
+
+            transModelArrayList.clear();
+            transAdapter=new TransAdapter(getContext(),transModelArrayList);
+            RecyclerView.LayoutManager layoutManager= new LinearLayoutManager(getContext());
+            recyclerView.setLayoutManager(layoutManager);
+            recyclerView.setItemAnimator(new DefaultItemAnimator());
+            recyclerView.setAdapter(transAdapter);
+            Toast.makeText(getContext(), "No Values", Toast.LENGTH_SHORT).show();
+
+        }
+
+
+      /*  for(int i=0;i<transModelArrayList.size();i++){
             transModel=transModelArrayList.get(i);
             String dbmonth=transModel.getMonth();
-            if(dbmonth.equals(currentmonth)){
+            int dbyear=transModel.getYear();
+            String comparemonth=dbmonth+" "+dbyear;
+            if((comparemonth).equals(selected_month)){
                 transModelArrayList=new ArrayList<>();
-                transModelArrayList=db.getCurrentMonthList(currentmonth);
+                transModelArrayList=db.getCurrentMonthList(selected_month);
                 transAdapter=new TransAdapter(getContext(),transModelArrayList);
                 RecyclerView.LayoutManager layoutManager= new LinearLayoutManager(getContext());
                 recyclerView.setLayoutManager(layoutManager);
                 recyclerView.setItemAnimator(new DefaultItemAnimator());
                 recyclerView.setAdapter(transAdapter);
             }else {
+
                 Toast.makeText(getContext(), "No Data Available for this month", Toast.LENGTH_SHORT).show();
             }
         }
-
+*/
 
 
 

@@ -14,8 +14,27 @@ public class TransModel {
     private int account_img;
     private String day_of_month;
     private String month;
+    private int year;
+    private  String selectedmonthyear;
+
 
     public TransModel() {
+    }
+
+    public TransModel(int id, String category_name, int category_img, String type, String date, String note, String amount, String account_name, int account_img, String day_of_month, String month, int year, String selectedmonthyear) {
+        this.id = id;
+        this.category_name = category_name;
+        this.category_img = category_img;
+        this.type = type;
+        this.date = date;
+        this.note = note;
+        this.amount = amount;
+        this.account_name = account_name;
+        this.account_img = account_img;
+        this.day_of_month = day_of_month;
+        this.month = month;
+        this.year = year;
+        this.selectedmonthyear = selectedmonthyear;
     }
 
     public TransModel(int id, String category_name, int category_img, String type, String date, String note, String amount, String account_name, int account_img, String day_of_month, String month) {
@@ -30,6 +49,22 @@ public class TransModel {
         this.account_img = account_img;
         this.day_of_month = day_of_month;
         this.month = month;
+    }
+
+    public String getSelectedmonthyear() {
+        return selectedmonthyear;
+    }
+
+    public void setSelectedmonthyear(String selectedmonthyear) {
+        this.selectedmonthyear = selectedmonthyear;
+    }
+
+    public int getYear() {
+        return year;
+    }
+
+    public void setYear(int year) {
+        this.year = year;
     }
 
     public String getCategory_name() {

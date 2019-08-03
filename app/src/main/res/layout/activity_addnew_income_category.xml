@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AddnewIncomeCategory">
+    tools:context=".AddnewIncomeCategory1">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -14,6 +14,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
+
        >
 
         <TextView
@@ -21,9 +22,9 @@
             android:layout_height="wrap_content"
             android:id="@+id/title"
             android:text="Category Details:"
-            android:background="@color/colorPrimaryDark"
-            android:textColor="#ffffff"
-            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="#333333"
+            android:textSize="20sp"
 
             />
         <LinearLayout
@@ -31,6 +32,8 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:weightSum="1"
+            android:padding="8dp"
+            android:layout_marginTop="8dp"
             >
             <TextView
                 android:layout_width="match_parent"
@@ -39,7 +42,7 @@
                 android:text="Name"
                 android:padding="8dp"
                 android:textColor="#333333"
-                android:textSize="15sp"
+                android:textSize="18sp"
                 android:layout_weight=".5"/>
 
             <EditText
@@ -47,6 +50,8 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/edt_namecat"
                 android:hint="name"
+                android:padding="8dp"
+                android:textSize="18sp"
                 android:layout_weight=".5"
                 />
         </LinearLayout>
@@ -54,7 +59,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:weightSum="1">
+            android:weightSum="1"
+            android:padding="8dp">
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -62,7 +68,7 @@
                 android:text="Icon"
                 android:padding="8dp"
                 android:textColor="#333333"
-                android:textSize="15sp"
+                android:textSize="18sp"
                 android:layout_weight=".5"/>
 
             <info.androidhive.fontawesome.FontTextView
@@ -72,9 +78,10 @@
                 android:layout_weight=".5"
                 app:solid_icon="true"
                 android:layout_gravity="center"
-                android:layout_marginLeft="20sp"
+                android:padding="8dp"
+                android:textSize="18sp"
 
-                android:text="@string/icon_lock"
+                android:text="@string/icon_eye"
                 />
         </LinearLayout>
 
@@ -83,7 +90,8 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:weightSum="1"
-            android:layout_marginTop="8dp">
+            android:padding="8dp"
+            android:layout_marginTop="50dp">
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

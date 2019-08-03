@@ -52,7 +52,20 @@ public class TransAdapter extends RecyclerView.Adapter<TransAdapter.MyViewHolder
         myViewHolder.note.setText(transModel.getNote());
        // myViewHolder.amount.setText(transModel.getAmount());
         myViewHolder.month.setText(transModel.getMonth());
-        db=new DataBaseHandler(context);
+
+
+        if(transModel.getType().equals("income")){
+            myViewHolder.amount.setTextColor(Color.BLUE);
+            myViewHolder.amount.setText(transModel.getAmount());
+
+        }else if(transModel.getType().equals("expense")){
+            myViewHolder.amount.setTextColor(Color.RED);
+            myViewHolder.amount.setText(transModel.getAmount());
+
+        }else {
+
+        }
+        /*db=new DataBaseHandler(context);
         transModelArrayList=new ArrayList<>();
         transModelArrayList=db.getAllNewIncome();
 
@@ -68,7 +81,7 @@ public class TransAdapter extends RecyclerView.Adapter<TransAdapter.MyViewHolder
             }else {
 
             }
-        }
+        }*/
 
 
 

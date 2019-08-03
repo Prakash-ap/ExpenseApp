@@ -100,7 +100,7 @@ public class AddnewAccountType extends AppCompatActivity {
         ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(IconsPosition != 0) {
+
                     nam = name.getText().toString();
                     // img=icon.getText().toString();
                     acc_modelArrayList = new ArrayList<>();
@@ -124,7 +124,7 @@ public class AddnewAccountType extends AppCompatActivity {
                 }
 
 
-            }
+
         });
 
         cancel.setOnClickListener(new View.OnClickListener() {
@@ -168,6 +168,12 @@ public class AddnewAccountType extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
 
+        /*Intent intent=new Intent(AddnewAccountType.this,DashBoardActivity.class);
+        startActivity(intent);*/
+    }
 }
 

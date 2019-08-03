@@ -27,6 +27,14 @@
     <string name="Allowance">&#xf2c2;</string>
     <string name="Bonus">&#xf003;</string>
     <string name="Roomrent">&#xf015;</string>
+    <string name="Address_Book">&#xf2b9;</string>
+    <string name="Ambulance">&#xf0f9;</string>
+    <string name="Barchart">&#xf080;</string>
+    <string name="Barcode">&#xf02a;</string>
+    <string name="Drinks">&#xf0fc;</string>
+    <string name="Birthday">&#xf1fd;</string>
+    <string name="Bitcoin">&#xf15a;</string>
+
 
 
 </resources>
