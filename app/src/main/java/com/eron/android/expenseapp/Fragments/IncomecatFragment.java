@@ -31,8 +31,9 @@ import com.eron.android.expenseapp.Model.NewCategory;
 import com.eron.android.expenseapp.R;
 
 import java.util.ArrayList;
+import java.util.EventListener;
 
-public class IncomecatFragment extends Fragment {
+public class IncomecatFragment extends Fragment  {
 
     RecyclerView recyclerView;
     EditText name;
@@ -51,10 +52,11 @@ public class IncomecatFragment extends Fragment {
    FloatingActionButton floatingActionButton;
 
     private int[] iconList = {
-            R.string.icon_eye,R.string.fa_eye_dropper_solid,R.string.fa_eye,R.string.fa_address_book,
+            R.string.icon_eye,R.string.fa_eye_dropper_solid,R.string.fa_address_book,
             R.string.Account,R.string.Bank,R.string.card,R.string.cash,R.string.Education,R.string.Entertainment,
-            R.string.Transport,R.string.Travel,R.string.Wifi,R.string.food,R.string.Shopping,R.string.gift,R.string.Birthday,R.string.Bitcoin,R.string.Ambulance,R.string.Barchart,R.string.Barcode
-    };
+         R.string.Travel,R.string.Wifi,R.string.food,R.string.Shopping,R.string.gift,R.string.Birthday,R.string.Ambulance,R.string.Barchart,R.string.Barcode,
+            R.string.mobile,R.string.lap,R.string.book,R.string.coffee,R.string.desktop,R.string.dollar,R.string.Drinks,R.string.fa_address_card_solid,R.string.fa_air_freshener_solid,R.string.fa_baby_carriage_solid,R.string.fa_baseball_ball_solid,R.string.fa_camera_solid,R.string.fa_broom_solid,R.string.fa_church_solid,R.string.fa_coins_solid,
+    R.string.fa_file_image_solid};
 
 
 
@@ -73,7 +75,7 @@ public class IncomecatFragment extends Fragment {
         catItemDataArrayList=new ArrayList<>();
         catItemDataArrayList=db.getAllCatg();
 
-        add_new_incomeCatAdapter=new Add_New_IncomeCatAdapter(catItemDataArrayList,getContext());
+        add_new_incomeCatAdapter=new Add_New_IncomeCatAdapter(catItemDataArrayList,getContext(),IncomecatFragment.this );
         RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(add_new_incomeCatAdapter);
@@ -116,11 +118,11 @@ public class IncomecatFragment extends Fragment {
 
 
                                                                     db.addCatg(catItemData);
-                                                                    Toast.makeText(getContext(), "Added", Toast.LENGTH_SHORT).show();
+                                                                  //  Toast.makeText(getContext(), "Added", Toast.LENGTH_SHORT).show();
                                                                     catItemDataArrayList=new ArrayList<>();
                                                                     catItemDataArrayList=db.getAllCatg();
 
-                                                                    add_new_incomeCatAdapter=new Add_New_IncomeCatAdapter(catItemDataArrayList,getContext());
+                                                                    add_new_incomeCatAdapter=new Add_New_IncomeCatAdapter(catItemDataArrayList,getContext(),IncomecatFragment.this);
                                                                     RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(getContext());
                                                                     recyclerView.setLayoutManager(layoutManager);
                                                                     recyclerView.setAdapter(add_new_incomeCatAdapter);
@@ -159,7 +161,7 @@ public class IncomecatFragment extends Fragment {
                                                                 icon.setText(iconList[position]);
                                                                 // TODO: Implement
                                                                 Log.d("icon", "onItemClick: " + icon);
-                                                                Toast.makeText(view.getContext(), "Clicked position is: " + icon, Toast.LENGTH_LONG).show();
+                                                               // Toast.makeText(view.getContext(), "Clicked position is: " + icon, Toast.LENGTH_LONG).show();
                                                             }
                                                         });
 
@@ -208,9 +210,21 @@ public class IncomecatFragment extends Fragment {
         catItemDataArrayList=new ArrayList<>();
         catItemDataArrayList=db.getAllCatg();
 
-        add_new_incomeCatAdapter=new Add_New_IncomeCatAdapter(catItemDataArrayList,getContext());
+        add_new_incomeCatAdapter=new Add_New_IncomeCatAdapter(catItemDataArrayList,getContext(),IncomecatFragment.this);
         RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(add_new_incomeCatAdapter);
+    }
+
+
+  public void updateList(){
+        catItemDataArrayList=new ArrayList<>();
+        catItemDataArrayList=db.getAllCatg();
+
+        add_new_incomeCatAdapter=new Add_New_IncomeCatAdapter(catItemDataArrayList,getContext(),IncomecatFragment.this);
+        RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(add_new_incomeCatAdapter);
+
     }
 }

@@ -163,6 +163,8 @@ public class CategoryFragment extends Fragment {
 
 
     }
+
+
    /* private void showselectIconDialog(Context context){
         GridView gridView = new GridView(context);
         gridView.setAdapter(new IconAdapter(context));

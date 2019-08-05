@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.widget.Toast;
 
 import com.eron.android.expenseapp.Model.Acc_Model;
 import com.eron.android.expenseapp.Model.CatItemData;
@@ -324,6 +325,8 @@ public class DataBaseHandler extends SQLiteOpenHelper {
 
     }
 
+
+
     public ArrayList<TransModel>getCurrentMonthList(String selectedmonth){
         ArrayList<TransModel>transModelArrayList=new ArrayList<>();
         SQLiteDatabase db=this.getReadableDatabase();
@@ -356,6 +359,36 @@ public class DataBaseHandler extends SQLiteOpenHelper {
 
     }
 
+    public Integer deleteIncomeCatEntry(String ID)
+    {
+        SQLiteDatabase db=this.getReadableDatabase();
+       return db.delete(ADD_INCOME_CAT_TABLE,KEY_ID + "=?", new String[]{ID}) ;
+
+
+    }
+
+    public Integer deleteExpenseCatEntry(String ID)
+    {
+        SQLiteDatabase db=this.getReadableDatabase();
+        return db.delete(ADD_EXPENSE_CAT_TABLE,KEY_ID + "=?", new String[]{ID}) ;
+
+
+    }
+
+
+    public  void  updateIncomeCatEntry(CatItemData catItemData)
+    {
+        SQLiteDatabase db=this.getWritableDatabase();
+        ContentValues updatedValues = new ContentValues();
+        updatedValues.put(KEY_ID, catItemData.getId());
+        updatedValues.put(KEY_ADD_CAT_NAME, catItemData.getText());
+        updatedValues.put(KEY_ADD_CAT_IMG, catItemData.getImageId());
+        updatedValues.put(KEY_ADD_CAT_TYPE,catItemData.getType());
+
+        db.update(ADD_INCOME_CAT_TABLE,updatedValues, KEY_ID+ "=?", new String[]{String.valueOf(catItemData.getId())});
+        db.close();
+
+    }
 
 
 }

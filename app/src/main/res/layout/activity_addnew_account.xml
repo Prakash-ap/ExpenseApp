@@ -80,7 +80,7 @@
                 android:padding="8dp"
                 android:textSize="18sp"
 
-                android:text="@string/icon_eye"
+                android:text="@string/Account"
                 />
         </LinearLayout>
 

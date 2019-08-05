@@ -19,7 +19,6 @@
     <string name="Education">&#xf19d;</string>
     <string name="home">&#xf015;</string>
     <string name="Hospital">&#xf015;</string>
-    <string name="Transport">&#xf015;</string>
     <string name="Television">&#xf26c;</string>
     <string name="Account">&#xf007;</string>
     <string name="Wifi">&#xf1eb;</string>
@@ -33,7 +32,16 @@
     <string name="Barcode">&#xf02a;</string>
     <string name="Drinks">&#xf0fc;</string>
     <string name="Birthday">&#xf1fd;</string>
-    <string name="Bitcoin">&#xf15a;</string>
+    <string name="book">&#xf02d;</string>
+    <string name="paypal">&#xf1ed;</string>
+    <string name="coffee">&#xf0f4;</string>
+    <string name="desktop">&#xf108;</string>
+    <string name="dollar">&#xf155;</string>
+    <string name="lap">&#xf109;</string>
+    <string name="mobile">&#xf10b;</string>
+    <string name="newspaper">&#xf1ea;</string>
+    <string name="wordpress">&#xf19a;</string>
+    <string name="youtube">&#xf16a;</string>
 
 
 

@@ -51,9 +51,9 @@ public class AddnewIncomeCategory1 extends Activity {
     ArrayList<CatItemData>catItemDataArrayList;
 
     private int[] iconList = {
-            R.string.icon_eye,R.string.fa_eye_dropper_solid,R.string.fa_eye,R.string.fa_address_book,
+            R.string.icon_eye,R.string.fa_eye_dropper_solid,R.string.fa_address_book,
     R.string.Account,R.string.Bank,R.string.card,R.string.cash,R.string.Education,R.string.Entertainment,
-    R.string.Transport,R.string.Travel,R.string.Wifi,R.string.food,R.string.Shopping,R.string.gift};
+   R.string.Travel,R.string.Wifi,R.string.food,R.string.Shopping,R.string.gift};
            /* android.R.drawable.ic_media_play, android.R.drawable.ic_media_pause,
             android.R.drawable.ic_delete, android.R.drawable.ic_btn_speak_now,
             android.R.drawable.ic_media_previous, android.R.drawable.ic_media_next,

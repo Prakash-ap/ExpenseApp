@@ -80,8 +80,8 @@
                 android:layout_gravity="center"
                 android:padding="8dp"
                 android:textSize="18sp"
+                android:hint="Click to set image"
 
-                android:text="@string/icon_eye"
                 />
         </LinearLayout>
 

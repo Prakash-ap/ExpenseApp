@@ -10,6 +10,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -189,6 +190,7 @@ public class TransactionFragment extends Fragment {
 
             }
 
+
             @Override
             public void afterTextChanged(Editable s) {
                 /*transModelArrayList=new ArrayList<>();
@@ -224,6 +226,8 @@ public class TransactionFragment extends Fragment {
 
             }
         });
+
+
 
         dateselector.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -372,5 +376,17 @@ public class TransactionFragment extends Fragment {
         return sdf.format(date);
     }
 
+    private void select(int start) {
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(calendar.getTimeInMillis());
+        calendar.add(Calendar.MONTH, start);
+        SimpleDateFormat format = new SimpleDateFormat("MMMM yyyy");
+//        Date date = calendar.getTimeInMillis();
+        String end = format.format(calendar.getTime());
+        Log.d("TransactionFragment", "selected30Dates: " + end );
+
+
+    }
 
 }
