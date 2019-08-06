@@ -50,7 +50,7 @@
                 <ImageView
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:src="@drawable/up"
+                    android:src="@drawable/upper"
                     />
                 <TextView
                     android:layout_width="match_parent"
@@ -99,7 +99,7 @@
                     <ImageView
                         android:layout_width="30dp"
                         android:layout_height="30dp"
-                        android:src="@drawable/up"
+                        android:src="@drawable/lower"
                         />
                     <TextView
                         android:layout_width="match_parent"

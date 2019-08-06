@@ -52,15 +52,9 @@ public class ExpenseCatFragment extends Fragment {
             R.string.fa_file_image_solid};
 
 
-
-
-
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view= inflater.inflate(R.layout.fragment_expense_cat, container, false);
         floatingActionButton =view.findViewById(R.id.fab);
 
@@ -69,7 +63,7 @@ public class ExpenseCatFragment extends Fragment {
         expenseItemDataArrayList=db.getAllExpenseCat();
 
         recyclerView=view.findViewById(R.id.expensecatrecyclerview);
-        expenseCatAdapter=new Add_New_ExpenseCatAdapter(expenseItemDataArrayList,getContext());
+        expenseCatAdapter=new Add_New_ExpenseCatAdapter(expenseItemDataArrayList,getContext(),ExpenseCatFragment.this);
         RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(expenseCatAdapter);
@@ -117,7 +111,7 @@ public class ExpenseCatFragment extends Fragment {
                             expenseItemDataArrayList=new ArrayList<>();
                             expenseItemDataArrayList=db.getAllExpenseCat();
 
-                            expenseCatAdapter=new Add_New_ExpenseCatAdapter(expenseItemDataArrayList,getContext());
+                            expenseCatAdapter=new Add_New_ExpenseCatAdapter(expenseItemDataArrayList,getContext(),ExpenseCatFragment.this);
                             RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(getContext());
                             recyclerView.setLayoutManager(layoutManager);
                             recyclerView.setAdapter(expenseCatAdapter);
@@ -187,7 +181,18 @@ public class ExpenseCatFragment extends Fragment {
         expenseItemDataArrayList=new ArrayList<>();
         expenseItemDataArrayList=db.getAllExpenseCat();
 
-        expenseCatAdapter=new Add_New_ExpenseCatAdapter(expenseItemDataArrayList,getContext());
+        expenseCatAdapter=new Add_New_ExpenseCatAdapter(expenseItemDataArrayList,getContext(),ExpenseCatFragment.this);
+        RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(expenseCatAdapter);
+
+    }
+
+    public void updateList(){
+        expenseItemDataArrayList=new ArrayList<>();
+        expenseItemDataArrayList=db.getAllExpenseCat();
+
+        expenseCatAdapter=new Add_New_ExpenseCatAdapter(expenseItemDataArrayList,getContext(),ExpenseCatFragment.this);
         RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(expenseCatAdapter);

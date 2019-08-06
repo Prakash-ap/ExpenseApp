@@ -375,6 +375,22 @@ public class DataBaseHandler extends SQLiteOpenHelper {
 
     }
 
+    public Integer deleteAccountEntry(String ID)
+    {
+        SQLiteDatabase db=this.getReadableDatabase();
+        return db.delete(ADD_ACC_TABLE,KEY_ID + "=?", new String[]{ID}) ;
+
+
+    }
+
+    public Integer deleteTransEntry(String ID)
+    {
+        SQLiteDatabase db=this.getReadableDatabase();
+        return db.delete(ADD_INCOME_TABLE_NAME,KEY_ID + "=?", new String[]{ID}) ;
+
+
+    }
+
 
     public  void  updateIncomeCatEntry(CatItemData catItemData)
     {
@@ -389,6 +405,34 @@ public class DataBaseHandler extends SQLiteOpenHelper {
         db.close();
 
     }
+
+    public  void  updateExpenseCatEntry(ExpenseItemData expenseItemData)
+    {
+        SQLiteDatabase db=this.getWritableDatabase();
+        ContentValues updatedValues = new ContentValues();
+        updatedValues.put(KEY_ID, expenseItemData.getId());
+        updatedValues.put(KEY_ADD_EXP_CAT_NAME, expenseItemData.getText());
+        updatedValues.put(KEY_ADD_EXP_CAT_IMG, expenseItemData.getImageId());
+        updatedValues.put(KEY_ADD_EXP_CAT_TYPE,expenseItemData.getType());
+
+        db.update(ADD_EXPENSE_CAT_TABLE,updatedValues, KEY_ID+ "=?", new String[]{String.valueOf(expenseItemData.getId())});
+        db.close();
+
+    }
+
+    public  void  updateAccountEntry(Acc_Model acc_model)
+    {
+        SQLiteDatabase db=this.getWritableDatabase();
+        ContentValues updatedValues = new ContentValues();
+        updatedValues.put(KEY_ID, acc_model.getId());
+        updatedValues.put(KEY_ADD_ACC_NAME, acc_model.getIn_acc_type());
+        updatedValues.put(KEY_ADD_ACC_ICON, acc_model.getImageid());
+
+        db.update(ADD_ACC_TABLE,updatedValues, KEY_ID+ "=?", new String[]{String.valueOf(acc_model.getId())});
+        db.close();
+
+    }
+
 
 
 }

@@ -47,6 +47,28 @@
 
 
                />
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/whiteedit"
+                android:id="@+id/cat_edt"
+                android:layout_toLeftOf="@+id/cat_delete"
+                android:layout_marginTop="10dp"
+                android:visibility="gone"
+
+                />
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/whitedelete"
+                android:id="@+id/cat_delete"
+                android:layout_toLeftOf="@+id/list"
+                android:layout_marginTop="10dp"
+                android:visibility="gone"
+
+
+                />
 
 
             <ImageView

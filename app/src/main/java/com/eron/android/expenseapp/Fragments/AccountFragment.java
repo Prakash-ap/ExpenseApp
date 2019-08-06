@@ -37,7 +37,7 @@ public class AccountFragment extends Fragment {
         db=new DataBaseHandler(getContext());
         acc_modelArrayList=new ArrayList<>();
         acc_modelArrayList=db.getAllAccType();
-        add_new_accountAdapter=new Add_New_AccountAdapter(acc_modelArrayList,getContext());
+        add_new_accountAdapter=new Add_New_AccountAdapter(acc_modelArrayList,getContext(),AccountFragment.this);
         RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(add_new_accountAdapter);
@@ -51,28 +51,23 @@ public class AccountFragment extends Fragment {
         super.onResume();
         acc_modelArrayList=new ArrayList<>();
         acc_modelArrayList=db.getAllAccType();
-        add_new_accountAdapter=new Add_New_AccountAdapter(acc_modelArrayList,getContext());
+        add_new_accountAdapter=new Add_New_AccountAdapter(acc_modelArrayList,getContext(),AccountFragment.this);
         RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(add_new_accountAdapter);
       //  Toast.makeText(getContext(), "onResume", Toast.LENGTH_SHORT).show();
     }
 
-  /*  @Override
-    public void onStart() {
-        super.onStart();
-        Toast.makeText(getContext(), "onStat", Toast.LENGTH_SHORT).show();
+    public void updateList(){
+
+        acc_modelArrayList=new ArrayList<>();
+        acc_modelArrayList=db.getAllAccType();
+        add_new_accountAdapter=new Add_New_AccountAdapter(acc_modelArrayList,getContext(),AccountFragment.this);
+        RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(add_new_accountAdapter);
+
     }
 
-    @Override
-    public void onPause() {
-        super.onPause();
-        Toast.makeText(getContext(), "onPause", Toast.LENGTH_SHORT).show();
-    }
 
-    @Override
-    public void onStop() {
-        super.onStop();
-        Toast.makeText(getContext(), "Onstop", Toast.LENGTH_SHORT).show();
-    }*/
 }

@@ -36,58 +36,58 @@ public class SpendingFragment extends Fragment {
     DataBaseHandler db;
     RecyclerView recyclerView;
     TransAdapter transAdapter;
-    ArrayList<TransModel>transModelArrayList;
+    ArrayList<TransModel> transModelArrayList;
     TransModel transModel;
     Calendar calendar;
     Date c;
-    String  date1;
+    String date1;
     SimpleDateFormat simpleDateFormat;
-    long tempincome=0;
-    long tempexpense=0;
-    TextView totalincome,totalexpense;
-    String in,exp;
+    long tempincome = 0;
+    long tempexpense = 0;
+    TextView totalincome, totalexpense;
+    String in, exp;
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view= inflater.inflate(R.layout.fragment_spending1, container, false);
-        addtrans=view.findViewById(R.id.addtransbtn);
-        totalincome=view.findViewById(R.id.sincomevalue);
-        totalexpense=view.findViewById(R.id.sexpensevalue);
+        View view = inflater.inflate(R.layout.fragment_spending1, container, false);
+        addtrans = view.findViewById(R.id.addtransbtn);
+        totalincome = view.findViewById(R.id.sincomevalue);
+        totalexpense = view.findViewById(R.id.sexpensevalue);
 
-        db=new DataBaseHandler(getContext());
-       c=Calendar.getInstance().getTime();
-        String format="MMMM dd, YYYY";
-        simpleDateFormat=new SimpleDateFormat(format);
-        date1= simpleDateFormat.format(c);
+        db = new DataBaseHandler(getContext());
+        c = Calendar.getInstance().getTime();
+        String format = "MMMM dd, YYYY";
+        simpleDateFormat = new SimpleDateFormat(format);
+        date1 = simpleDateFormat.format(c);
 
-        recyclerView=view.findViewById(R.id.srecyclerview);
-        transModelArrayList=new ArrayList<>();
-        transModelArrayList=db.getTodayNewList(date1);
-        transModel=new TransModel();
+        recyclerView = view.findViewById(R.id.srecyclerview);
+        transModelArrayList = new ArrayList<>();
+        transModelArrayList = db.getTodayNewList(date1);
+        transModel = new TransModel();
 
-        for(int j=0;j<transModelArrayList.size();j++){
-            transModel=transModelArrayList.get(j);
-            if(transModel.getType().equals("income")){
+        for (int j = 0; j < transModelArrayList.size(); j++) {
+            transModel = transModelArrayList.get(j);
+            if (transModel.getType().equals("income")) {
 
-                in=transModel.getAmount();
-                if(in.equals("")){
+                in = transModel.getAmount();
+                if (in.equals("")) {
 
-                }else{
-                    tempincome +=Long.parseLong(in);
+                } else {
+                    tempincome += Long.parseLong(in);
                 }
 
-            }else if(transModel.getType().equals("expense")){
-                exp=transModel.getAmount();
+            } else if (transModel.getType().equals("expense")) {
+                exp = transModel.getAmount();
 
-                if(exp.equals("")){
+                if (exp.equals("")) {
 
-                }else {
-                    tempexpense +=Long.parseLong(exp);
+                } else {
+                    tempexpense += Long.parseLong(exp);
                 }
-            }else {
+            } else {
                 Toast.makeText(getContext(), "No Values", Toast.LENGTH_SHORT).show();
             }
 
@@ -97,50 +97,46 @@ public class SpendingFragment extends Fragment {
         totalexpense.setText(String.valueOf(tempexpense));
         totalexpense.setTextColor(Color.RED);
 
-        transModelArrayList=new ArrayList<>();
-        transModelArrayList=db.getAllNewIncome();
-        transModel=new TransModel();
+        transModelArrayList = new ArrayList<>();
+        transModelArrayList = db.getAllNewIncome();
+        transModel = new TransModel();
 
-        for (int i=0;i<transModelArrayList.size();i++){
-            transModel=transModelArrayList.get(i);
-            String dbdate=transModel.getDate();
-            if(dbdate.equals(date1)){
-                transModelArrayList=new ArrayList<>();
-                transModelArrayList=db.getTodayNewList(date1);
+        for (int i = 0; i < transModelArrayList.size(); i++) {
+            transModel = transModelArrayList.get(i);
+            String dbdate = transModel.getDate();
+            if (dbdate.equals(date1)) {
+                transModelArrayList = new ArrayList<>();
+                transModelArrayList = db.getTodayNewList(date1);
 
-                transAdapter=new TransAdapter(getContext(),transModelArrayList);
-                RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(getContext());
+                transAdapter = new TransAdapter(getContext(), transModelArrayList);
+                RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
                 recyclerView.setLayoutManager(layoutManager);
                 recyclerView.setItemAnimator(new DefaultItemAnimator());
                 recyclerView.setAdapter(transAdapter);
 
 
-            }else{
-               // transModelArrayList.clear();
+            } else {
+                // transModelArrayList.clear();
                 Toast.makeText(getContext(), "No Data Available on Todays date", Toast.LENGTH_SHORT).show();
             }
         }
 
 
-
-
-
-
         addtrans.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(getContext(), AddTransaction.class);
+                Intent intent = new Intent(getContext(), AddTransaction.class);
                 startActivity(intent);
             }
         });
 
-      selectedVAlue=  DashBoardActivity.spinnervalue;
+        selectedVAlue = DashBoardActivity.spinnervalue;
 
-        Log.d("SpendingFragment", "onCreateView: "+selectedVAlue);
+        Log.d("SpendingFragment", "onCreateView: " + selectedVAlue);
 
-        Bundle bundle = getArguments();
- // selectedVAlue = bundle.getString("SpinnerValue");
-            Toast.makeText(getContext(), "slected value"+selectedVAlue, Toast.LENGTH_SHORT).show();
+        //Bundle bundle = getArguments();
+        // selectedVAlue = bundle.getString("SpinnerValue");
+      //  Toast.makeText(getContext(), "slected value" + selectedVAlue, Toast.LENGTH_SHORT).show();
         return view;
     }
 
@@ -148,32 +144,32 @@ public class SpendingFragment extends Fragment {
     public void onResume() {
         super.onResume();
 
-        long tempincome=0;
-        long tempexpense=0;
-        transModelArrayList=new ArrayList<>();
-        transModelArrayList=db.getTodayNewList(date1);
-        transModel=new TransModel();
+        long tempincome = 0;
+        long tempexpense = 0;
+        transModelArrayList = new ArrayList<>();
+        transModelArrayList = db.getTodayNewList(date1);
+        transModel = new TransModel();
 
-        for(int j=0;j<transModelArrayList.size();j++){
-            transModel=transModelArrayList.get(j);
-            if(transModel.getType().equals("income")){
+        for (int j = 0; j < transModelArrayList.size(); j++) {
+            transModel = transModelArrayList.get(j);
+            if (transModel.getType().equals("income")) {
 
-                in=transModel.getAmount();
-                if(in.equals("")){
+                in = transModel.getAmount();
+                if (in.equals("")) {
 
-                }else{
-                    tempincome +=Long.parseLong(in);
+                } else {
+                    tempincome += Long.parseLong(in);
                 }
 
-            }else if(transModel.getType().equals("expense")){
-                exp=transModel.getAmount();
+            } else if (transModel.getType().equals("expense")) {
+                exp = transModel.getAmount();
 
-                if(exp.equals("")){
+                if (exp.equals("")) {
 
-                }else {
-                    tempexpense +=Long.parseLong(exp);
+                } else {
+                    tempexpense += Long.parseLong(exp);
                 }
-            }else {
+            } else {
                 Toast.makeText(getContext(), "No Values", Toast.LENGTH_SHORT).show();
             }
 
@@ -182,5 +178,36 @@ public class SpendingFragment extends Fragment {
         totalincome.setTextColor(Color.WHITE);
         totalexpense.setText(String.valueOf(tempexpense));
         totalexpense.setTextColor(Color.RED);
+    }
+
+    public void reload() {
+        transModelArrayList = new ArrayList<>();
+        if (transModelArrayList.size() != 0) {
+            transModelArrayList = db.getAllNewIncome();
+            transModel = new TransModel();
+
+            for (int i = 0; i < transModelArrayList.size(); i++) {
+                transModel = transModelArrayList.get(i);
+                String dbdate = transModel.getDate();
+                if (dbdate.equals(date1)) {
+                    transModelArrayList = new ArrayList<>();
+                    transModelArrayList = db.getTodayNewList(date1);
+
+                    transAdapter = new TransAdapter(getContext(), transModelArrayList);
+                    RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
+                    recyclerView.setLayoutManager(layoutManager);
+                    recyclerView.setItemAnimator(new DefaultItemAnimator());
+                    recyclerView.setAdapter(transAdapter);
+
+
+                } else {
+                    // transModelArrayList.clear();
+                    Toast.makeText(getContext(), "No Data Available on Todays date", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+        } else {
+
+        }
     }
 }

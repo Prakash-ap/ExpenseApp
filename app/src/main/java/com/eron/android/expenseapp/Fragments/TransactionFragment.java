@@ -55,6 +55,7 @@ public class TransactionFragment extends Fragment {
     TextView totalincometext,totalexpensetext,total,tcurrentdate;
     String in,exp,currentdate;
     String selected_month;
+    String startmonth;
 
 
 
@@ -80,6 +81,7 @@ public class TransactionFragment extends Fragment {
         currentdate=new SimpleDateFormat("MMMM dd, YYYY").format(calendar.getTime());
 
         dateselector.setText(monthpicker);
+
         tcurrentdate.setText(currentdate);
         selected_month=dateselector.getText().toString();
         dateselector.addTextChangedListener(new TextWatcher() {
@@ -159,33 +161,6 @@ public class TransactionFragment extends Fragment {
                 }
 
 
-               /* for(int i=0;i<transModelArrayList.size();i++){
-
-
-                    transModel=transModelArrayList.get(i);
-                    String dbmonth=transModel.getMonth();
-                    int dbyear=transModel.getYear();
-                    String comparemonth=dbmonth+" "+dbyear;
-                    if((comparemonth).equals(s.toString())){
-                        transModelArrayList=new ArrayList<>();
-                        transModelArrayList=db.getCurrentMonthList(s.toString());
-                        transAdapter=new TransAdapter(getContext(),transModelArrayList);
-                        RecyclerView.LayoutManager layoutManager= new LinearLayoutManager(getContext());
-                        recyclerView.setLayoutManager(layoutManager);
-                        recyclerView.setItemAnimator(new DefaultItemAnimator());
-                        recyclerView.setAdapter(transAdapter);
-                    }else {
-                        transModelArrayList.clear();
-                        transAdapter=new TransAdapter(getContext(),transModelArrayList);
-                        RecyclerView.LayoutManager layoutManager= new LinearLayoutManager(getContext());
-                        recyclerView.setLayoutManager(layoutManager);
-                        recyclerView.setItemAnimator(new DefaultItemAnimator());
-                        recyclerView.setAdapter(transAdapter);
-
-                        Toast.makeText(getContext(), "No Data Available for this month", Toast.LENGTH_SHORT).show();
-                    }
-                }*/
-
 
 
             }
@@ -193,35 +168,6 @@ public class TransactionFragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-                /*transModelArrayList=new ArrayList<>();
-                transModel=new TransModel();
-                transModelArrayList=db.getAllNewIncome();
-
-                for(int i=0;i<transModelArrayList.size();i++){
-                    transModel=transModelArrayList.get(i);
-                    String dbmonth=transModel.getMonth();
-                    int dbyear=transModel.getYear();
-                    String comparemonth=dbmonth+" "+dbyear;
-                    if((comparemonth).equals(s)){
-
-                        transModelArrayList=new ArrayList<>();
-                        transModelArrayList=db.getCurrentMonthList(currentmonth,currentyear);
-                        transAdapter=new TransAdapter(getContext(),transModelArrayList);
-                        RecyclerView.LayoutManager layoutManager= new LinearLayoutManager(getContext());
-                        recyclerView.setLayoutManager(layoutManager);
-                        recyclerView.setItemAnimator(new DefaultItemAnimator());
-                        recyclerView.setAdapter(transAdapter);
-                    }else {
-
-                        transModelArrayList.clear();
-                        transAdapter=new TransAdapter(getContext(),transModelArrayList);
-                        RecyclerView.LayoutManager layoutManager= new LinearLayoutManager(getContext());
-                        recyclerView.setLayoutManager(layoutManager);
-                        recyclerView.setItemAnimator(new DefaultItemAnimator());
-                        recyclerView.setAdapter(transAdapter);
-                        Toast.makeText(getContext(), "No Data Available for this month", Toast.LENGTH_SHORT).show();
-                    }
-                }*/
 
 
             }
@@ -252,6 +198,29 @@ public class TransactionFragment extends Fragment {
         previous.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                String montval=dateselector.getText().toString();
+
+/*
+
+              //
+                // dateselector.setText(getpreviousmonth());
+
+                Calendar calendar=Calendar.getInstance();
+                calendar.add(Calendar.MONTH,-1);
+                SimpleDateFormat simpleDateFormat=new SimpleDateFormat("MMMM yyyy");
+
+               String mon=simpleDateFormat.format(calendar.getTime());
+               dateselector.setText(mon);
+*/
+
+
+
+                //calendar.add(Calendar.MONTH);
+               // SimpleDateFormat format = new SimpleDateFormat("MMMM yyyy");
+//        Date date = calendar.getTimeInMillis();
+              //  String end = format.format(monthpicker);
+               // dateselector.setText(monthpicker);
                 DialogClass pickerDialog = new DialogClass();
                 pickerDialog.setListener(new DatePickerDialog.OnDateSetListener() {
                     @Override
@@ -269,6 +238,21 @@ public class TransactionFragment extends Fragment {
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+               /* Calendar calendar=Calendar.getInstance();
+                calendar.add(Calendar.MONTH,+1);
+                SimpleDateFormat simpleDateFormat=new SimpleDateFormat("MMMM yyyy");
+
+                String mon=simpleDateFormat.format(calendar.getTime());
+                dateselector.setText(mon);
+*/
+              /*  Calendar calendar = Calendar.getInstance();
+                calendar.setTimeInMillis(calendar.getTimeInMillis());
+                calendar.add(Calendar.MONTH, 0);
+                SimpleDateFormat format = new SimpleDateFormat("MMMM yyyy");
+//        Date date = calendar.getTimeInMillis();
+                String end = format.format(calendar.getTime());
+                dateselector.setText(end);*/
 
                 DialogClass pickerDialog = new DialogClass();
                 pickerDialog.setListener(new DatePickerDialog.OnDateSetListener() {
@@ -389,4 +373,49 @@ public class TransactionFragment extends Fragment {
 
     }
 
+    private String getnextmonth() {
+        StringBuilder builder=new StringBuilder();
+        builder.append("Previous Month: ");
+        builder.append(Calendar.MONTH+1);
+
+        return builder.toString();
+    }
+
+    private String getpreviousmonth() {
+        StringBuilder builder=new StringBuilder();
+        builder.append("Next Month : ");
+        builder.append(Calendar.MONTH-1);
+
+        return builder.toString();
+    }
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        transModelArrayList=new ArrayList<>();
+        transModel=new TransModel();
+        transModelArrayList=db.getCurrentMonthList(monthpicker);
+        if(transModelArrayList.size()!=0) {
+
+            transAdapter = new TransAdapter(getContext(), transModelArrayList);
+            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
+            recyclerView.setLayoutManager(layoutManager);
+            recyclerView.setItemAnimator(new DefaultItemAnimator());
+            recyclerView.setAdapter(transAdapter);
+        }else{
+
+            transModelArrayList.clear();
+            transAdapter=new TransAdapter(getContext(),transModelArrayList);
+            RecyclerView.LayoutManager layoutManager= new LinearLayoutManager(getContext());
+            recyclerView.setLayoutManager(layoutManager);
+            recyclerView.setItemAnimator(new DefaultItemAnimator());
+            recyclerView.setAdapter(transAdapter);
+
+            Toast.makeText(getContext(), "No Data Available for this month", Toast.LENGTH_SHORT).show();
+
+        }
+
+
+    }
 }

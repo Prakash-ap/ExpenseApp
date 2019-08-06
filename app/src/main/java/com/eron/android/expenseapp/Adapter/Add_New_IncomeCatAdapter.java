@@ -24,6 +24,7 @@ import android.widget.Toast;
 
 import com.eron.android.expenseapp.Database.DataBaseHandler;
 import com.eron.android.expenseapp.Fragments.IncomecatFragment;
+import com.eron.android.expenseapp.Fragments.SpendingFragment;
 import com.eron.android.expenseapp.Model.CatItemData;
 import com.eron.android.expenseapp.R;
 
@@ -39,18 +40,10 @@ public class Add_New_IncomeCatAdapter extends Adapter<Add_New_IncomeCatAdapter.M
     DataBaseHandler db;
     CatItemData catItemData;
     int IconsPosition=0;
-   // private EventListener eventListener;
     Fragment fragment;
 
+    AlertDialog.Builder builder;
 
-   /* public Add_New_IncomeCatAdapter(EventListener eventListener) {
-        this.eventListener = eventListener;
-    }
-*/
-    public interface EventListener{
-        void updateList();
-
-    }
     public Add_New_IncomeCatAdapter(ArrayList<CatItemData> catItemDataArrayList, Context context, Fragment fragment) {
         this.catItemDataArrayList = catItemDataArrayList;
         this.context = context;
@@ -68,76 +61,53 @@ public class Add_New_IncomeCatAdapter extends Adapter<Add_New_IncomeCatAdapter.M
     }
 
     @Override
-    public void onBindViewHolder(@NonNull Add_New_IncomeCatAdapter.MyViewHolder myViewHolder, int i) {
-        CatItemData catItemData=catItemDataArrayList.get(i);
+    public void onBindViewHolder(@NonNull final Add_New_IncomeCatAdapter.MyViewHolder myViewHolder, final int i) {
+
+        builder=new AlertDialog.Builder(context);
+        catItemData=catItemDataArrayList.get(i);
         myViewHolder.catname.setText(catItemData.getText());
         myViewHolder.image.setText(catItemData.getImageId());
 
-        }
+
+
+        myViewHolder.catdel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                myViewHolder.catdel.setVisibility(View.GONE);
+                myViewHolder.catedt.setVisibility(View.GONE);
+                builder.setMessage("Are you sure,You want to delete it?");
+                builder.setCancelable(false);
+                builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        db.deleteIncomeCatEntry(String.valueOf(catItemData.getId()));
+                        delete(i);
+
+                        dialog.dismiss();
+
+                    }
+
+                }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                AlertDialog alertDialog=builder.create();
+                alertDialog.show();
 
 
 
-    @Override
-    public int getItemCount() {
-        return catItemDataArrayList.size();
-    }
+            }
+        });
 
-
-    public void delete(int position){
-        catItemDataArrayList.remove(position);
-        notifyItemRemoved(position);
-    }
-
-    public void update(int pos){
-        catItemDataArrayList.add(pos,catItemData);
-        notifyDataSetChanged();
-    }
-
-    public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        FontTextView image;
-        TextView catname;
-        ImageView catedt, catdel;
-
-        public MyViewHolder(@NonNull View itemView) {
-            super(itemView);
-            db = new DataBaseHandler(context);
-            catname = itemView.findViewById(R.id.add_cat_text);
-            image = itemView.findViewById(R.id.add_cat_img);
-            catedt = itemView.findViewById(R.id.cat_edt);
-            catdel = itemView.findViewById(R.id.cat_delete);
-
-            catdel.setOnClickListener(this);
-            catedt.setOnClickListener(this);
-
-
-        }
-
-
-
-        @Override
-        public void onClick(View v) {
-
-            if (v.getId() == R.id.cat_delete) {
-                delete(getAdapterPosition());
-               // CatItemData catItemData = catItemDataArrayList.get(getAdapterPosition() + 1);
-                db = new DataBaseHandler(context);
-                db.deleteIncomeCatEntry(String.valueOf(catItemData.getId()));
-         //   CatItemData catItemData=new CatItemData();
-          //  catItemDataArrayList=db.getAllCatg();
-          //  catItemData=catItemDataArrayList.get(getPosition());
-           // catItemData.getId();*/
-          //      Integer deletedRows = db.deleteIncomeCatEntry(String.valueOf(catItemData.getId()));
-           //     if (deletedRows > 0) {
-           //         Toast.makeText(context, "Data deleted", Toast.LENGTH_SHORT).show();
-           //     } else {
-           //         Toast.makeText(context, "Data  Not deleted", Toast.LENGTH_SHORT).show();
-
-
-             //   }
-
-                Log.d("deleted", "onClick: " + db.getAllCatg());
-
-            } else if(v.getId()==R.id.cat_edt){
+        myViewHolder.catedt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                myViewHolder.catdel.setVisibility(View.GONE);
+                myViewHolder.catedt.setVisibility(View.GONE);
 
                 final int[] iconList = {
                         R.string.icon_eye,R.string.fa_eye_dropper_solid,R.string.fa_address_book,
@@ -152,11 +122,11 @@ public class Add_New_IncomeCatAdapter extends Adapter<Add_New_IncomeCatAdapter.M
                 final FontTextView catimg=dialog.findViewById(R.id.icon_cat);
 
                 Button ok=dialog.findViewById(R.id.catincomeok);
-                 final Button cancel=dialog.findViewById(R.id.catcancel);
+                final Button cancel=dialog.findViewById(R.id.catcancel);
 
-                 catname.setText(catItemDataArrayList.get(getAdapterPosition()).getText());
-                 catimg.setText(catItemDataArrayList.get(getAdapterPosition()).getImageId());
-                 dialog.show();
+                catname.setText(catItemDataArrayList.get(i).getText());
+                catimg.setText(catItemDataArrayList.get(i).getImageId());
+                dialog.show();
 
                 catimg.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -166,11 +136,7 @@ public class Add_New_IncomeCatAdapter extends Adapter<Add_New_IncomeCatAdapter.M
 
                     }
 
-
-
                     public void showselectIconDialog(Context context) {
-
-
 
                         final GridView gridView = new GridView(context);
                         gridView.setAdapter(new IconAdapter(context,iconList));
@@ -180,15 +146,10 @@ public class Add_New_IncomeCatAdapter extends Adapter<Add_New_IncomeCatAdapter.M
                             @Override
                             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-
-
-                                //   icon.setImageIcon(iconList.length);
                                 IconsPosition =position;
                                 catimg.setText(iconList[position]);
                                 // TODO: Implement
-                               // Log.d("icon", "onItemClick: "+icon);
-                             //   Toast.makeText(view.getContext(), "Clicked position is: " + icon, Toast.LENGTH_LONG).show();
-                            }
+                                   }
                         });
 
                         AlertDialog.Builder builder = new AlertDialog.Builder(context);
@@ -210,42 +171,24 @@ public class Add_New_IncomeCatAdapter extends Adapter<Add_New_IncomeCatAdapter.M
                 ok.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                       String nam = catname.getText().toString();
-                        // img=icon.getText().toString();
-                        catItemDataArrayList = new ArrayList<>();
-                        catItemData = new CatItemData();
-                        catItemData=catItemDataArrayList.get(getAdapterPosition());
-                        catItemData.setId(catItemData.getId());
+                        String nam = catname.getText().toString();
+                        catItemData.setId(catItemDataArrayList.get(i).getId());
                         catItemData.setText(nam);
-                        catItemData.setImageId(iconList[IconsPosition]);
+                        if(IconsPosition!=0) {
+                            catItemData.setImageId(iconList[IconsPosition]);
+                        }else{
+                            catItemData.setImageId(catItemDataArrayList.get(i).getImageId());
+                        }
                         catItemData.setType("income");
-
-                        //catItemData.setType("income");
-
 
                         db.updateIncomeCatEntry(catItemData);
 
                         ((IncomecatFragment)fragment).updateList();
-
-                        //eventListener.updateList();
-
-
-                       // db.getAllCatg();
-                        /*catItemDataArrayList = new ArrayList<>();
-                        catItemData = new CatItemData();
-                        catItemDataArrayList=db.getAllCatg();
-                        for(int i=0;i<catItemDataArrayList.size();i++){
-                            catItemData=catItemDataArrayList.get(i);
-                            catItemData.setText(catItemData.getText());
-                            catItemData.setImageId(catItemData.getImageId());
-
-                        }
-                        catItemData.setText(nam);
-                        catItemData.setImageId(iconList[getAdapterPosition()]);*/
-
-                        Toast.makeText(context, "Added", Toast.LENGTH_SHORT).show();
+                       /* SpendingFragment spendingFragment=new SpendingFragment();
+                        spendingFragment.reload();
+*/
                         dialog.dismiss();
-                        
+
                     }
                 });
                 cancel.setOnClickListener(new View.OnClickListener() {
@@ -255,11 +198,63 @@ public class Add_New_IncomeCatAdapter extends Adapter<Add_New_IncomeCatAdapter.M
                     }
                 });
 
-
             }
+        });
+
         }
 
 
+
+    @Override
+    public int getItemCount() {
+        return catItemDataArrayList.size();
+    }
+
+
+    public void delete(int position){
+        catItemDataArrayList.remove(position);
+        notifyItemRemoved(position);
+    }
+
+
+    public class MyViewHolder extends RecyclerView.ViewHolder  {
+        FontTextView image;
+        TextView catname;
+        ImageView catedt, catdel;
+
+        public MyViewHolder(@NonNull View itemView) {
+            super(itemView);
+            db = new DataBaseHandler(context);
+            catname = itemView.findViewById(R.id.add_cat_text);
+            image = itemView.findViewById(R.id.add_cat_img);
+            catedt = itemView.findViewById(R.id.cat_edt);
+            catdel = itemView.findViewById(R.id.cat_delete);
+
+            itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+
+                    catedt.setVisibility(View.VISIBLE);
+                    catdel.setVisibility(View.VISIBLE);
+                    return true;
+                }
+            });
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    catedt.setVisibility(View.GONE);
+                    catdel.setVisibility(View.GONE);
+
+
+                }
+            });
+
+
+
+
+
+        }
 
 
     }

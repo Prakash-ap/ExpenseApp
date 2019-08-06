@@ -79,8 +79,8 @@
                 android:layout_gravity="center"
                 android:padding="8dp"
                 android:textSize="18sp"
+                android:hint="tab to seticon"
 
-                android:text="@string/Account"
                 />
         </LinearLayout>
 

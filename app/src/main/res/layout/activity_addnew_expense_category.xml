@@ -79,8 +79,8 @@
                 android:layout_gravity="center"
                 android:padding="8dp"
                 android:textSize="18sp"
+                android:hint="tab to insert icon"
 
-                android:text="@string/icon_eye"
                 />
         </LinearLayout>
 

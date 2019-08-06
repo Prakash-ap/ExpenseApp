@@ -37,6 +37,7 @@ public class DashBoardActivity extends AppCompatActivity implements AdapterView.
     private static final String PHNO_PREFS = "phoneprefs";
     private static final String PASS_PREFS = "passprefs";
     private static final String CHECK_PREFS = "checkprefs";
+    public  static ImageView edit,delete;
 
     TabLayout tabLayout;
     ViewPager viewPager;
@@ -57,6 +58,10 @@ public class DashBoardActivity extends AppCompatActivity implements AdapterView.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dash_board);
+
+        edit=findViewById(R.id.cat_edt);
+        delete=findViewById(R.id.cat_delete);
+
         floatingActionButton=findViewById(R.id.fab);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -141,6 +146,8 @@ public class DashBoardActivity extends AppCompatActivity implements AdapterView.
                    // floatingActionButton.setVisibility(View.VISIBLE);
 
                     add.setVisibility(View.GONE);
+
+
                     add.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -156,7 +163,6 @@ public class DashBoardActivity extends AppCompatActivity implements AdapterView.
 
 
                 }else if(i==3){
-                  //  floatingActionButton.setVisibility(View.GONE);
 //
                     add.setVisibility(View.VISIBLE);
                     add.setOnClickListener(new View.OnClickListener() {
@@ -181,22 +187,12 @@ public class DashBoardActivity extends AppCompatActivity implements AdapterView.
                 if(i==0){
                     add.setVisibility(View.GONE);
                 }else if(i==1){
-                   /* add.setVisibility(View.VISIBLE);
-                    add.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Intent in=new Intent(DashBoardActivity.this,AddTransaction.class);
-                            startActivity(in);
-                        }
-                    });*/
+
                 }else if(i==2){
-                   // add.setVisibility(View.VISIBLE);
-                   // Toast.makeText(DashBoardActivity.this, "this is Category Screen", Toast.LENGTH_SHORT).show();
+
                 }else{
 
                 }
-
-
 
             }
 
@@ -308,13 +304,7 @@ public class DashBoardActivity extends AppCompatActivity implements AdapterView.
     public void onNothingSelected(AdapterView<?> parent) {
 
     }
-    /*@Override
-    public void onBackPressed() {
-        super.onBackPressed();
 
-       finishAffinity();
-
-    }*/
     @Override
     protected void onResume() {
         super.onResume();

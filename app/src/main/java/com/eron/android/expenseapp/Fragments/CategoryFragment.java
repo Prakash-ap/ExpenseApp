@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,6 +43,8 @@ public class CategoryFragment extends Fragment {
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
     DashBoardActivity dashBoardActivity;
+    public  static ImageView edit,delete;
+
 
 
 
@@ -56,6 +59,8 @@ public class CategoryFragment extends Fragment {
         sharedPreferences = this.getActivity().getSharedPreferences(mypreference,
                 Context.MODE_PRIVATE);
         editor=sharedPreferences.edit();
+        dashBoardActivity=new DashBoardActivity();
+
 
         viewPager=view.findViewById(R.id.catviewpager);
 
@@ -164,26 +169,6 @@ public class CategoryFragment extends Fragment {
 
     }
 
-
-   /* private void showselectIconDialog(Context context){
-        GridView gridView = new GridView(context);
-        gridView.setAdapter(new IconAdapter(context));
-        gridView.setNumColumns(4);
-        gridView.setGravity(Gravity.CENTER);
-        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                // TODO: Implement
-                Toast.makeText(view.getContext(), "Clicked position is: " + position, Toast.LENGTH_LONG).show();
-            }
-        });
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setView(gridView);
-        builder.setTitle("Choose Icon");
-        builder.show();
-    }
-*/
 
 
 
