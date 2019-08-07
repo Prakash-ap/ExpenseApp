@@ -2,6 +2,7 @@ package com.eron.android.expenseapp.Fragments;
 
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -37,10 +38,10 @@ public class TransactionFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private TransAdapter transAdapter;
-    private ArrayList<TransModel>transModelArrayList;
+    private ArrayList<TransModel> transModelArrayList;
     TransModel transModel;
     DataBaseHandler db;
-    ImageView previous,next;
+    ImageView previous, next;
     TextView dateselector;
     String monthYearStr;
     SimpleDateFormat sdf = new SimpleDateFormat("MMMM yyyy");
@@ -49,41 +50,39 @@ public class TransactionFragment extends Fragment {
     String currentmonth;
     int currentyear;
     String monthpicker;
-    long tempincome=0;
-    long tempexpense=0;
-    long temptotal=0;
-    TextView totalincometext,totalexpensetext,total,tcurrentdate;
-    String in,exp,currentdate;
+    long tempincome = 0;
+    long tempexpense = 0;
+    long temptotal = 0;
+    TextView totalincometext, totalexpensetext, total, tcurrentdate;
+    String in, exp, currentdate;
     String selected_month;
     String startmonth;
-
-
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view= inflater.inflate(R.layout.fragment_transaction, container, false);
-        db=new DataBaseHandler(getContext());
-        previous=view.findViewById(R.id.previous);
-        next=view.findViewById(R.id.next);
-        totalincometext=view.findViewById(R.id.ttotalincometext);
-        totalexpensetext=view.findViewById(R.id.ttotalexpensevalue);
-        tcurrentdate=view.findViewById(R.id.tcurrentdate);
-        total=view.findViewById(R.id.ttotalAmount);
+        View view = inflater.inflate(R.layout.fragment_transaction, container, false);
+        db = new DataBaseHandler(getContext());
+        previous = view.findViewById(R.id.previous);
+        next = view.findViewById(R.id.next);
+        totalincometext = view.findViewById(R.id.ttotalincometext);
+        totalexpensetext = view.findViewById(R.id.ttotalexpensevalue);
+        tcurrentdate = view.findViewById(R.id.tcurrentdate);
+        total = view.findViewById(R.id.ttotalAmount);
         DashBoardActivity.add.setVisibility(View.VISIBLE);
-        dateselector=view.findViewById(R.id.dateselector);
-        calendar=Calendar.getInstance();
-        monthpicker=new SimpleDateFormat("MMMM yyyy").format(calendar.getTime());
-        currentmonth=new SimpleDateFormat("MMMM").format(calendar.getTime());
-        currentyear= Integer.parseInt(new SimpleDateFormat("YYYY").format(calendar.getTime()));
-        currentdate=new SimpleDateFormat("MMMM dd, YYYY").format(calendar.getTime());
+        dateselector = view.findViewById(R.id.dateselector);
+        calendar = Calendar.getInstance();
+        monthpicker = new SimpleDateFormat("MMMM yyyy").format(calendar.getTime());
+        currentmonth = new SimpleDateFormat("MMMM").format(calendar.getTime());
+        currentyear = Integer.parseInt(new SimpleDateFormat("YYYY").format(calendar.getTime()));
+        currentdate = new SimpleDateFormat("MMMM dd, YYYY").format(calendar.getTime());
 
         dateselector.setText(monthpicker);
 
         tcurrentdate.setText(currentdate);
-        selected_month=dateselector.getText().toString();
+        selected_month = dateselector.getText().toString();
         dateselector.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -94,64 +93,64 @@ public class TransactionFragment extends Fragment {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
 
 
-                transModelArrayList=new ArrayList<>();
-                transModelArrayList=db.getCurrentMonthList(s.toString());
-                transModel=new TransModel();
+                transModelArrayList = new ArrayList<>();
+                transModelArrayList = db.getCurrentMonthList(s.toString());
+                transModel = new TransModel();
 
 
-                long tempincome=0;
-                long tempexpense=0;
-                long temptotal=0;
+                long tempincome = 0;
+                long tempexpense = 0;
+                long temptotal = 0;
 
-                for(int j=0;j<transModelArrayList.size();j++){
+                for (int j = 0; j < transModelArrayList.size(); j++) {
 
-                    transModel=transModelArrayList.get(j);
-                    if(transModel.getType().equals("income")){
+                    transModel = transModelArrayList.get(j);
+                    if (transModel.getType().equals("income")) {
 
-                        in=transModel.getAmount();
-                        if(in.equals("")){
+                        in = transModel.getAmount();
+                        if (in.equals("")) {
 
-                        }else{
-                            tempincome +=Long.parseLong(in);
+                        } else {
+                            tempincome += Long.parseLong(in);
                         }
 
-                    }else if(transModel.getType().equals("expense")){
-                        exp=transModel.getAmount();
+                    } else if (transModel.getType().equals("expense")) {
+                        exp = transModel.getAmount();
 
-                        if(exp.equals("")){
+                        if (exp.equals("")) {
 
-                        }else {
-                            tempexpense +=Long.parseLong(exp);
+                        } else {
+                            tempexpense += Long.parseLong(exp);
                         }
-                    }else {
+                    } else {
                         Toast.makeText(getContext(), "No Values", Toast.LENGTH_SHORT).show();
                     }
 
                 }
                 String dbdate1;
-                dbdate1=transModel.getDate();
-               /* String new_dbdate=new SimpleDateFormat("MMMM dd, YYYY").format(dbdate1);*/
+                dbdate1 = transModel.getDate();
+                /* String new_dbdate=new SimpleDateFormat("MMMM dd, YYYY").format(dbdate1);*/
                 tcurrentdate.setText(dbdate1);
-                temptotal=tempincome-tempexpense;
+                temptotal = tempincome - tempexpense;
                 totalincometext.setText(String.valueOf(tempincome));
                 totalexpensetext.setText(String.valueOf(tempexpense));
                 total.setText(String.valueOf(temptotal));
                 transModelArrayList.clear();
-                transModelArrayList=new ArrayList<>();
-                transModel=new TransModel();
-                transModelArrayList=db.getCurrentMonthList(s.toString());
-                if(transModelArrayList.size()!=0) {
+                transModelArrayList = new ArrayList<>();
+                transModel = new TransModel();
+                transModelArrayList = db.getCurrentMonthList(s.toString());
+                if (transModelArrayList.size() != 0) {
 
-                    transAdapter = new TransAdapter(getContext(), transModelArrayList);
+                    transAdapter = new TransAdapter(getContext(), transModelArrayList, TransactionFragment.this);
                     RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
                     recyclerView.setLayoutManager(layoutManager);
                     recyclerView.setItemAnimator(new DefaultItemAnimator());
                     recyclerView.setAdapter(transAdapter);
-                }else{
+                } else {
 
                     transModelArrayList.clear();
-                    transAdapter=new TransAdapter(getContext(),transModelArrayList);
-                    RecyclerView.LayoutManager layoutManager= new LinearLayoutManager(getContext());
+                    transAdapter = new TransAdapter(getContext(), transModelArrayList, TransactionFragment.this);
+                    RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
                     recyclerView.setLayoutManager(layoutManager);
                     recyclerView.setItemAnimator(new DefaultItemAnimator());
                     recyclerView.setAdapter(transAdapter);
@@ -159,8 +158,6 @@ public class TransactionFragment extends Fragment {
                     Toast.makeText(getContext(), "No Data Available for this month", Toast.LENGTH_SHORT).show();
 
                 }
-
-
 
 
             }
@@ -172,7 +169,6 @@ public class TransactionFragment extends Fragment {
 
             }
         });
-
 
 
         dateselector.setOnClickListener(new View.OnClickListener() {
@@ -199,7 +195,7 @@ public class TransactionFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                String montval=dateselector.getText().toString();
+                String montval = dateselector.getText().toString();
 
 /*
 
@@ -215,12 +211,11 @@ public class TransactionFragment extends Fragment {
 */
 
 
-
                 //calendar.add(Calendar.MONTH);
-               // SimpleDateFormat format = new SimpleDateFormat("MMMM yyyy");
+                // SimpleDateFormat format = new SimpleDateFormat("MMMM yyyy");
 //        Date date = calendar.getTimeInMillis();
-              //  String end = format.format(monthpicker);
-               // dateselector.setText(monthpicker);
+                //  String end = format.format(monthpicker);
+                // dateselector.setText(monthpicker);
                 DialogClass pickerDialog = new DialogClass();
                 pickerDialog.setListener(new DatePickerDialog.OnDateSetListener() {
                     @Override
@@ -269,54 +264,54 @@ public class TransactionFragment extends Fragment {
             }
         });
 
-        recyclerView=view.findViewById(R.id.trecyclerview);
-        transModelArrayList=new ArrayList<>();
-        transModelArrayList=db.getCurrentMonthList(selected_month);
-        transModel=new TransModel();
+        recyclerView = view.findViewById(R.id.trecyclerview);
+        transModelArrayList = new ArrayList<>();
+        transModelArrayList = db.getCurrentMonthList(selected_month);
+        transModel = new TransModel();
 
-        for(int j=0;j<transModelArrayList.size();j++){
-            transModel=transModelArrayList.get(j);
-            if(transModel.getType().equals("income")){
+        for (int j = 0; j < transModelArrayList.size(); j++) {
+            transModel = transModelArrayList.get(j);
+            if (transModel.getType().equals("income")) {
 
-                in=transModel.getAmount();
-                if(in.equals("")){
+                in = transModel.getAmount();
+                if (in.equals("")) {
 
-                }else{
-                    tempincome +=Long.parseLong(in);
+                } else {
+                    tempincome += Long.parseLong(in);
                 }
 
-            }else if(transModel.getType().equals("expense")){
-                exp=transModel.getAmount();
+            } else if (transModel.getType().equals("expense")) {
+                exp = transModel.getAmount();
 
-                if(exp.equals("")){
+                if (exp.equals("")) {
 
-                }else {
-                    tempexpense +=Long.parseLong(exp);
+                } else {
+                    tempexpense += Long.parseLong(exp);
                 }
-            }else {
+            } else {
                 Toast.makeText(getContext(), "No Values", Toast.LENGTH_SHORT).show();
             }
 
         }
-        temptotal=tempincome-tempexpense;
+        temptotal = tempincome - tempexpense;
         totalincometext.setText(String.valueOf(tempincome));
         totalexpensetext.setText(String.valueOf(tempexpense));
         total.setText(String.valueOf(temptotal));
 
-        transModelArrayList=new ArrayList<>();
-        transModelArrayList=db.getCurrentMonthList(selected_month);
+        transModelArrayList = new ArrayList<>();
+        transModelArrayList = db.getCurrentMonthList(selected_month);
 
-        if(transModelArrayList.size()!=0) {
-            transAdapter = new TransAdapter(getContext(), transModelArrayList);
+        if (transModelArrayList.size() != 0) {
+            transAdapter = new TransAdapter(getContext(), transModelArrayList, TransactionFragment.this);
             RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
             recyclerView.setLayoutManager(layoutManager);
             recyclerView.setItemAnimator(new DefaultItemAnimator());
             recyclerView.setAdapter(transAdapter);
-        }else {
+        } else {
 
             transModelArrayList.clear();
-            transAdapter=new TransAdapter(getContext(),transModelArrayList);
-            RecyclerView.LayoutManager layoutManager= new LinearLayoutManager(getContext());
+            transAdapter = new TransAdapter(getContext(), transModelArrayList, TransactionFragment.this);
+            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
             recyclerView.setLayoutManager(layoutManager);
             recyclerView.setItemAnimator(new DefaultItemAnimator());
             recyclerView.setAdapter(transAdapter);
@@ -346,10 +341,9 @@ public class TransactionFragment extends Fragment {
 */
 
 
-
-
         return view;
     }
+
     String formatMonthYear(String str) {
         Date date = null;
         try {
@@ -368,23 +362,23 @@ public class TransactionFragment extends Fragment {
         SimpleDateFormat format = new SimpleDateFormat("MMMM yyyy");
 //        Date date = calendar.getTimeInMillis();
         String end = format.format(calendar.getTime());
-        Log.d("TransactionFragment", "selected30Dates: " + end );
+        Log.d("TransactionFragment", "selected30Dates: " + end);
 
 
     }
 
     private String getnextmonth() {
-        StringBuilder builder=new StringBuilder();
+        StringBuilder builder = new StringBuilder();
         builder.append("Previous Month: ");
-        builder.append(Calendar.MONTH+1);
+        builder.append(Calendar.MONTH + 1);
 
         return builder.toString();
     }
 
     private String getpreviousmonth() {
-        StringBuilder builder=new StringBuilder();
+        StringBuilder builder = new StringBuilder();
         builder.append("Next Month : ");
-        builder.append(Calendar.MONTH-1);
+        builder.append(Calendar.MONTH - 1);
 
         return builder.toString();
     }
@@ -393,21 +387,21 @@ public class TransactionFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        transModelArrayList=new ArrayList<>();
-        transModel=new TransModel();
-        transModelArrayList=db.getCurrentMonthList(monthpicker);
-        if(transModelArrayList.size()!=0) {
+        transModelArrayList = new ArrayList<>();
+        transModel = new TransModel();
+        transModelArrayList = db.getCurrentMonthList(monthpicker);
+        if (transModelArrayList.size() != 0) {
 
-            transAdapter = new TransAdapter(getContext(), transModelArrayList);
+            transAdapter = new TransAdapter(getContext(), transModelArrayList, TransactionFragment.this);
             RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
             recyclerView.setLayoutManager(layoutManager);
             recyclerView.setItemAnimator(new DefaultItemAnimator());
             recyclerView.setAdapter(transAdapter);
-        }else{
+        } else {
 
             transModelArrayList.clear();
-            transAdapter=new TransAdapter(getContext(),transModelArrayList);
-            RecyclerView.LayoutManager layoutManager= new LinearLayoutManager(getContext());
+            transAdapter = new TransAdapter(getContext(), transModelArrayList, TransactionFragment.this);
+            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
             recyclerView.setLayoutManager(layoutManager);
             recyclerView.setItemAnimator(new DefaultItemAnimator());
             recyclerView.setAdapter(transAdapter);
@@ -416,6 +410,66 @@ public class TransactionFragment extends Fragment {
 
         }
 
+
+    }
+
+
+    public void reload() {
+        long tempincome = 0;
+        long tempexpense = 0;
+        transModelArrayList = new ArrayList<>();
+        transModelArrayList = db.getCurrentMonthList(selected_month);
+        transModel = new TransModel();
+
+        for (int j = 0; j < transModelArrayList.size(); j++) {
+            transModel = transModelArrayList.get(j);
+            if (transModel.getType().equals("income")) {
+
+                in = transModel.getAmount();
+                if (in.equals("")) {
+
+                } else {
+                    tempincome += Long.parseLong(in);
+                }
+
+            } else if (transModel.getType().equals("expense")) {
+                exp = transModel.getAmount();
+
+                if (exp.equals("")) {
+
+                } else {
+                    tempexpense += Long.parseLong(exp);
+                }
+            } else {
+                Toast.makeText(getContext(), "No Values", Toast.LENGTH_SHORT).show();
+            }
+
+        }
+        temptotal = tempincome - tempexpense;
+        totalincometext.setText(String.valueOf(tempincome));
+        totalexpensetext.setText(String.valueOf(tempexpense));
+        total.setText(String.valueOf(temptotal));
+
+        transModelArrayList = new ArrayList<>();
+        transModelArrayList = db.getCurrentMonthList(selected_month);
+
+        if (transModelArrayList.size() != 0) {
+            transAdapter = new TransAdapter(getContext(), transModelArrayList, TransactionFragment.this);
+            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
+            recyclerView.setLayoutManager(layoutManager);
+            recyclerView.setItemAnimator(new DefaultItemAnimator());
+            recyclerView.setAdapter(transAdapter);
+        } else {
+
+            transModelArrayList.clear();
+            transAdapter = new TransAdapter(getContext(), transModelArrayList, TransactionFragment.this);
+            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
+            recyclerView.setLayoutManager(layoutManager);
+            recyclerView.setItemAnimator(new DefaultItemAnimator());
+            recyclerView.setAdapter(transAdapter);
+            Toast.makeText(getContext(), "No Values", Toast.LENGTH_SHORT).show();
+
+        }
 
     }
 }

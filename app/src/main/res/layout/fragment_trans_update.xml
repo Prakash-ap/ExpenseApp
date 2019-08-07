@@ -13,7 +13,6 @@
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginTop="8dp"
-        android:id="@+id/relativelayout"
         android:orientation="vertical">
 
         <LinearLayout
@@ -62,7 +61,7 @@
                     android:textSize="18sp" />
 
                 <TextView
-                    android:id="@+id/edtdate"
+                    android:id="@+id/updatedate"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight=".5"
@@ -95,7 +94,7 @@
                     android:textSize="18sp" />
 
                 <Spinner
-                    android:id="@+id/spinnercatupdate"
+                    android:id="@+id/spinnerupdate"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
@@ -129,7 +128,7 @@
                     />
 
                 <Spinner
-                    android:id="@+id/spinneraccount"
+                    android:id="@+id/spinneraccountupdate"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
@@ -160,7 +159,7 @@
                     android:textSize="18sp" />
 
                 <EditText
-                    android:id="@+id/edtamount"
+                    android:id="@+id/updateamount"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight=".5"
@@ -197,7 +196,7 @@
                     />
 
                 <EditText
-                    android:id="@+id/edtnote"
+                    android:id="@+id/updatenote"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight=".5"
@@ -236,7 +235,7 @@
                 android:visibility="gone" />
 
             <Button
-                android:id="@+id/btnsave"
+                android:id="@+id/updatebtnsave"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.eron.android.expenseapp.Model.Acc_Model;
@@ -431,6 +432,27 @@ public class DataBaseHandler extends SQLiteOpenHelper {
         db.update(ADD_ACC_TABLE,updatedValues, KEY_ID+ "=?", new String[]{String.valueOf(acc_model.getId())});
         db.close();
 
+    }
+
+
+    public void updateTransList(TransModel transModel){
+        SQLiteDatabase db=this.getWritableDatabase();
+        ContentValues contentValues=new ContentValues();
+        contentValues.put(KEY_ID,transModel.getId());
+        contentValues.put(KEY_NEWINCOME_DATE,transModel.getDate());
+        contentValues.put(KEY_NEWINCOME_CATG_NAME,transModel.getCategory_name());
+        contentValues.put(KEY_NEWINCOME_CATG_IMG,transModel.getCategory_img());
+        contentValues.put(KEY_NEWINCOME_ACC_NAME,transModel.getAccount_name());
+        contentValues.put(KEY_NEWINCOME_ACC_IMG,transModel.getAccount_img());
+        contentValues.put(KEY_NEWINCOME_NOTE,transModel.getNote());
+        contentValues.put(KEY_NEWINCOME_AMNT,transModel.getAmount());
+        contentValues.put(KEY_NEWINCOME_DAY_OF_MONTH,transModel.getDay_of_month());
+        contentValues.put(KEY_NEWINCOME_MONTH,transModel.getMonth());
+        contentValues.put(KEY_NEWINCOME_YEAR,transModel.getYear());
+        contentValues.put(KEY_NEWINCOME_SELECTED_MONYEAR,transModel.getSelectedmonthyear());
+
+        db.update(ADD_INCOME_TABLE_NAME,contentValues,KEY_ID+"=?",new String[]{String.valueOf(transModel.getId())});
+        Log.d("update", "updateTransList: "+contentValues);
     }
 
 

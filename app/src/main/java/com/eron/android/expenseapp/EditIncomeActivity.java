@@ -1,31 +1,32 @@
-package com.eron.android.expenseapp.Fragments;
+package com.eron.android.expenseapp;
 
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.eron.android.expenseapp.Adapter.AccountSpinnerAdapter;
 import com.eron.android.expenseapp.Adapter.CopySpinnerCatAdapter1;
-import com.eron.android.expenseapp.DashBoardActivity;
 import com.eron.android.expenseapp.Database.DataBaseHandler;
 import com.eron.android.expenseapp.Model.Acc_Model;
 import com.eron.android.expenseapp.Model.CatItemData;
 import com.eron.android.expenseapp.Model.TransModel;
-import com.eron.android.expenseapp.R;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -34,7 +35,7 @@ import java.util.List;
 import java.util.Locale;
 
 
-public class TransIncomeFragment extends Fragment implements View.OnClickListener,AdapterView.OnItemSelectedListener {
+public class EditIncomeActivity extends AppCompatActivity implements View.OnClickListener,AdapterView.OnItemSelectedListener {
     TextView date;
     EditText amount,notes;
     Button save,cancel;
@@ -68,6 +69,7 @@ public class TransIncomeFragment extends Fragment implements View.OnClickListene
     ArrayList<Acc_Model>acc_modelArrayList1;
     int year;
 
+    Fragment fragment;
 
     String cattext;
     String catimage;
@@ -86,28 +88,66 @@ public class TransIncomeFragment extends Fragment implements View.OnClickListene
     String catvalues,accvalues;
     int catimg;
     String selectmonthyear;
+    String intentval;
+    String idate,icatname,icatimg,iaccname,iaccimg,iamnt,inote;
+
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.fragment_trans_income);
         // Inflate the layout for this fragment
-        View view= inflater.inflate(R.layout.fragment_trans_income, container, false);
-        calendar=Calendar.getInstance();
-        date=view.findViewById(R.id.edtdate);
-        category=view.findViewById(R.id.spinnercatupdate);
-        account=view.findViewById(R.id.spinneraccount);
-        save=view.findViewById(R.id.btnsave);
-        cancel=view.findViewById(R.id.btn_cancel);
-        amount=view.findViewById(R.id.edtamount);
-        notes=view.findViewById(R.id.edtnote);
 
-        db=new DataBaseHandler(getContext());
+        RelativeLayout relativeLayout=findViewById(R.id.relativelayout);
+        calendar=Calendar.getInstance();
+        date=findViewById(R.id.edtdate);
+        category=findViewById(R.id.spinnercatupdate);
+        account=findViewById(R.id.spinneraccount);
+        save=findViewById(R.id.btnsave);
+        cancel=findViewById(R.id.btn_cancel);
+        amount=findViewById(R.id.edtamount);
+        notes=findViewById(R.id.edtnote);
+        intentval=getIntent().getStringExtra("KEY_ID");
+        idate=getIntent().getStringExtra("KEY_DATE");
+        icatname=getIntent().getStringExtra("KEY_CATNAME");
+        icatimg=getIntent().getStringExtra("KEY_CATIMG");
+        iaccname=getIntent().getStringExtra("KEY_ACCNAME");
+        iaccimg=getIntent().getStringExtra("KEY_ACCIMG");
+        iamnt=getIntent().getStringExtra("KEY_AMNT");
+        inote=getIntent().getStringExtra("KEY_NOTE");
+
+
+
+        date.setText(idate);
+        amount.setText(iamnt);
+        notes.setText(inote);
+
+
+
+        /*catItemData=new CatItemData();
+        catItemDataArrayList=new ArrayList<>();
+        catItemData.setText(icatname);
+        catItemData.setImageId(Integer.parseInt(icatimg));
+        catItemDataArrayList.add(catItemData);
+        copySpinnerCatAdapter1=new CopySpinnerCatAdapter1(catItemDataArrayList,getApplicationContext());
+        category.setAdapter(copySpinnerCatAdapter1);*/
+
+
+        db=new DataBaseHandler(this);
 
         save.setOnClickListener(this);
         cancel.setOnClickListener(this);
         category.setOnItemSelectedListener(this);
         account.setOnItemSelectedListener(this);
+
+        relativeLayout.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                hideKeyboard(v);
+                return false;
+            }
+        });
 
 
        loadCatg();
@@ -128,12 +168,11 @@ public class TransIncomeFragment extends Fragment implements View.OnClickListene
         date.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new DatePickerDialog(getContext(),dateSetListener,calendar.get(Calendar.YEAR),
+                new DatePickerDialog(EditIncomeActivity.this,dateSetListener,calendar.get(Calendar.YEAR),
                         calendar.get(Calendar.MONTH),calendar.get(Calendar.DAY_OF_MONTH)).show();
             }
         });
 
-        return view;
 
 
     }
@@ -143,7 +182,7 @@ public class TransIncomeFragment extends Fragment implements View.OnClickListene
         acc_model=new Acc_Model();
         acc_modelArrayList=new ArrayList<>();
         acc_modelArrayList=db.getAllAccType();
-        if(acc_modelArrayList.size()==0){
+        /*if(acc_modelArrayList.size()==0){
             acc_model.setIn_acc_type("Cash");
             acc_model.setImageid(R.string.cash);
             db.addAcc(acc_model);
@@ -161,29 +200,59 @@ public class TransIncomeFragment extends Fragment implements View.OnClickListene
 
             acc_modelArrayList=db.getAllAccType();
 
-            accountSpinnerAdapter=new AccountSpinnerAdapter(acc_modelArrayList,getContext());
+            accountSpinnerAdapter=new AccountSpinnerAdapter(acc_modelArrayList,getApplicationContext());
             account.setAdapter(accountSpinnerAdapter);
 
-            }else {
+            }else {*/
 
-            acc_model=new Acc_Model();
+           /* acc_model=new Acc_Model();
             acc_modelArrayList=new ArrayList<>();
             acc_modelArrayList=db.getAllAccType();
+*/
 
 
-            accountSpinnerAdapter=new AccountSpinnerAdapter(acc_modelArrayList,getContext());
+
+            accountSpinnerAdapter=new AccountSpinnerAdapter(acc_modelArrayList,getApplicationContext());
             account.setAdapter(accountSpinnerAdapter);
 
         }
-    }
+
 
     private void loadCatg() {
 
         catItemData=new CatItemData();
         catItemDataArrayList=new ArrayList<>();
         catItemDataArrayList=db.getAllCatg();
+        copySpinnerCatAdapter1=new CopySpinnerCatAdapter1(catItemDataArrayList,getApplicationContext());
+        category.setAdapter(copySpinnerCatAdapter1);
+       /* for(int i=0;i<catItemDataArrayList.size();i++) {
+            catItemData = catItemDataArrayList.get(i);
+            String cat = catItemData.getText();
+            if (cat.equals(icatname)) {
+                int pos = catItemDataArrayList.get;
+                copySpinnerCatAdapter1 = new CopySpinnerCatAdapter1(catItemDataArrayList, getApplicationContext());
+                category.setAdapter(copySpinnerCatAdapter1);
+                category.setSelection(pos);
+                //  category.setSelection(pos);
 
-        if(catItemDataArrayList.size()==0){
+            } else {
+
+                *//*copySpinnerCatAdapter1=new CopySpinnerCatAdapter1(catItemDataArrayList,getApplicationContext());
+                category.setAdapter(copySpinnerCatAdapter1);
+*//*
+            }
+        }*/
+
+
+
+
+
+
+        //String cat=catItemDataArrayList.get(
+
+
+
+       /* if(catItemDataArrayList.size()==0){
 
             catItemData.setText("Salary");
             catItemData.setImageId(R.string.salary);
@@ -208,7 +277,7 @@ public class TransIncomeFragment extends Fragment implements View.OnClickListene
             catItemDataArrayList=db.getAllCatg();
 
 
-           copySpinnerCatAdapter1=new CopySpinnerCatAdapter1(catItemDataArrayList,getContext());
+           copySpinnerCatAdapter1=new CopySpinnerCatAdapter1(catItemDataArrayList,getApplicationContext());
            category.setAdapter(copySpinnerCatAdapter1);
 
 
@@ -216,11 +285,17 @@ public class TransIncomeFragment extends Fragment implements View.OnClickListene
             catItemData=new CatItemData();
             catItemDataArrayList=new ArrayList<>();
             catItemDataArrayList=db.getAllCatg();
-            copySpinnerCatAdapter1=new CopySpinnerCatAdapter1(catItemDataArrayList,getContext());
+*/
+           /* copySpinnerCatAdapter1=new CopySpinnerCatAdapter1(catItemDataArrayList,getApplicationContext());
             category.setAdapter(copySpinnerCatAdapter1);
+            category.setSelection(1);
+*/
+            /*if(catItemDataArrayList.contains(icatname)){
+                category.setSelection(i);
 
+            }*/
         }
-    }
+
 
     private void updateLabel() {
         String format="MMMM dd, yyyy";
@@ -247,10 +322,13 @@ public class TransIncomeFragment extends Fragment implements View.OnClickListene
      type="income";
 
      if(dateval.equals("") ||amountval.equals("") ){
-         Toast.makeText(getContext(), "Enter the Credentials", Toast.LENGTH_SHORT).show();
+         Toast.makeText(this, "Enter the Credentials", Toast.LENGTH_SHORT).show();
      }else{
          transModelArrayList=new ArrayList<>();
          transModel=new TransModel();
+
+//         transModel.setId(Integer.parseInt(intentval));
+         transModel.setId(Integer.parseInt(intentval));
          transModel.setDate(dateval);
          transModel.setCategory_name(ocat);
          transModel.setAccount_name(oacc);
@@ -264,10 +342,13 @@ public class TransIncomeFragment extends Fragment implements View.OnClickListene
          transModel.setYear(year);
          transModel.setSelectedmonthyear(selectmonthyear);
          transModelArrayList.add(transModel);
-         db.addNewIncome(transModel);
+         db.updateTransList(transModel);
+
+
+         db.getAllNewIncome();
          Log.d("Insert", "Inserting from Income: " + transModel);
 
-         Intent intent=new Intent(getContext(),DashBoardActivity.class);
+         Intent intent=new Intent(this,DashBoardActivity.class);
          startActivity(intent);
 
      }
@@ -309,6 +390,12 @@ public class TransIncomeFragment extends Fragment implements View.OnClickListene
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
+
+    }
+
+    protected void hideKeyboard(View view){
+        InputMethodManager in = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        in.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
 
     }
 

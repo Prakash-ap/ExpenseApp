@@ -108,7 +108,7 @@ public class SpendingFragment extends Fragment {
                 transModelArrayList = new ArrayList<>();
                 transModelArrayList = db.getTodayNewList(date1);
 
-                transAdapter = new TransAdapter(getContext(), transModelArrayList);
+                transAdapter = new TransAdapter(getContext(), transModelArrayList, SpendingFragment.this);
                 RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
                 recyclerView.setLayoutManager(layoutManager);
                 recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -117,7 +117,7 @@ public class SpendingFragment extends Fragment {
 
             } else {
                 // transModelArrayList.clear();
-                Toast.makeText(getContext(), "No Data Available on Todays date", Toast.LENGTH_SHORT).show();
+                // Toast.makeText(getContext(), "No Data Available on Todays date", Toast.LENGTH_SHORT).show();
             }
         }
 
@@ -136,7 +136,7 @@ public class SpendingFragment extends Fragment {
 
         //Bundle bundle = getArguments();
         // selectedVAlue = bundle.getString("SpinnerValue");
-      //  Toast.makeText(getContext(), "slected value" + selectedVAlue, Toast.LENGTH_SHORT).show();
+        //  Toast.makeText(getContext(), "slected value" + selectedVAlue, Toast.LENGTH_SHORT).show();
         return view;
     }
 
@@ -178,9 +178,46 @@ public class SpendingFragment extends Fragment {
         totalincome.setTextColor(Color.WHITE);
         totalexpense.setText(String.valueOf(tempexpense));
         totalexpense.setTextColor(Color.RED);
+
+        reload();
     }
 
     public void reload() {
+
+        long tempincome = 0;
+        long tempexpense = 0;
+        transModelArrayList = new ArrayList<>();
+        transModelArrayList = db.getTodayNewList(date1);
+        transModel = new TransModel();
+
+        for (int j = 0; j < transModelArrayList.size(); j++) {
+            transModel = transModelArrayList.get(j);
+            if (transModel.getType().equals("income")) {
+
+                in = transModel.getAmount();
+                if (in.equals("")) {
+
+                } else {
+                    tempincome += Long.parseLong(in);
+                }
+
+            } else if (transModel.getType().equals("expense")) {
+                exp = transModel.getAmount();
+
+                if (exp.equals("")) {
+
+                } else {
+                    tempexpense += Long.parseLong(exp);
+                }
+            } else {
+                Toast.makeText(getContext(), "No Values", Toast.LENGTH_SHORT).show();
+            }
+
+        }
+        totalincome.setText(String.valueOf(tempincome));
+        totalincome.setTextColor(Color.WHITE);
+        totalexpense.setText(String.valueOf(tempexpense));
+        totalexpense.setTextColor(Color.RED);
         transModelArrayList = new ArrayList<>();
         if (transModelArrayList.size() != 0) {
             transModelArrayList = db.getAllNewIncome();
@@ -190,14 +227,14 @@ public class SpendingFragment extends Fragment {
                 transModel = transModelArrayList.get(i);
                 String dbdate = transModel.getDate();
                 if (dbdate.equals(date1)) {
-                    transModelArrayList = new ArrayList<>();
-                    transModelArrayList = db.getTodayNewList(date1);
+        transModelArrayList = new ArrayList<>();
+        transModelArrayList = db.getTodayNewList(date1);
 
-                    transAdapter = new TransAdapter(getContext(), transModelArrayList);
-                    RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
-                    recyclerView.setLayoutManager(layoutManager);
-                    recyclerView.setItemAnimator(new DefaultItemAnimator());
-                    recyclerView.setAdapter(transAdapter);
+        transAdapter = new TransAdapter(getContext(), transModelArrayList, SpendingFragment.this);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setAdapter(transAdapter);
 
 
                 } else {
@@ -210,4 +247,5 @@ public class SpendingFragment extends Fragment {
 
         }
     }
+
 }
