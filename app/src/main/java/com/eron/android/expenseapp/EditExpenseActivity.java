@@ -174,38 +174,20 @@ public class EditExpenseActivity extends AppCompatActivity implements View.OnCli
         acc_model=new Acc_Model();
         acc_modelArrayList=new ArrayList<>();
         acc_modelArrayList=db.getAllAccType();
-        if(acc_modelArrayList.size()==0){
-            acc_model.setIn_acc_type("Cash");
-            acc_model.setImageid(R.string.cash);
-            db.addAcc(acc_model);
+        accountSpinnerAdapter=new AccountSpinnerAdapter(acc_modelArrayList,getApplicationContext());
+        account.setAdapter(accountSpinnerAdapter);
+        for (int i = 0; i < acc_modelArrayList.size(); i++) {
+            acc_model = acc_modelArrayList.get(i);
+            String cat1 = acc_model.getIn_acc_type();
+            if (cat1.equals(iaccname)) {
+                account.setSelection(i);
+                Log.d("spinner", "loadCatg: " + i);
 
-
-            acc_model1=new Acc_Model();
-            acc_model1.setIn_acc_type("Card");
-            acc_model1.setImageid(R.string.card);
-            db.addAcc(acc_model1);
-
-            acc_model2=new Acc_Model();
-            acc_model2.setIn_acc_type("Account");
-            acc_model2.setImageid(R.string.Account);
-            db.addAcc(acc_model2);
-
-            acc_modelArrayList=db.getAllAccType();
-
-            accountSpinnerAdapter=new AccountSpinnerAdapter(acc_modelArrayList,getApplicationContext());
-            account.setAdapter(accountSpinnerAdapter);
-
-            }else {
-
-            acc_model=new Acc_Model();
-            acc_modelArrayList=new ArrayList<>();
-            acc_modelArrayList=db.getAllAccType();
-
-
-            accountSpinnerAdapter=new AccountSpinnerAdapter(acc_modelArrayList,getApplicationContext());
-            account.setAdapter(accountSpinnerAdapter);
-
+            }
         }
+
+
+
     }
 
     private void loadCatg() {
@@ -213,73 +195,19 @@ public class EditExpenseActivity extends AppCompatActivity implements View.OnCli
         expenseItemData=new ExpenseItemData();
         expenseItemDataArrayList=new ArrayList<>();
         expenseItemDataArrayList=db.getAllExpenseCat();
-
-        if(expenseItemDataArrayList.size()==0){
-
-            expenseItemData.setText("Rent");
-            expenseItemData.setImageId(R.string.Roomrent);
-            expenseItemData.setType("expense");
-            db.addExpCatg(expenseItemData);
-
-            expenseItemData1=new ExpenseItemData();
-            expenseItemData1.setText("Food");
-            expenseItemData1.setImageId(R.string.food);
-            expenseItemData1.setType("expense");
-
-            db.addExpCatg(expenseItemData1);
-
-            expenseItemData2=new ExpenseItemData();
-            expenseItemData2.setText("Fuel");
-            expenseItemData2.setImageId(R.string.fa_gas_pump_solid);
-            expenseItemData2.setType("expense");
-
-            db.addExpCatg(expenseItemData2);
-
-            expenseItemData3=new ExpenseItemData();
-            expenseItemData3.setText("Travel");
-            expenseItemData3.setImageId(R.string.Travel);
-            expenseItemData3.setType("expense");
-
-            db.addExpCatg(expenseItemData3);
-
-            expenseItemData4=new ExpenseItemData();
-            expenseItemData4.setText("Shopping");
-            expenseItemData4.setImageId(R.string.Shopping);
-            expenseItemData4.setType("expense");
-
-            db.addExpCatg(expenseItemData4);
-
-            expenseItemData5=new ExpenseItemData();
-            expenseItemData5.setText("Gift");
-            expenseItemData5.setImageId(R.string.gift);
-            expenseItemData5.setType("expense");
-
-            db.addExpCatg(expenseItemData5);
-
-            expenseItemData6=new ExpenseItemData();
-            expenseItemData6.setText("Wifi");
-            expenseItemData6.setImageId(R.string.Wifi);
-            expenseItemData6.setType("expense");
-
-            db.addExpCatg(expenseItemData6);
-
-
-
-            expenseItemDataArrayList=db.getAllExpenseCat();
-
-
-           expenseSpinnerCatAdapter=new ExpenseSpinnerCatAdapter(expenseItemDataArrayList,getApplicationContext());
-           category.setAdapter(expenseSpinnerCatAdapter);
-
-
-        }else{
-            expenseItemData=new ExpenseItemData();
-            expenseItemDataArrayList=new ArrayList<>();
-            expenseItemDataArrayList=db.getAllExpenseCat();
-            expenseSpinnerCatAdapter=new ExpenseSpinnerCatAdapter(expenseItemDataArrayList,getApplicationContext());
+        expenseSpinnerCatAdapter=new ExpenseSpinnerCatAdapter(expenseItemDataArrayList,getApplicationContext());
             category.setAdapter(expenseSpinnerCatAdapter);
+        for (int i = 0; i < expenseItemDataArrayList.size(); i++) {
+            expenseItemData = expenseItemDataArrayList.get(i);
+            String cat1 = expenseItemData.getText();
+            if (cat1.equals(icatname)) {
+                category.setSelection(i);
+                Log.d("spinner", "loadCatg: " + i);
 
+            }
         }
+
+
     }
 
     private void updateLabel() {
@@ -301,6 +229,10 @@ public class EditExpenseActivity extends AppCompatActivity implements View.OnCli
         if(v.getId()==R.id.btnsave){
 
      dateval=date.getText().toString();
+            dayofmonth = calendar.get(Calendar.DAY_OF_MONTH);
+            month = new SimpleDateFormat("MMMM").format(calendar.getTime());
+            year=calendar.get(Calendar.YEAR);
+            selectmonthyear=month + " " + String.valueOf(year);
 
      amountval=amount.getText().toString();
      noteval=notes.getText().toString();

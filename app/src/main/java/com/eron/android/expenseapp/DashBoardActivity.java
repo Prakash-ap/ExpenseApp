@@ -23,6 +23,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.eron.android.expenseapp.Database.DataBaseHandler;
 import com.eron.android.expenseapp.Fragments.AccountFragment;
 import com.eron.android.expenseapp.Fragments.CategoryFragment;
 import com.eron.android.expenseapp.Fragments.SpendingFragment;
@@ -42,6 +43,7 @@ public class DashBoardActivity extends AppCompatActivity implements AdapterView.
     TabLayout tabLayout;
     ViewPager viewPager;
     SharedPreferences sharedPreferences;
+    DataBaseHandler db;
 
     static final String[] Months = new String[] { "January", "February",
             "March", "April", "May", "June", "July", "August", "September",
@@ -61,6 +63,7 @@ public class DashBoardActivity extends AppCompatActivity implements AdapterView.
 
         edit=findViewById(R.id.cat_edt);
         delete=findViewById(R.id.cat_delete);
+        db=new DataBaseHandler(this);
 
         floatingActionButton=findViewById(R.id.fab);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
@@ -126,11 +129,13 @@ public class DashBoardActivity extends AppCompatActivity implements AdapterView.
             public void onPageScrolled(int i, float v, int i1) {
                 if(i==0){
                     add.setVisibility(View.GONE);
+
                    /// floatingActionButton.setVisibility(View.GONE);
 
                 }else if(i==1){
 
                     add.setVisibility(View.VISIBLE);
+
                     add.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -215,6 +220,7 @@ public class DashBoardActivity extends AppCompatActivity implements AdapterView.
 
         tabone.setCompoundDrawablesWithIntrinsicBounds(0,R.drawable.dashboard,0,0);
         tabLayout.getTabAt(0).setCustomView(tabone);
+
 
 
         TextView tabtwo=(TextView)LayoutInflater.from(this).inflate(R.layout.customtab_layout,null);

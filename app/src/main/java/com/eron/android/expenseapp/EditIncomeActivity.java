@@ -125,15 +125,6 @@ public class EditIncomeActivity extends AppCompatActivity implements View.OnClic
 
 
 
-        /*catItemData=new CatItemData();
-        catItemDataArrayList=new ArrayList<>();
-        catItemData.setText(icatname);
-        catItemData.setImageId(Integer.parseInt(icatimg));
-        catItemDataArrayList.add(catItemData);
-        copySpinnerCatAdapter1=new CopySpinnerCatAdapter1(catItemDataArrayList,getApplicationContext());
-        category.setAdapter(copySpinnerCatAdapter1);*/
-
-
         db=new DataBaseHandler(this);
 
         save.setOnClickListener(this);
@@ -182,119 +173,67 @@ public class EditIncomeActivity extends AppCompatActivity implements View.OnClic
         acc_model=new Acc_Model();
         acc_modelArrayList=new ArrayList<>();
         acc_modelArrayList=db.getAllAccType();
-        /*if(acc_modelArrayList.size()==0){
-            acc_model.setIn_acc_type("Cash");
-            acc_model.setImageid(R.string.cash);
-            db.addAcc(acc_model);
-
-
-            acc_model1=new Acc_Model();
-            acc_model1.setIn_acc_type("Card");
-            acc_model1.setImageid(R.string.card);
-            db.addAcc(acc_model1);
-
-            acc_model2=new Acc_Model();
-            acc_model2.setIn_acc_type("Account");
-            acc_model2.setImageid(R.string.Account);
-            db.addAcc(acc_model2);
-
-            acc_modelArrayList=db.getAllAccType();
-
-            accountSpinnerAdapter=new AccountSpinnerAdapter(acc_modelArrayList,getApplicationContext());
+        accountSpinnerAdapter=new AccountSpinnerAdapter(acc_modelArrayList,getApplicationContext());
             account.setAdapter(accountSpinnerAdapter);
+            for(int i=0;i<acc_modelArrayList.size();i++){
+                acc_model=acc_modelArrayList.get(i);
+                String acc1=acc_model.getIn_acc_type();
+                if(acc1.equals(iaccname)){
+                    account.setSelection(i);
+                    Log.d("spinner", "loadAcc: " + i);
+                }else{
 
-            }else {*/
-
-           /* acc_model=new Acc_Model();
-            acc_modelArrayList=new ArrayList<>();
-            acc_modelArrayList=db.getAllAccType();
-*/
-
-
-
-            accountSpinnerAdapter=new AccountSpinnerAdapter(acc_modelArrayList,getApplicationContext());
-            account.setAdapter(accountSpinnerAdapter);
+                }
+            }
+         //   account.setSelection(acc_modelArrayList.indexOf(iaccname));
 
         }
 
 
     private void loadCatg() {
 
-        catItemData=new CatItemData();
-        catItemDataArrayList=new ArrayList<>();
-        catItemDataArrayList=db.getAllCatg();
-        copySpinnerCatAdapter1=new CopySpinnerCatAdapter1(catItemDataArrayList,getApplicationContext());
+        catItemData = new CatItemData();
+        catItemDataArrayList = new ArrayList<>();
+        catItemDataArrayList = db.getAllCatg();
+        copySpinnerCatAdapter1 = new CopySpinnerCatAdapter1(catItemDataArrayList, getApplicationContext());
         category.setAdapter(copySpinnerCatAdapter1);
-       /* for(int i=0;i<catItemDataArrayList.size();i++) {
+
+        for (int i = 0; i < catItemDataArrayList.size(); i++) {
             catItemData = catItemDataArrayList.get(i);
-            String cat = catItemData.getText();
-            if (cat.equals(icatname)) {
-                int pos = catItemDataArrayList.get;
-                copySpinnerCatAdapter1 = new CopySpinnerCatAdapter1(catItemDataArrayList, getApplicationContext());
-                category.setAdapter(copySpinnerCatAdapter1);
-                category.setSelection(pos);
-                //  category.setSelection(pos);
+            String cat1 = catItemData.getText();
+            if (cat1.equals(icatname)) {
+                category.setSelection(i);
+                Log.d("spinner", "loadCatg: " + i);
 
-            } else {
+            }
 
-                *//*copySpinnerCatAdapter1=new CopySpinnerCatAdapter1(catItemDataArrayList,getApplicationContext());
-                category.setAdapter(copySpinnerCatAdapter1);
-*//*
+          /*  if(catItemDataArrayList.contains(icatname)){
+                category.setSelection(i);
+                Log.d("spinner", "loadCatg: "+i);
+
+            }
+        }
+        */
+
+
+
+
+
+       /* for (int i=0;i<catItemDataArrayList.size();i++){
+
+            if(catItemDataArrayList.contains(icatname)){
+                category.setSelection(i);
+                Log.d("spinner", "loadCatg: "+i);
+
             }
         }*/
 
+            //  category.setSelection(catItemDataArrayList.indexOf(icatname));
+          //  int pos = catItemDataArrayList.indexOf(icatname);
+            // Log.d("spinner", "loadCatg: "+pos);
 
-
-
-
-
-        //String cat=catItemDataArrayList.get(
-
-
-
-       /* if(catItemDataArrayList.size()==0){
-
-            catItemData.setText("Salary");
-            catItemData.setImageId(R.string.salary);
-            catItemData.setType("income");
-            db.addCatg(catItemData);
-
-            catItemData1=new CatItemData();
-            catItemData1.setText("Allowance");
-            catItemData1.setImageId(R.string.Allowance);
-            catItemData1.setType("income");
-
-            db.addCatg(catItemData1);
-
-            catItemData2=new CatItemData();
-            catItemData2.setText("Bonus");
-            catItemData2.setImageId(R.string.cash);
-            catItemData2.setType("income");
-
-            db.addCatg(catItemData2);
-
-
-            catItemDataArrayList=db.getAllCatg();
-
-
-           copySpinnerCatAdapter1=new CopySpinnerCatAdapter1(catItemDataArrayList,getApplicationContext());
-           category.setAdapter(copySpinnerCatAdapter1);
-
-
-        }else{
-            catItemData=new CatItemData();
-            catItemDataArrayList=new ArrayList<>();
-            catItemDataArrayList=db.getAllCatg();
-*/
-           /* copySpinnerCatAdapter1=new CopySpinnerCatAdapter1(catItemDataArrayList,getApplicationContext());
-            category.setAdapter(copySpinnerCatAdapter1);
-            category.setSelection(1);
-*/
-            /*if(catItemDataArrayList.contains(icatname)){
-                category.setSelection(i);
-
-            }*/
         }
+    }
 
 
     private void updateLabel() {
@@ -316,6 +255,10 @@ public class EditIncomeActivity extends AppCompatActivity implements View.OnClic
         if(v.getId()==R.id.btnsave){
 
      dateval=date.getText().toString();
+            dayofmonth = calendar.get(Calendar.DAY_OF_MONTH);
+            month = new SimpleDateFormat("MMMM").format(calendar.getTime());
+            year=calendar.get(Calendar.YEAR);
+            selectmonthyear=month + " " + String.valueOf(year);
 
      amountval=amount.getText().toString();
      noteval=notes.getText().toString();

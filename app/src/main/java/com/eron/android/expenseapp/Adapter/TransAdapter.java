@@ -43,6 +43,7 @@ public class TransAdapter extends RecyclerView.Adapter<TransAdapter.MyViewHolder
     DataBaseHandler db;
     AlertDialog.Builder builder;
     private Fragment fragment;
+    private Fragment fragment1;
 
 
     public TransAdapter(Context context, ArrayList<TransModel> transModelArrayList,Fragment fragment) {
@@ -50,6 +51,7 @@ public class TransAdapter extends RecyclerView.Adapter<TransAdapter.MyViewHolder
         this.transModelArrayList = transModelArrayList;
         this.fragment=fragment;
     }
+
 
     @NonNull
     @Override
@@ -103,9 +105,10 @@ public class TransAdapter extends RecyclerView.Adapter<TransAdapter.MyViewHolder
 
                         db.deleteTransEntry(String.valueOf(transModel.getId()));
                         delete(i);
-                       // ((SpendingFragment)fragment).reload();
-                       // ((TransactionFragment)fragment).reload();
-                      //  db.getAllNewIncome();
+                              //  ((SpendingFragment) fragment).reload();
+
+                           // ((TransactionFragment) fragment).reload();
+
 
                         dialog.dismiss();
 
@@ -154,14 +157,6 @@ public class TransAdapter extends RecyclerView.Adapter<TransAdapter.MyViewHolder
                    context.startActivity(intent);
 
                }
-
-
-
-
-
-
-
-
             }
         });
     }
@@ -175,6 +170,7 @@ public class TransAdapter extends RecyclerView.Adapter<TransAdapter.MyViewHolder
     public void delete(int position){
         transModelArrayList.remove(position);
         notifyItemRemoved(position);
+        db.getAllNewIncome();
     }
 
 
@@ -198,12 +194,7 @@ public class MyViewHolder extends RecyclerView.ViewHolder {
             edt=itemView.findViewById(R.id.trans_edt);
             del=itemView.findViewById(R.id.trans_delete);
 
-            itemView.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-                    return false;
-                }
-            });
+
 
             itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override

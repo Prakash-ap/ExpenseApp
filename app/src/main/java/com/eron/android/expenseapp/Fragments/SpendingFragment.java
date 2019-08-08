@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -31,11 +32,12 @@ import java.util.Date;
 import java.util.Locale;
 
 public class SpendingFragment extends Fragment {
+    private static SpendingFragment instance=null;
     String selectedVAlue;
     Button addtrans;
     DataBaseHandler db;
-    RecyclerView recyclerView;
-    TransAdapter transAdapter;
+   public static RecyclerView recyclerView;
+   public static TransAdapter transAdapter;
     ArrayList<TransModel> transModelArrayList;
     TransModel transModel;
     Calendar calendar;
@@ -47,6 +49,16 @@ public class SpendingFragment extends Fragment {
     TextView totalincome, totalexpense;
     String in, exp;
 
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        instance=this;
+    }
+
+    public static SpendingFragment getInstance(){
+        return instance;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -134,11 +146,21 @@ public class SpendingFragment extends Fragment {
 
         Log.d("SpendingFragment", "onCreateView: " + selectedVAlue);
 
-        //Bundle bundle = getArguments();
-        // selectedVAlue = bundle.getString("SpinnerValue");
-        //  Toast.makeText(getContext(), "slected value" + selectedVAlue, Toast.LENGTH_SHORT).show();
+
+        SpendingFragment test = (SpendingFragment) getChildFragmentManager().findFragmentByTag("testID");
+        if (test != null && test.isVisible()) {
+            //DO STUFF
+            reload();
+        }
+        else {
+            //Whatever
+        }
+
         return view;
     }
+
+
+
 
     @Override
     public void onResume() {
@@ -179,11 +201,14 @@ public class SpendingFragment extends Fragment {
         totalexpense.setText(String.valueOf(tempexpense));
         totalexpense.setTextColor(Color.RED);
 
-        reload();
+
+
+      //  reload();
     }
 
     public void reload() {
 
+     date1 = simpleDateFormat.format(c);
         long tempincome = 0;
         long tempexpense = 0;
         transModelArrayList = new ArrayList<>();
@@ -219,15 +244,8 @@ public class SpendingFragment extends Fragment {
         totalexpense.setText(String.valueOf(tempexpense));
         totalexpense.setTextColor(Color.RED);
         transModelArrayList = new ArrayList<>();
-        if (transModelArrayList.size() != 0) {
-            transModelArrayList = db.getAllNewIncome();
-            transModel = new TransModel();
 
-            for (int i = 0; i < transModelArrayList.size(); i++) {
-                transModel = transModelArrayList.get(i);
-                String dbdate = transModel.getDate();
-                if (dbdate.equals(date1)) {
-        transModelArrayList = new ArrayList<>();
+
         transModelArrayList = db.getTodayNewList(date1);
 
         transAdapter = new TransAdapter(getContext(), transModelArrayList, SpendingFragment.this);
@@ -237,15 +255,8 @@ public class SpendingFragment extends Fragment {
         recyclerView.setAdapter(transAdapter);
 
 
-                } else {
-                    // transModelArrayList.clear();
-                    Toast.makeText(getContext(), "No Data Available on Todays date", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-        } else {
-
         }
+
+
     }
 
-}
