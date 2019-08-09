@@ -27,8 +27,9 @@
             android:background="@drawable/shape"
             android:orientation="vertical"
             android:gravity="center"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
+            android:padding="8dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
             >
 
                 <TextView
@@ -37,7 +38,6 @@
                     android:id="@+id/sincometext"
                     android:text="Total Income"
                     android:textSize="15sp"
-                    android:textStyle="bold"
                     android:padding="4dp"
                     android:textColor="@android:color/white"
                     />
@@ -45,7 +45,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                >
 
                 <ImageView
                     android:layout_width="30dp"
@@ -59,8 +60,12 @@
                     android:hint="$999"
                     android:textColor="@android:color/white"
                     android:textColorHint="@android:color/white"
-                    android:textSize="20sp"
+                    android:textSize="22sp"
+                    android:singleLine="true"
                     android:layout_gravity="center"
+                    android:layout_marginLeft="3dp"
+                    android:textStyle="bold"
+
                     />
             </LinearLayout>
 
@@ -76,8 +81,9 @@
                 android:background="@drawable/shape"
                 android:gravity="center"
                 android:orientation="vertical"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:padding="8dp"
                 >
 
                 <TextView
@@ -86,7 +92,6 @@
                     android:id="@+id/sexpensetext"
                     android:text="Total Expenses"
                     android:textSize="15sp"
-                    android:textStyle="bold"
                     android:padding="4dp"
                     android:textColor="@android:color/white"
                     />
@@ -107,9 +112,12 @@
                         android:id="@+id/sexpensevalue"
                         android:hint="$999"
                         android:textColor="@android:color/white"
-                        android:textSize="20sp"
+                        android:textSize="22sp"
+                        android:singleLine="true"
+                        android:textStyle="bold"
                         android:textColorHint="@android:color/white"
                         android:layout_gravity="center"
+                        android:layout_marginLeft="3dp"
                         />
                 </LinearLayout>
 
@@ -155,6 +163,8 @@
             android:layout_alignParentBottom="true"
             android:background="@drawable/btn_shape"
             android:layout_marginTop="4dp"
+            android:textStyle="bold"
+            android:textSize="22sp"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
             />

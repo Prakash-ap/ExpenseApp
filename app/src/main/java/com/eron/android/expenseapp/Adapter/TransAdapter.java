@@ -29,6 +29,7 @@ import com.eron.android.expenseapp.Fragments.TransactionFragment;
 import com.eron.android.expenseapp.Model.TransModel;
 import com.eron.android.expenseapp.R;
 
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -44,6 +45,9 @@ public class TransAdapter extends RecyclerView.Adapter<TransAdapter.MyViewHolder
     AlertDialog.Builder builder;
     private Fragment fragment;
     private Fragment fragment1;
+    NumberFormat formatter;
+    String moneyString,moneyString1;
+    long income,expense=0;
 
 
     public TransAdapter(Context context, ArrayList<TransModel> transModelArrayList,Fragment fragment) {
@@ -66,6 +70,7 @@ public class TransAdapter extends RecyclerView.Adapter<TransAdapter.MyViewHolder
     public void onBindViewHolder(@NonNull final MyViewHolder myViewHolder, final int i) {
         builder=new AlertDialog.Builder(context);
         db=new DataBaseHandler(context);
+        formatter = NumberFormat.getCurrencyInstance(new Locale("en", "IN"));
 
         final TransModel transModel = transModelArrayList.get(i);
 
@@ -80,12 +85,21 @@ public class TransAdapter extends RecyclerView.Adapter<TransAdapter.MyViewHolder
 
 
         if (transModel.getType().equals("income")) {
+
+
+
+
             myViewHolder.amount.setTextColor(Color.BLUE);
-            myViewHolder.amount.setText(transModel.getAmount());
+            income= Long.parseLong(transModel.getAmount());
+            moneyString = formatter.format(income);
+            myViewHolder.amount.setText(moneyString);
+
 
         } else if (transModel.getType().equals("expense")) {
             myViewHolder.amount.setTextColor(Color.RED);
-            myViewHolder.amount.setText(transModel.getAmount());
+            expense= Long.parseLong(transModel.getAmount());
+            moneyString = formatter.format(expense);
+            myViewHolder.amount.setText("-"+moneyString);
 
         } else {
 
@@ -105,6 +119,16 @@ public class TransAdapter extends RecyclerView.Adapter<TransAdapter.MyViewHolder
 
                         db.deleteTransEntry(String.valueOf(transModel.getId()));
                         delete(i);
+                       // db.getAllNewIncome();
+
+                        if(fragment==SpendingFragment.getInstance()){
+                            ((SpendingFragment) fragment).reload();
+
+                        }else if(fragment==TransactionFragment.getInstance()){
+                            ((TransactionFragment) fragment).reload();
+
+
+                        }
                               //  ((SpendingFragment) fragment).reload();
 
                            // ((TransactionFragment) fragment).reload();

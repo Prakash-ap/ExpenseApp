@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,6 +26,8 @@ import com.eron.android.expenseapp.Database.DataBaseHandler;
 import com.eron.android.expenseapp.Model.TransModel;
 import com.eron.android.expenseapp.R;
 
+import java.text.Format;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -32,12 +35,12 @@ import java.util.Date;
 import java.util.Locale;
 
 public class SpendingFragment extends Fragment {
-    private static SpendingFragment instance=null;
+    private static SpendingFragment instance = null;
     String selectedVAlue;
     Button addtrans;
     DataBaseHandler db;
-   public static RecyclerView recyclerView;
-   public static TransAdapter transAdapter;
+    public static RecyclerView recyclerView;
+    public static TransAdapter transAdapter;
     ArrayList<TransModel> transModelArrayList;
     TransModel transModel;
     Calendar calendar;
@@ -48,15 +51,17 @@ public class SpendingFragment extends Fragment {
     long tempexpense = 0;
     TextView totalincome, totalexpense;
     String in, exp;
+    NumberFormat formatter;
+    String moneyString,moneyString1;
 
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        instance=this;
+        instance = this;
     }
 
-    public static SpendingFragment getInstance(){
+    public static SpendingFragment getInstance() {
         return instance;
     }
 
@@ -74,6 +79,8 @@ public class SpendingFragment extends Fragment {
         String format = "MMMM dd, YYYY";
         simpleDateFormat = new SimpleDateFormat(format);
         date1 = simpleDateFormat.format(c);
+        formatter = NumberFormat.getCurrencyInstance(new Locale("en", "IN"));
+
 
         recyclerView = view.findViewById(R.id.srecyclerview);
         transModelArrayList = new ArrayList<>();
@@ -104,10 +111,14 @@ public class SpendingFragment extends Fragment {
             }
 
         }
-        totalincome.setText(String.valueOf(tempincome));
+       // Format format = com.ibm.icu.text.NumberFormat.getCurrencyInstance(new Locale("en", "in"));
+        moneyString = formatter.format(tempincome);
+        moneyString1 = formatter.format(tempexpense);
+
+        totalincome.setText(moneyString);
         totalincome.setTextColor(Color.WHITE);
-        totalexpense.setText(String.valueOf(tempexpense));
-        totalexpense.setTextColor(Color.RED);
+        totalexpense.setText(moneyString1);
+        totalexpense.setTextColor(Color.WHITE);
 
         transModelArrayList = new ArrayList<>();
         transModelArrayList = db.getAllNewIncome();
@@ -121,6 +132,8 @@ public class SpendingFragment extends Fragment {
                 transModelArrayList = db.getTodayNewList(date1);
 
                 transAdapter = new TransAdapter(getContext(), transModelArrayList, SpendingFragment.this);
+
+
                 RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
                 recyclerView.setLayoutManager(layoutManager);
                 recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -147,7 +160,7 @@ public class SpendingFragment extends Fragment {
         Log.d("SpendingFragment", "onCreateView: " + selectedVAlue);
 
 
-        SpendingFragment test = (SpendingFragment) getChildFragmentManager().findFragmentByTag("testID");
+       /* SpendingFragment test = (SpendingFragment) getChildFragmentManager().findFragmentByTag("testID");
         if (test != null && test.isVisible()) {
             //DO STUFF
             reload();
@@ -155,11 +168,23 @@ public class SpendingFragment extends Fragment {
         else {
             //Whatever
         }
+        */
+
 
         return view;
     }
 
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser) {
+            // onResume();
 
+            // Refresh your fragment here
+            getFragmentManager().beginTransaction().detach(this).attach(this).commit();
+            Log.i("IsRefresh", "Yes");
+        }
+    }
 
 
     @Override
@@ -196,24 +221,37 @@ public class SpendingFragment extends Fragment {
             }
 
         }
-        totalincome.setText(String.valueOf(tempincome));
+
+        moneyString = formatter.format(tempincome);
+        moneyString1 = formatter.format(tempexpense);
+        totalincome.setText(moneyString);
         totalincome.setTextColor(Color.WHITE);
-        totalexpense.setText(String.valueOf(tempexpense));
-        totalexpense.setTextColor(Color.RED);
+        totalexpense.setText(moneyString1);
+        totalexpense.setTextColor(Color.WHITE);
 
 
-
-      //  reload();
+        //  reload();
     }
 
     public void reload() {
 
-     date1 = simpleDateFormat.format(c);
+        ProgressBar progressBar;
+
+       /* c = Calendar.getInstance().getTime();
+        String format = "MMMM dd, YYYY";
+        simpleDateFormat = new SimpleDateFormat(format);
+
+        db=new DataBaseHandler(getContext());
+*/
+        //  String date2 = simpleDateFormat.format(c);
         long tempincome = 0;
         long tempexpense = 0;
+        //   TextView totalincome, totalexpense;
+
+
         transModelArrayList = new ArrayList<>();
-        transModelArrayList = db.getTodayNewList(date1);
         transModel = new TransModel();
+        transModelArrayList = db.getTodayNewList(date1);
 
         for (int j = 0; j < transModelArrayList.size(); j++) {
             transModel = transModelArrayList.get(j);
@@ -239,14 +277,23 @@ public class SpendingFragment extends Fragment {
             }
 
         }
-        totalincome.setText(String.valueOf(tempincome));
+        moneyString = formatter.format(tempincome);
+        moneyString1 = formatter.format(tempexpense);
+        totalincome.setText(moneyString);
         totalincome.setTextColor(Color.WHITE);
-        totalexpense.setText(String.valueOf(tempexpense));
-        totalexpense.setTextColor(Color.RED);
-        transModelArrayList = new ArrayList<>();
+        totalexpense.setText(moneyString1);
+        totalexpense.setTextColor(Color.WHITE);
 
+        /*transModelArrayList = new ArrayList<>();
+        transModelArrayList = db.getAllNewIncome();
+        transModel = new TransModel();
 
-        transModelArrayList = db.getTodayNewList(date1);
+        for (int i = 0; i < transModelArrayList.size(); i++) {
+            transModel = transModelArrayList.get(i);
+            String dbdate = transModel.getDate();
+            if (dbdate.equals(date1)) {*/
+                /*transModelArrayList = new ArrayList<>();
+                transModelArrayList = db.getTodayNewList(date1);*/
 
         transAdapter = new TransAdapter(getContext(), transModelArrayList, SpendingFragment.this);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
@@ -255,8 +302,17 @@ public class SpendingFragment extends Fragment {
         recyclerView.setAdapter(transAdapter);
 
 
-        }
-
-
+            /*} else {
+                // transModelArrayList.clear();
+                // Toast.makeText(getContext(), "No Data Available on Todays date", Toast.LENGTH_SHORT).show();
+            }*/
     }
+}
+
+
+
+
+
+
+
 

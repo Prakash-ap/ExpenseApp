@@ -28,16 +28,18 @@ import com.eron.android.expenseapp.Database.DataBaseHandler;
 import com.eron.android.expenseapp.Model.TransModel;
 import com.eron.android.expenseapp.R;
 
+import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 
 public class TransactionFragment extends Fragment {
 
-    private static TransactionFragment instance=null;
+    private static TransactionFragment instance = null;
 
     private RecyclerView recyclerView;
     private TransAdapter transAdapter;
@@ -60,15 +62,19 @@ public class TransactionFragment extends Fragment {
     String in, exp, currentdate;
     String selected_month;
     String startmonth;
+    NumberFormat formatter;
+    String moneyString,moneyString1;
+    String totalamount;
+    String totalincome,totalexpense;
 
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        instance=this;
+        instance = this;
     }
 
-    public static TransactionFragment getInstance(){
+    public static TransactionFragment getInstance() {
         return instance;
     }
 
@@ -80,6 +86,7 @@ public class TransactionFragment extends Fragment {
         db = new DataBaseHandler(getContext());
         previous = view.findViewById(R.id.previous);
         next = view.findViewById(R.id.next);
+        recyclerView=view.findViewById(R.id.trecyclerview);
         totalincometext = view.findViewById(R.id.ttotalincometext);
         totalexpensetext = view.findViewById(R.id.ttotalexpensevalue);
         tcurrentdate = view.findViewById(R.id.tcurrentdate);
@@ -91,6 +98,8 @@ public class TransactionFragment extends Fragment {
         currentmonth = new SimpleDateFormat("MMMM").format(calendar.getTime());
         currentyear = Integer.parseInt(new SimpleDateFormat("YYYY").format(calendar.getTime()));
         currentdate = new SimpleDateFormat("MMMM dd, YYYY").format(calendar.getTime());
+        formatter = NumberFormat.getCurrencyInstance(new Locale("en", "IN"));
+
 
         dateselector.setText(monthpicker);
 
@@ -145,9 +154,13 @@ public class TransactionFragment extends Fragment {
                 /* String new_dbdate=new SimpleDateFormat("MMMM dd, YYYY").format(dbdate1);*/
                 tcurrentdate.setText(dbdate1);
                 temptotal = tempincome - tempexpense;
-                totalincometext.setText(String.valueOf(tempincome));
-                totalexpensetext.setText(String.valueOf(tempexpense));
-                total.setText(String.valueOf(temptotal));
+                totalamount=formatter.format(temptotal);
+                totalincome=formatter.format(tempincome);
+                totalexpense=formatter.format(tempexpense);
+
+                totalincometext.setText(String.valueOf("+"+totalincome));
+                totalexpensetext.setText(String.valueOf("-"+totalexpense));
+                total.setText(String.valueOf(totalamount));
                 transModelArrayList.clear();
                 transModelArrayList = new ArrayList<>();
                 transModel = new TransModel();
@@ -183,71 +196,7 @@ public class TransactionFragment extends Fragment {
             }
         });
 
-        TransactionFragment test = (TransactionFragment) getChildFragmentManager().findFragmentByTag("testID");
-        if (test != null && test.isVisible()) {
 
-            long tempincome = 0;
-            long tempexpense = 0;
-            transModelArrayList = new ArrayList<>();
-            db=new DataBaseHandler(getContext());
-            transModelArrayList = db.getCurrentMonthList(selected_month);
-            transModel = new TransModel();
-
-            for (int j = 0; j < transModelArrayList.size(); j++) {
-                transModel = transModelArrayList.get(j);
-                if (transModel.getType().equals("income")) {
-
-                    in = transModel.getAmount();
-                    if (in.equals("")) {
-
-                    } else {
-                        tempincome += Long.parseLong(in);
-                    }
-
-                } else if (transModel.getType().equals("expense")) {
-                    exp = transModel.getAmount();
-
-                    if (exp.equals("")) {
-
-                    } else {
-                        tempexpense += Long.parseLong(exp);
-                    }
-                } else {
-                    Toast.makeText(getContext(), "No Values", Toast.LENGTH_SHORT).show();
-                }
-
-            }
-            temptotal = tempincome - tempexpense;
-            totalincometext.setText(String.valueOf(tempincome));
-            totalexpensetext.setText(String.valueOf(tempexpense));
-            total.setText(String.valueOf(temptotal));
-
-            transModelArrayList = new ArrayList<>();
-            transModelArrayList = db.getCurrentMonthList(selected_month);
-
-            if (transModelArrayList.size() != 0) {
-                transAdapter = new TransAdapter(getContext(), transModelArrayList, TransactionFragment.this);
-                RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
-                recyclerView.setLayoutManager(layoutManager);
-                recyclerView.setItemAnimator(new DefaultItemAnimator());
-                recyclerView.setAdapter(transAdapter);
-            } else {
-
-                transModelArrayList.clear();
-                transAdapter = new TransAdapter(getContext(), transModelArrayList, TransactionFragment.this);
-                RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
-                recyclerView.setLayoutManager(layoutManager);
-                recyclerView.setItemAnimator(new DefaultItemAnimator());
-                recyclerView.setAdapter(transAdapter);
-                Toast.makeText(getContext(), "No Values", Toast.LENGTH_SHORT).show();
-
-            }
-
-            //DO STUFF
-        }
-        else {
-            //Whatever
-        }
 
         dateselector.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -309,62 +258,6 @@ public class TransactionFragment extends Fragment {
             }
         });
 
-        recyclerView = view.findViewById(R.id.trecyclerview);
-        transModelArrayList = new ArrayList<>();
-        transModelArrayList = db.getCurrentMonthList(selected_month);
-        transModel = new TransModel();
-
-        for (int j = 0; j < transModelArrayList.size(); j++) {
-            transModel = transModelArrayList.get(j);
-            if (transModel.getType().equals("income")) {
-
-                in = transModel.getAmount();
-                if (in.equals("")) {
-
-                } else {
-                    tempincome += Long.parseLong(in);
-                }
-
-            } else if (transModel.getType().equals("expense")) {
-                exp = transModel.getAmount();
-
-                if (exp.equals("")) {
-
-                } else {
-                    tempexpense += Long.parseLong(exp);
-                }
-            } else {
-                Toast.makeText(getContext(), "No Values", Toast.LENGTH_SHORT).show();
-            }
-
-        }
-        temptotal = tempincome - tempexpense;
-        totalincometext.setText(String.valueOf(tempincome));
-        totalexpensetext.setText(String.valueOf(tempexpense));
-        total.setText(String.valueOf(temptotal));
-
-        transModelArrayList = new ArrayList<>();
-        transModelArrayList = db.getCurrentMonthList(selected_month);
-
-        if (transModelArrayList.size() != 0) {
-            transAdapter = new TransAdapter(getContext(), transModelArrayList, TransactionFragment.this);
-            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
-            recyclerView.setLayoutManager(layoutManager);
-            recyclerView.setItemAnimator(new DefaultItemAnimator());
-            recyclerView.setAdapter(transAdapter);
-        } else {
-
-            transModelArrayList.clear();
-            transAdapter = new TransAdapter(getContext(), transModelArrayList, TransactionFragment.this);
-            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
-            recyclerView.setLayoutManager(layoutManager);
-            recyclerView.setItemAnimator(new DefaultItemAnimator());
-            recyclerView.setAdapter(transAdapter);
-            Toast.makeText(getContext(), "No Values", Toast.LENGTH_SHORT).show();
-
-        }
-
-
 
 
         return view;
@@ -413,41 +306,10 @@ public class TransactionFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        transModelArrayList = new ArrayList<>();
-        transModel = new TransModel();
-        transModelArrayList = db.getCurrentMonthList(monthpicker);
-        if (transModelArrayList.size() != 0) {
-
-            transAdapter = new TransAdapter(getContext(), transModelArrayList, TransactionFragment.this);
-            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
-            recyclerView.setLayoutManager(layoutManager);
-            recyclerView.setItemAnimator(new DefaultItemAnimator());
-            recyclerView.setAdapter(transAdapter);
-        } else {
-
-            transModelArrayList.clear();
-            transAdapter = new TransAdapter(getContext(), transModelArrayList, TransactionFragment.this);
-            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
-            recyclerView.setLayoutManager(layoutManager);
-            recyclerView.setItemAnimator(new DefaultItemAnimator());
-            recyclerView.setAdapter(transAdapter);
-
-            Toast.makeText(getContext(), "No Data Available for this month", Toast.LENGTH_SHORT).show();
-
-        }
-
-      //  Toast.makeText(getContext(), "onREsume", Toast.LENGTH_SHORT).show();
-
-
-
-    }
-
-
-    public void reload() {
         long tempincome = 0;
         long tempexpense = 0;
         transModelArrayList = new ArrayList<>();
-        db=new DataBaseHandler(getContext());
+        db = new DataBaseHandler(getContext());
         transModelArrayList = db.getCurrentMonthList(selected_month);
         transModel = new TransModel();
 
@@ -476,9 +338,68 @@ public class TransactionFragment extends Fragment {
 
         }
         temptotal = tempincome - tempexpense;
-        totalincometext.setText(String.valueOf(tempincome));
-        totalexpensetext.setText(String.valueOf(tempexpense));
-        total.setText(String.valueOf(temptotal));
+        totalamount=formatter.format(temptotal);
+        totalincome=formatter.format(tempincome);
+        totalexpense=formatter.format(tempexpense);
+
+        totalincometext.setText(String.valueOf("+"+totalincome));
+        totalexpensetext.setText(String.valueOf("-"+totalexpense));
+        total.setText(String.valueOf(totalamount));
+        transModelArrayList = new ArrayList<>();
+        transModel = new TransModel();
+        transModelArrayList = db.getCurrentMonthList(monthpicker);
+
+
+            transAdapter = new TransAdapter(getContext(), transModelArrayList, TransactionFragment.this);
+            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
+            recyclerView.setLayoutManager(layoutManager);
+            recyclerView.setItemAnimator(new DefaultItemAnimator());
+            recyclerView.setAdapter(transAdapter);
+
+
+    }
+
+
+    public void reload() {
+        long tempincome = 0;
+        long tempexpense = 0;
+        transModelArrayList = new ArrayList<>();
+        db = new DataBaseHandler(getContext());
+        transModelArrayList = db.getCurrentMonthList(selected_month);
+        transModel = new TransModel();
+
+        for (int j = 0; j < transModelArrayList.size(); j++) {
+            transModel = transModelArrayList.get(j);
+            if (transModel.getType().equals("income")) {
+
+                in = transModel.getAmount();
+                if (in.equals("")) {
+
+                } else {
+                    tempincome += Long.parseLong(in);
+                }
+
+            } else if (transModel.getType().equals("expense")) {
+                exp = transModel.getAmount();
+
+                if (exp.equals("")) {
+
+                } else {
+                    tempexpense += Long.parseLong(exp);
+                }
+            } else {
+                Toast.makeText(getContext(), "No Values", Toast.LENGTH_SHORT).show();
+            }
+
+        }
+        temptotal = tempincome - tempexpense;
+        totalamount=formatter.format(temptotal);
+        totalincome=formatter.format(tempincome);
+        totalexpense=formatter.format(tempexpense);
+
+        totalincometext.setText(String.valueOf("+"+totalincome));
+        totalexpensetext.setText(String.valueOf("-"+totalexpense));
+        total.setText(String.valueOf(totalamount));
 
         transModelArrayList = new ArrayList<>();
         transModelArrayList = db.getCurrentMonthList(selected_month);
@@ -501,12 +422,23 @@ public class TransactionFragment extends Fragment {
 
         }
 
-      //  SpendingFragment.getInstance().reload();
+        //  SpendingFragment.getInstance().reload();
 
         //SpendingFragment
 
     }
 
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser) {
+           // reload();
+
+            // Refresh your fragment here
+            getFragmentManager().beginTransaction().detach(this).attach(this).commit();
+            Log.i("IsRefresh", "Yes");
+        }
 
 
+    }
 }

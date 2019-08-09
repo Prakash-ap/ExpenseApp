@@ -134,6 +134,7 @@ public class DashBoardActivity extends AppCompatActivity implements AdapterView.
 
                 }else if(i==1){
 
+
                     add.setVisibility(View.VISIBLE);
 
                     add.setOnClickListener(new View.OnClickListener() {
@@ -191,7 +192,9 @@ public class DashBoardActivity extends AppCompatActivity implements AdapterView.
 
                 if(i==0){
                     add.setVisibility(View.GONE);
+
                 }else if(i==1){
+
 
                 }else if(i==2){
 

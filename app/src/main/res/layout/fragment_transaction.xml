@@ -83,7 +83,7 @@
                     android:id="@+id/ttotal"
                     android:text="@string/totalbalance"
                     android:layout_weight=".5"
-                    android:textSize="18sp"
+                    android:textSize="19sp"
                     android:textColor="@android:color/white"
                     />
 
@@ -114,7 +114,7 @@
                     android:id="@+id/tcurrentdate"
                     android:hint="july 20th,2019"
                     android:singleLine="true"
-                    android:textSize="18sp"
+                    android:textSize="19sp"
 
                     android:layout_weight=".5"
                     android:textColorHint="@android:color/white"
@@ -156,10 +156,10 @@
                     android:id="@+id/ttotalAmount"
                     android:hint="2,430.00"
                     android:singleLine="true"
-                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:textSize="30sp"
                     android:textColor="@android:color/white"
                     android:textColorHint="@android:color/white"
-
                     />
             </LinearLayout>
                 <LinearLayout
