@@ -13,6 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -91,25 +92,47 @@ public class DashBoardActivity extends AppCompatActivity implements AdapterView.
             public void onClick(View v) {
                 PopupMenu popupMenu=new PopupMenu(DashBoardActivity.this,list);
                 popupMenu.getMenuInflater().inflate(R.menu.menu,popupMenu.getMenu());
+                MenuItem menuItem=popupMenu.getMenu().findItem(R.id.reports);
+                getMenuInflater().inflate(R.menu.submenu,menuItem.getSubMenu());
 
                 popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
-                        if(item.getItemId()==R.id.settings){
-                            Toast.makeText(DashBoardActivity.this, "Settings Clicked", Toast.LENGTH_SHORT).show();
-                        }else if(item.getItemId()==R.id.logout){
 
-                            sharedPreferences=getSharedPreferences(PREFS,0);
-                            SharedPreferences.Editor editor = sharedPreferences.edit();
-                            editor.clear();
-                            editor.commit();
-                            Intent intent=new Intent(DashBoardActivity.this,MainActivity.class);
-                            startActivity(intent);
+                        int id=item.getItemId();
+                        switch (id){
+                            case R.id.catwise:
+                                Intent intent=new Intent(DashBoardActivity.this,ExportCatAcc.class);
+                                startActivity(intent);
+                                //Toast.makeText(DashBoardActivity.this, "Category Clicked", Toast.LENGTH_SHORT).show();
+                                    break;
+                            case R.id.accwise:
+                                Toast.makeText(DashBoardActivity.this, "Account Clicked", Toast.LENGTH_SHORT).show();
 
-                        //    Toast.makeText(DashBoardActivity.this, "logout Clicked", Toast.LENGTH_SHORT).show();
+                                break;
 
+
+                            case R.id.monwise:
+                                Toast.makeText(DashBoardActivity.this, "Monthly Clicked", Toast.LENGTH_SHORT).show();
+
+                                break;
+
+                            case R.id.changepassword:
+                                Toast.makeText(DashBoardActivity.this, "Password Clicked", Toast.LENGTH_SHORT).show();
+
+                                break;
+
+                            case R.id.logout:
+                                sharedPreferences=getSharedPreferences(PREFS,0);
+                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                editor.clear();
+                                editor.commit();
+                                Intent intent1=new Intent(DashBoardActivity.this,MainActivity.class);
+                                startActivity(intent1);
+                                break;
 
                         }
+
                         return true;
                     }
                 });
@@ -216,6 +239,7 @@ public class DashBoardActivity extends AppCompatActivity implements AdapterView.
 
 
     }
+
 
     private void createTabIcons() {
         TextView tabone=(TextView)LayoutInflater.from(this).inflate(R.layout.customtab_layout,null);

@@ -21,7 +21,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/acc_title"
             android:text="Add Account Type"
-            android:textColor="#333333"
+            android:textColor="#5a5a5a"
             android:textStyle="bold"
             android:textSize="20sp"
             android:padding="8dp"
@@ -41,17 +41,20 @@
                 android:id="@+id/acc_name"
                 android:text="Name"
                 android:padding="8dp"
-                android:textColor="#333333"
+                android:textColor="#5a5a5a"
                 android:textSize="18sp"
-                android:layout_weight=".5"/>
+                android:layout_weight=".5"
+                android:textStyle="bold"/>
 
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/edt_nameacc"
-                android:hint="name"
+                android:hint="Enter Name"
                 android:textSize="18sp"
                 android:layout_weight=".5"
+                android:textColor="#5a5a5a"
+
                 />
         </LinearLayout>
         <LinearLayout
@@ -66,9 +69,10 @@
                 android:id="@+id/accicon"
                 android:text="Icon"
                 android:padding="8dp"
-                android:textColor="#333333"
+                android:textColor="#5a5a5a"
                 android:textSize="18sp"
-                android:layout_weight=".5"/>
+                android:layout_weight=".5"
+                android:textStyle="bold"/>
 
             <info.androidhive.fontawesome.FontTextView
                 android:layout_width="match_parent"
@@ -79,7 +83,10 @@
                 android:layout_gravity="center"
                 android:padding="8dp"
                 android:textSize="18sp"
-                android:hint="tab to seticon"
+                android:hint="Tab to set Icon"
+                android:textColor="#5a5a5a"
+
+
 
                 />
         </LinearLayout>
@@ -98,10 +105,11 @@
                 android:text="Cancel"
                 android:padding="8dp"
                 android:textColor="#ffffff"
-                android:textSize="15sp"
+                android:textSize="20sp"
                 android:background="@drawable/btn_shape"
                 android:layout_marginRight="8dp"
-                android:layout_weight=".5"/>
+                android:layout_weight=".5"
+                android:textStyle="bold"/>
 
             <Button
                 android:layout_width="match_parent"
@@ -111,6 +119,8 @@
                 android:textColor="#ffffff"
                 android:background="@drawable/btn_shape"
                 android:layout_weight=".5"
+                android:textSize="20sp"
+                android:textStyle="bold"
                 />
         </LinearLayout>
     </LinearLayout>

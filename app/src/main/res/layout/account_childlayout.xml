@@ -19,6 +19,8 @@
             android:layout_height="match_parent"
             android:layout_weight=".8"
             android:id="@+id/acc_icon"
+            android:textColor="#5a5a5a"
+
             />
 
         <TextView
@@ -28,6 +30,7 @@
             android:hint="account label"
             android:textSize="18sp"
             android:layout_weight=".2"
+            android:textColor="#5a5a5a"
             android:textStyle="bold"/>
     </LinearLayout>
 

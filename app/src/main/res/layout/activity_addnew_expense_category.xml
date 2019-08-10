@@ -22,7 +22,7 @@
             android:id="@+id/title"
             android:padding="8dp"
             android:text=" Expense Category Details:"
-            android:textColor="#333333"
+            android:textColor="#5a5a5a"
             android:textStyle="bold"
             android:textSize="20sp"
 
@@ -41,17 +41,20 @@
                 android:id="@+id/catname"
                 android:text="Name"
                 android:padding="8dp"
-                android:textColor="#333333"
+                android:textColor="#5a5a5a"
                 android:textSize="18sp"
+                android:textStyle="bold"
                 android:layout_weight=".5"/>
 
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/edt_namecat"
-                android:hint="name"
+                android:hint="Enter Name"
                 android:textSize="18sp"
                 android:layout_weight=".5"
+                android:textColor="#5a5a5a"
+
                 />
         </LinearLayout>
         <LinearLayout
@@ -66,9 +69,10 @@
                 android:id="@+id/caticon"
                 android:text="Icon"
                 android:padding="8dp"
-                android:textColor="#333333"
+                android:textColor="#5a5a5a"
                 android:textSize="18sp"
-                android:layout_weight=".5"/>
+                android:layout_weight=".5"
+                android:textStyle="bold"/>
 
             <info.androidhive.fontawesome.FontTextView
                 android:layout_width="match_parent"
@@ -79,7 +83,9 @@
                 android:layout_gravity="center"
                 android:padding="8dp"
                 android:textSize="18sp"
-                android:hint="tab to insert icon"
+                android:hint="Tab to set Icon"
+                android:textColor="#5a5a5a"
+
 
                 />
         </LinearLayout>
@@ -98,9 +104,10 @@
                 android:text="Cancel"
                 android:padding="8dp"
                 android:textColor="#ffffff"
-                android:textSize="15sp"
+                android:textSize="20sp"
                 android:background="@drawable/btn_shape"
                 android:layout_marginRight="8dp"
+                android:textStyle="bold"
                 android:layout_weight=".5"/>
 
             <Button
@@ -111,6 +118,9 @@
                 android:textColor="#ffffff"
                 android:background="@drawable/btn_shape"
                 android:layout_weight=".5"
+                android:textStyle="bold"
+                android:textSize="20sp"
+
                 />
         </LinearLayout>
     </LinearLayout>

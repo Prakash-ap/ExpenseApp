@@ -312,7 +312,7 @@ public class EditIncomeActivity extends AppCompatActivity implements View.OnClic
 
                ocat=catItemDataArrayList1.get(position).getText();
                ocatimg= (catItemDataArrayList1.get(position).getImageId());
-               int pos=category.getSelectedItemPosition()+1;
+
 
 
              //   Log.d("CatValue", "onItemSelected: "+catval);

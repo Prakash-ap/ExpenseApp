@@ -360,6 +360,38 @@ public class DataBaseHandler extends SQLiteOpenHelper {
 
     }
 
+    public ArrayList<TransModel>getCurrentcatList(String selectedcat){
+        ArrayList<TransModel>transModelArrayList=new ArrayList<>();
+        SQLiteDatabase db=this.getReadableDatabase();
+
+        Cursor cursor=db.query(ADD_INCOME_TABLE_NAME,new String[]{KEY_ID,KEY_NEWINCOME_DATE,KEY_NEWINCOME_CATG_NAME,KEY_NEWINCOME_CATG_IMG,KEY_NEWINCOME_ACC_NAME,KEY_NEWINCOME_ACC_IMG,KEY_NEWINCOME_AMNT,KEY_NEWINCOME_NOTE,KEY_NEWINCOME_TYPE,KEY_NEWINCOME_DAY_OF_MONTH,KEY_NEWINCOME_MONTH,KEY_NEWINCOME_YEAR,KEY_NEWINCOME_SELECTED_MONYEAR},
+                KEY_NEWINCOME_CATG_NAME+ "=?",new String[]{String.valueOf(selectedcat)},null,null,null,null);
+
+
+        if(cursor.moveToFirst()){
+            do{
+                TransModel transModel=new TransModel();
+                transModel.setId(Integer.parseInt(cursor.getString(0)));
+                transModel.setDate(cursor.getString(1));
+                transModel.setCategory_name(cursor.getString(2));
+                transModel.setCategory_img(Integer.parseInt(cursor.getString(3)));
+                transModel.setAccount_name(cursor.getString(4));
+                transModel.setAccount_img(Integer.parseInt(cursor.getString(5)));
+                transModel.setAmount(cursor.getString(6));
+                transModel.setNote(cursor.getString(7));
+                transModel.setType(cursor.getString(8));
+                transModel.setDay_of_month(cursor.getString(9));
+                transModel.setMonth(cursor.getString(10));
+                transModel.setYear(Integer.parseInt(cursor.getString(11)));
+                transModel.setSelectedmonthyear(cursor.getString(12));
+                transModelArrayList.add(transModel);
+            }while (cursor.moveToNext());
+        }
+        return transModelArrayList;
+
+
+    }
+
     public Integer deleteIncomeCatEntry(String ID)
     {
         SQLiteDatabase db=this.getReadableDatabase();
@@ -453,6 +485,14 @@ public class DataBaseHandler extends SQLiteOpenHelper {
 
         db.update(ADD_INCOME_TABLE_NAME,contentValues,KEY_ID+"=?",new String[]{String.valueOf(transModel.getId())});
         Log.d("update", "updateTransList: "+contentValues);
+    }
+
+    public Cursor raw() {
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res = db.rawQuery("SELECT * FROM " + ADD_INCOME_TABLE_NAME , new String[]{});
+
+        return res;
     }
 
 

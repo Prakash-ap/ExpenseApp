@@ -34,7 +34,7 @@
                 android:layout_marginTop="8dp"
                 android:padding="8dp"
                 android:text="TRANSACTION DETAILS:"
-                android:textColor="#333333"
+                android:textColor="#5a5a5a"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
@@ -57,8 +57,9 @@
                     android:padding="8dp"
                     android:text="Date:"
                     android:textAlignment="viewStart"
-                    android:textColor="#333333"
-                    android:textSize="18sp" />
+                    android:textColor="#5a5a5a"
+                    android:textSize="18sp"
+                    android:textStyle="bold"/>
 
                 <TextView
                     android:id="@+id/updatedate"
@@ -90,8 +91,9 @@
                     android:padding="8dp"
                     android:text="Category:"
                     android:textAlignment="viewStart"
-                    android:textColor="#333333"
-                    android:textSize="18sp" />
+                    android:textColor="#5a5a5a"
+                    android:textSize="18sp"
+                    android:textStyle="bold"/>
 
                 <Spinner
                     android:id="@+id/spinnerupdate"
@@ -99,7 +101,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:layout_weight=".5"
-                    android:textColor="#333333"
+                    android:textColor="#5a5a5a"
                     android:textSize="18sp" />
             </LinearLayout>
 
@@ -121,8 +123,9 @@
                     android:padding="8dp"
                     android:text="Account:"
                     android:textAlignment="viewStart"
-                    android:textColor="#333333"
+                    android:textColor="#5a5a5a"
                     android:textSize="18sp"
+                    android:textStyle="bold"
 
 
                     />
@@ -133,7 +136,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:layout_weight=".5"
-                    android:textColor="#333333"
+                    android:textColor="#5a5a5a"
                     android:textSize="18sp" />
             </LinearLayout>
 
@@ -155,20 +158,21 @@
                     android:padding="8dp"
                     android:text="Amount:"
                     android:textAlignment="viewStart"
-                    android:textColor="#333333"
-                    android:textSize="18sp" />
+                    android:textColor="#5a5a5a"
+                    android:textSize="18sp"
+                    android:textStyle="bold"/>
 
                 <EditText
                     android:id="@+id/updateamount"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight=".5"
-                    android:hint="amount"
+                    android:hint="Enter Amount"
                     android:inputType="number"
                     android:padding="8dp"
                     android:textAlignment="viewStart"
 
-                    android:textColor="#333333"
+                    android:textColor="#5a5a5a"
                     android:textSize="18sp" />
             </LinearLayout>
 
@@ -190,8 +194,9 @@
                     android:padding="8dp"
                     android:text="Note:"
                     android:textAlignment="viewStart"
-                    android:textColor="#333333"
+                    android:textColor="#5a5a5a"
                     android:textSize="18sp"
+                    android:textStyle="bold"
 
                     />
 
@@ -200,10 +205,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight=".5"
-                    android:hint="notes"
+                    android:hint="Enter Notes"
                     android:padding="8dp"
                     android:textAlignment="viewStart"
-                    android:textColor="#333333"
+                    android:textColor="#5a5a5a"
                     android:textSize="18sp" />
             </LinearLayout>
         </LinearLayout>
@@ -242,6 +247,8 @@
                 android:layout_weight=".5"
                 android:background="@drawable/btn_shape"
                 android:text="Save"
+                android:textStyle="bold"
+                android:textSize="20sp"
                 android:textColor="@android:color/white" />
         </LinearLayout>
 

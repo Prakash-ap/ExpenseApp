@@ -29,18 +29,19 @@
         android:textSize="20sp"
         android:layout_marginTop="2dp"
         android:layout_gravity="center"
-       />
+        android:textColor="#5a5a5a"
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/add_acc_text"
-        android:textColor="#333333"
-        android:padding="4dp"
-        android:textSize="20sp"
-        android:layout_marginLeft="5dp"
-        android:layout_gravity="center"
         />
+
+            <TextView
+                android:id="@+id/add_acc_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="5dp"
+                android:padding="4dp"
+                android:textColor="#5a5a5a"
+                android:textSize="20sp" />
 
             <RelativeLayout
                 android:layout_width="wrap_content"
