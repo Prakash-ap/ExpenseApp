@@ -17,11 +17,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.eron.android.expenseapp.Adapter.AccountSpinnerAdapter;
+import com.eron.android.expenseapp.Adapter.CopySpinnerCatAdapter1;
 import com.eron.android.expenseapp.Adapter.ExpenseSpinnerCatAdapter;
+import com.eron.android.expenseapp.Adapter.ExpenseSpinnerCatAdapter1;
 import com.eron.android.expenseapp.Adapter.SpinnerExpAdapter;
 import com.eron.android.expenseapp.DashBoardActivity;
 import com.eron.android.expenseapp.Database.DataBaseHandler;
 import com.eron.android.expenseapp.Model.Acc_Model;
+import com.eron.android.expenseapp.Model.CatItemData;
 import com.eron.android.expenseapp.Model.ExpenseItemData;
 import com.eron.android.expenseapp.Model.TransModel;
 import com.eron.android.expenseapp.R;
@@ -40,7 +43,10 @@ public class TransExpenseFragment extends Fragment implements View.OnClickListen
     Button save;
     ArrayList<ExpenseItemData>expenseItemDataArrayList;
     ArrayList<ExpenseItemData>expenseItemDataArrayList1;
+    ArrayList<CatItemData>getCatItemDataArrayList1;
+    ArrayList<CatItemData>catItemDataArrayList1;
     ArrayList<ExpenseItemData>expenseAccItemDataArrayList;
+
     ExpenseItemData expenseItemData;
     ExpenseItemData expenseItemData1;
     ExpenseItemData expenseItemData2;
@@ -48,10 +54,20 @@ public class TransExpenseFragment extends Fragment implements View.OnClickListen
     ExpenseItemData expenseItemData4;
     ExpenseItemData expenseItemData5;
     ExpenseItemData expenseItemData6;
+
+    CatItemData catItemData;
+    CatItemData catItemData1;
+    CatItemData catItemData2;
+    CatItemData catItemData3;
+    CatItemData catItemData4;
+    CatItemData catItemData5;
+    CatItemData catItemData6;
+    CatItemData catItemData7;
     ExpenseItemData expenseItemData7;
    // ArrayList<CatItemData>catItemDataArrayList;
     DataBaseHandler db;
-    ExpenseSpinnerCatAdapter expenseSpinnerCatAdapter;
+    CopySpinnerCatAdapter1 copySpinnerCatAdapter1;
+    ExpenseSpinnerCatAdapter1 expenseSpinnerCatAdapter;
     AccountSpinnerAdapter accountSpinnerAdapter;
 
     Acc_Model acc_model;
@@ -126,7 +142,74 @@ public class TransExpenseFragment extends Fragment implements View.OnClickListen
     }
 
     private void loadCatg() {
-        expenseItemData=new ExpenseItemData();
+        catItemData=new CatItemData();
+        catItemDataArrayList1=new ArrayList<>();
+        catItemDataArrayList1=db.getAllExpenseCat1();
+
+        if(catItemDataArrayList1.size()==0){
+
+            catItemData.setText("Rent");
+            catItemData.setImageId(R.string.Roomrent);
+            catItemData.setType("expense");
+            db.addExpCatg1(catItemData);
+
+            catItemData1=new CatItemData();
+            catItemData1.setText("Food");
+            catItemData1.setImageId(R.string.food);
+            catItemData1.setType("expense");
+
+            db.addExpCatg1(catItemData1);
+
+            catItemData2=new CatItemData();
+            catItemData2.setText("Fuel");
+            catItemData2.setImageId(R.string.fa_gas_pump_solid);
+            catItemData2.setType("expense");
+
+            db.addExpCatg1(catItemData2);
+
+            catItemData3=new CatItemData();
+            catItemData3.setText("Travel");
+            catItemData3.setImageId(R.string.Travel);
+            catItemData3.setType("expense");
+
+            db.addExpCatg1(catItemData3);
+
+            catItemData4=new CatItemData();
+            catItemData4.setText("Shopping");
+            catItemData4.setImageId(R.string.Shopping);
+            catItemData4.setType("expense");
+
+            db.addExpCatg1(catItemData4);
+
+            catItemData5=new CatItemData();
+            catItemData5.setText("Gift");
+            catItemData5.setImageId(R.string.gift);
+            catItemData5.setType("expense");
+
+            db.addExpCatg1(catItemData5);
+
+            catItemData6=new CatItemData();
+            catItemData6.setText("Wifi");
+            catItemData6.setImageId(R.string.Wifi);
+            catItemData6.setType("expense");
+
+            db.addExpCatg1(catItemData6);
+
+
+            catItemDataArrayList1=db.getAllExpenseCat1();
+
+            expenseSpinnerCatAdapter=new ExpenseSpinnerCatAdapter1(catItemDataArrayList1,getContext());
+            category.setAdapter(expenseSpinnerCatAdapter);
+
+
+        }else{
+            catItemData=new CatItemData();
+            catItemDataArrayList1=new ArrayList<>();
+            catItemDataArrayList1=db.getAllExpenseCat1();
+            expenseSpinnerCatAdapter=new ExpenseSpinnerCatAdapter1(catItemDataArrayList1,getContext());
+            category.setAdapter(expenseSpinnerCatAdapter);
+
+       /* expenseItemData=new ExpenseItemData();
         expenseItemDataArrayList=new ArrayList<>();
         expenseItemDataArrayList=db.getAllExpenseCat();
 
@@ -192,7 +275,7 @@ public class TransExpenseFragment extends Fragment implements View.OnClickListen
             expenseItemDataArrayList=db.getAllExpenseCat();
             expenseSpinnerCatAdapter=new ExpenseSpinnerCatAdapter(expenseItemDataArrayList,getContext());
             category.setAdapter(expenseSpinnerCatAdapter);
-
+*/
         }
     }
 
@@ -296,10 +379,10 @@ public class TransExpenseFragment extends Fragment implements View.OnClickListen
         switch (parent.getId()){
             case R.id.exspinner:
 
-                expenseItemDataArrayList1=db.getAllExpenseCat();
+                catItemDataArrayList1=db.getAllExpenseCat1();
 
-                acat=expenseItemDataArrayList1.get(position).getText();
-                acatimg= (expenseItemDataArrayList1.get(position).getImageId());
+                acat=catItemDataArrayList1.get(position).getText();
+                acatimg= (catItemDataArrayList1.get(position).getImageId());
 
                 break;
             case R.id.exaccount:

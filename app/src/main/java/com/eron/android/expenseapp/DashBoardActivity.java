@@ -1,5 +1,6 @@
 package com.eron.android.expenseapp;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.design.widget.FloatingActionButton;
@@ -18,6 +19,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.Spinner;
@@ -107,18 +110,50 @@ public class DashBoardActivity extends AppCompatActivity implements AdapterView.
                                 //Toast.makeText(DashBoardActivity.this, "Category Clicked", Toast.LENGTH_SHORT).show();
                                     break;
                             case R.id.accwise:
+                                Intent intent1=new Intent(DashBoardActivity.this,ExportAccount.class);
+                                startActivity(intent1);
                                 Toast.makeText(DashBoardActivity.this, "Account Clicked", Toast.LENGTH_SHORT).show();
 
                                 break;
 
 
                             case R.id.monwise:
+                                Intent intent2=new Intent(DashBoardActivity.this,ExportMonthwise.class);
+                                startActivity(intent2);
                                 Toast.makeText(DashBoardActivity.this, "Monthly Clicked", Toast.LENGTH_SHORT).show();
 
                                 break;
 
                             case R.id.changepassword:
-                                Toast.makeText(DashBoardActivity.this, "Password Clicked", Toast.LENGTH_SHORT).show();
+
+                                final Dialog dialog = new Dialog(DashBoardActivity.this);
+                                // Include dialog.xml file
+                                dialog.setContentView(R.layout.password_dialog_layout);
+                                // Set dialog title
+                                dialog.setTitle("Set New Password");
+
+                                // set values for custom dialog components - text, image and button
+
+                                EditText editText1=dialog.findViewById(R.id.new_password);
+                                EditText editText2=dialog.findViewById(R.id.reenterpasword);
+                                Button button=dialog.findViewById(R.id.changepasword);
+
+
+                                dialog.show();
+
+
+                                // if decline button is clicked, close the custom dialog
+                                button.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        // Close dialog
+                                        Toast.makeText(DashBoardActivity.this, "Password Clicked", Toast.LENGTH_SHORT).show();
+
+                                        dialog.dismiss();
+                                    }
+                                });
+
+
 
                                 break;
 
@@ -127,8 +162,8 @@ public class DashBoardActivity extends AppCompatActivity implements AdapterView.
                                 SharedPreferences.Editor editor = sharedPreferences.edit();
                                 editor.clear();
                                 editor.commit();
-                                Intent intent1=new Intent(DashBoardActivity.this,MainActivity.class);
-                                startActivity(intent1);
+                                Intent logoutintent=new Intent(DashBoardActivity.this,MainActivity.class);
+                                startActivity(logoutintent);
                                 break;
 
                         }

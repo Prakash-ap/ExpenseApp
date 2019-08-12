@@ -28,6 +28,8 @@
         <activity android:name=".AddnewAccountType" />
         <activity android:name=".EditIncomeActivity" />
         <activity android:name=".EditExpenseActivity" />
+        <activity android:name=".ExportAccount" />
+        <activity android:name=".ExportMonthwise" />
     </application>
 
 </manifest>

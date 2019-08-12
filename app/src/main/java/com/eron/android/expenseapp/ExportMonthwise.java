@@ -9,28 +9,26 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.eron.android.expenseapp.Adapter.CopySpinnerCatAdapter1;
-import com.eron.android.expenseapp.Adapter.ExpenseSpinnerCatAdapter;
+import com.eron.android.expenseapp.Adapter.AccountSpinnerAdapter;
 import com.eron.android.expenseapp.Adapter.ExportAdapter;
-import com.eron.android.expenseapp.Adapter.TransAdapter;
 import com.eron.android.expenseapp.Database.DataBaseHandler;
-import com.eron.android.expenseapp.Fragments.SpendingFragment;
+import com.eron.android.expenseapp.Model.Acc_Model;
 import com.eron.android.expenseapp.Model.CatItemData;
-import com.eron.android.expenseapp.Model.ExpenseItemData;
 import com.eron.android.expenseapp.Model.TransModel;
 
 import java.io.File;
@@ -39,53 +37,46 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ExportCatAcc extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+public class ExportMonthwise extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     private static final int MULTIPLE_PERMISSIONS = 100;
     private Spinner spinner;
     private Button export_btn;
     CatItemData catItemData;
-    ExpenseItemData expenseItemData;
-    private ArrayList<CatItemData>catItemDataArrayList;
-    private ArrayList<CatItemData>catItemDataArrayList1;
+    private ArrayList<CatItemData> catItemDataArrayList;
+    private ArrayList<Acc_Model> acc_modelArrayList;
     DataBaseHandler db;
-    CopySpinnerCatAdapter1 copySpinnerCatAdapter1;
-    ExpenseSpinnerCatAdapter expenseSpinnerCatAdapter;
+    AccountSpinnerAdapter accountSpinnerAdapter;
     public static RecyclerView recyclerView;
     public static ExportAdapter exportAdapter;
     ArrayList<TransModel> transModelArrayList;
     ArrayList<TransModel> transModelArrayList1;
     TransModel transModel;
-    String ocatname;
-    String oexpcatname;
+    String omonthname;
     String[] permissions;
-    ArrayList<CatItemData>catItemDataArrayList2;
-    ArrayList<CatItemData>cat;
-    ArrayList<CatItemData>cate;
+    Acc_Model acc_model;
+    String[] month = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
 
     private int REQUEST_CODE = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_export_cat_acc);
-        spinner=findViewById(R.id.spinnerexport);
-        export_btn=findViewById(R.id.btnexport);
-        recyclerView=findViewById(R.id.exportlist);
+        setContentView(R.layout.activity_export_month);
+        spinner = findViewById(R.id.spinnermonthexport);
+        export_btn = findViewById(R.id.btnmonthexport);
+        recyclerView = findViewById(R.id.exportmonthlist);
         permissions = new String[]{
                 Manifest.permission.READ_EXTERNAL_STORAGE,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE};
+        checkPermissions();
 
-                checkPermissions();
-
-
-        db=new DataBaseHandler(this);
-        loadCatg();
+      db=new DataBaseHandler(this);
         spinner.setOnItemSelectedListener(this);
 
-
-        transModel=new TransModel();
-        transModelArrayList1=new ArrayList<>();
+        loadMonth();
+        transModel = new TransModel();
+        transModelArrayList1 = new ArrayList<>();
 
         export_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -105,23 +96,11 @@ public class ExportCatAcc extends AppCompatActivity implements AdapterView.OnIte
 
     }
 
-    private void loadCatg() {
-
-        catItemData = new CatItemData();
-        ExpenseItemData expenseItemData=new ExpenseItemData();
-        catItemDataArrayList = new ArrayList<>();
-        catItemDataArrayList1 = new ArrayList<>();
-        catItemDataArrayList = db.getAllCatg();
-        catItemDataArrayList1=db.getAllExpenseCat1();
-        cat=new ArrayList<>();
-        cate=new ArrayList<>();
-        cat.addAll(catItemDataArrayList);
-        cat.addAll(catItemDataArrayList1);
+    private void loadMonth() {
 
 
-
-        copySpinnerCatAdapter1 = new CopySpinnerCatAdapter1(cat, getApplicationContext());
-        spinner.setAdapter(copySpinnerCatAdapter1);
+        ArrayAdapter arrayAdapter = new ArrayAdapter(ExportMonthwise.this, android.R.layout.simple_dropdown_item_1line, month);
+        spinner.setAdapter(arrayAdapter);
 
     }
 
@@ -129,13 +108,13 @@ public class ExportCatAcc extends AppCompatActivity implements AdapterView.OnIte
         int result;
         List<String> listPermissionsNeeded = new ArrayList<>();
         for (String p : permissions) {
-            result = ContextCompat.checkSelfPermission(ExportCatAcc.this, p);
+            result = ContextCompat.checkSelfPermission(ExportMonthwise.this, p);
             if (result != PackageManager.PERMISSION_GRANTED) {
                 listPermissionsNeeded.add(p);
             }
         }
         if (!listPermissionsNeeded.isEmpty()) {
-           ActivityCompat.requestPermissions(this, listPermissionsNeeded.toArray(new String[listPermissionsNeeded.size()]), MULTIPLE_PERMISSIONS);
+            ActivityCompat.requestPermissions(this, listPermissionsNeeded.toArray(new String[listPermissionsNeeded.size()]), MULTIPLE_PERMISSIONS);
             return false;
         }
         return true;
@@ -161,15 +140,35 @@ public class ExportCatAcc extends AppCompatActivity implements AdapterView.OnIte
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-        Toast.makeText(this, "Loadede"+position, Toast.LENGTH_SHORT).show();
-      //  cat=db.getAllCatg();
-       // catItemDataArrayList1=db.getAllExpenseCat();
+        Toast.makeText(this, "Loadede" + position, Toast.LENGTH_SHORT).show();
+        omonthname=month[position].toString();
+        transModelArrayList1 = new ArrayList<>();
+        transModelArrayList1=db.getMonthList(omonthname);
 
-        ocatname=cat.get(position).getText();
-       // oexpcatname=catItemDataArrayList1.get(position).getText();
+        if(transModelArrayList1.size()!=0) {
+            exportAdapter = new ExportAdapter(this, transModelArrayList1);
+            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+            recyclerView.setLayoutManager(layoutManager);
+            recyclerView.setItemAnimator(new DefaultItemAnimator());
+            recyclerView.setAdapter(exportAdapter);
+        }else {
+            transModelArrayList1 = new ArrayList<>();
 
-        transModelArrayList1=db.getCurrentcatList(ocatname);
-      //  transModelArrayList1=db.getExpensecatList(oexpcatname);
+            transModelArrayList1.clear();
+            exportAdapter = new ExportAdapter(this, transModelArrayList1);
+            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+            recyclerView.setLayoutManager(layoutManager);
+            recyclerView.setItemAnimator(new DefaultItemAnimator());
+            recyclerView.setAdapter(exportAdapter);
+            Toast.makeText(this, "Nothing to show", Toast.LENGTH_SHORT).show();
+        }
+
+
+        /*acc_modelArrayList=db.getAllAccType();
+
+        oaccname=acc_modelArrayList.get(position).getIn_acc_type();
+
+        transModelArrayList1=db.getCurrentaccList(oaccname);
         if(transModelArrayList1.size()!=0) {
             exportAdapter = new ExportAdapter(this, transModelArrayList1);
             RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
@@ -186,9 +185,9 @@ public class ExportCatAcc extends AppCompatActivity implements AdapterView.OnIte
             recyclerView.setItemAnimator(new DefaultItemAnimator());
             recyclerView.setAdapter(exportAdapter);
             Toast.makeText(this, "Nothing to show", Toast.LENGTH_SHORT).show();
+*/
 
 
-        }
 
 
 
@@ -202,7 +201,7 @@ public class ExportCatAcc extends AppCompatActivity implements AdapterView.OnIte
     @SuppressLint("StaticFieldLeak")
     public class ExportDatabaseCSVTask extends AsyncTask<String, Void, Boolean> {
 
-        private final ProgressDialog dialog = new ProgressDialog(ExportCatAcc.this);
+        private final ProgressDialog dialog = new ProgressDialog(ExportMonthwise.this);
 
         @Override
         protected void onPreExecute() {
@@ -216,11 +215,11 @@ public class ExportCatAcc extends AppCompatActivity implements AdapterView.OnIte
             File exportDir = new File(Environment.getExternalStorageDirectory(), "/codesss/");
             if (!exportDir.exists()) { exportDir.mkdirs(); }
 
-            File file = new File(exportDir, "Category.csv");
+            File file = new File(exportDir, "month.csv");
             try {
                 file.createNewFile();
                 CsvWriter csvWrite = new CsvWriter(new FileWriter(file));
-                Cursor curCSV = db.raw(ocatname);
+                Cursor curCSV = db.monthlist(omonthname);
                 csvWrite.writeNext(curCSV.getColumnNames());
                 while(curCSV.moveToNext()) {
                     String arrStr[]=null;
@@ -242,10 +241,10 @@ public class ExportCatAcc extends AppCompatActivity implements AdapterView.OnIte
         protected void onPostExecute(final Boolean success) {
             if (this.dialog.isShowing()) { this.dialog.dismiss(); }
             if (success) {
-                Toast.makeText(ExportCatAcc.this, "Export successful!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ExportMonthwise.this, "Export successful!", Toast.LENGTH_SHORT).show();
               //           ShareFile();
             } else {
-                Toast.makeText(ExportCatAcc.this, "Export failed", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ExportMonthwise.this, "Export failed", Toast.LENGTH_SHORT).show();
             }
         }
 
@@ -253,7 +252,7 @@ public class ExportCatAcc extends AppCompatActivity implements AdapterView.OnIte
             File exportDir = new File(Environment.getExternalStorageDirectory(), "/codesss/");
             String fileName = "myfile.csv";
             File sharingGifFile = new File(exportDir, fileName);
-            Intent shareIntent = new Intent(android.content.Intent.ACTION_SEND);
+            Intent shareIntent = new Intent(Intent.ACTION_SEND);
             shareIntent.setType("application/csv");
             Uri uri = Uri.fromFile(sharingGifFile);
             shareIntent.putExtra(Intent.EXTRA_STREAM, uri);

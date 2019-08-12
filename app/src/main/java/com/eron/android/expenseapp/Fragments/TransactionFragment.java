@@ -50,7 +50,7 @@ public class TransactionFragment extends Fragment {
     TextView dateselector;
     String monthYearStr;
     SimpleDateFormat sdf = new SimpleDateFormat("MMMM yyyy");
-    SimpleDateFormat input = new SimpleDateFormat("yyyy-MM-dd");
+    SimpleDateFormat input = new SimpleDateFormat("yyyy-MMMM-dd");
     Calendar calendar;
     String currentmonth;
     int currentyear;

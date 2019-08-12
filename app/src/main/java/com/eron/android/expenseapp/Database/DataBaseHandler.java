@@ -140,6 +140,15 @@ public class DataBaseHandler extends SQLiteOpenHelper {
         db.insert(ADD_EXPENSE_CAT_TABLE,null,contentValues);
         db.close();
     }
+    public void addExpCatg1(CatItemData expenseItemData){
+        SQLiteDatabase db=this.getWritableDatabase();
+        ContentValues contentValues=new ContentValues();
+        contentValues.put(KEY_ADD_EXP_CAT_NAME,expenseItemData.getText());
+        contentValues.put(KEY_ADD_EXP_CAT_IMG,expenseItemData.getImageId());
+        contentValues.put(KEY_ADD_EXP_CAT_TYPE,expenseItemData.getType());
+        db.insert(ADD_EXPENSE_CAT_TABLE,null,contentValues);
+        db.close();
+    }
 
     public void addAcc(Acc_Model acc_model){
         SQLiteDatabase db=this.getWritableDatabase();
@@ -213,6 +222,27 @@ public class DataBaseHandler extends SQLiteOpenHelper {
         return catItemDataArrayList;
     }
 
+    /*public ArrayList<CatItemData>getAllCatg(){
+        ArrayList<CatItemData>catItemDataArrayList=new ArrayList<>();
+
+        String selectAllQuery=" SELECT * FROM "+ADD_INCOME_CAT_TABLE;
+        SQLiteDatabase db=this.getReadableDatabase();
+
+        Cursor cursor=db.rawQuery(selectAllQuery,null);
+
+        if(cursor.moveToFirst()){
+            do{
+                CatItemData catItemData=new CatItemData();
+                catItemData.setId(Integer.parseInt(cursor.getString(0)));
+                catItemData.setText(cursor.getString(1));
+                catItemData.setImageId(Integer.parseInt(cursor.getString(2)));
+                catItemData.setType(cursor.getString(3));
+                catItemDataArrayList.add(catItemData);
+            }while (cursor.moveToNext());
+        }
+        return catItemDataArrayList;
+    }
+*/
     public ArrayList<ExpenseItemData>getAllExpenseCat(){
         ArrayList<ExpenseItemData>expenseItemDataArrayList=new ArrayList<>();
 
@@ -224,6 +254,26 @@ public class DataBaseHandler extends SQLiteOpenHelper {
         if(cursor.moveToFirst()){
             do{
                 ExpenseItemData expenseItemData=new ExpenseItemData();
+                expenseItemData.setId(Integer.parseInt(cursor.getString(0)));
+                expenseItemData.setText(cursor.getString(1));
+                expenseItemData.setImageId(Integer.parseInt(cursor.getString(2)));
+                expenseItemData.setType(cursor.getString(3));
+                expenseItemDataArrayList.add(expenseItemData);
+            }while (cursor.moveToNext());
+        }
+        return expenseItemDataArrayList;
+    }
+    public ArrayList<CatItemData>getAllExpenseCat1(){
+        ArrayList<CatItemData>expenseItemDataArrayList=new ArrayList<>();
+
+        String selectAllQuery=" SELECT * FROM "+ADD_EXPENSE_CAT_TABLE;
+        SQLiteDatabase db=this.getReadableDatabase();
+
+        Cursor cursor=db.rawQuery(selectAllQuery,null);
+
+        if(cursor.moveToFirst()){
+            do{
+                CatItemData expenseItemData=new CatItemData();
                 expenseItemData.setId(Integer.parseInt(cursor.getString(0)));
                 expenseItemData.setText(cursor.getString(1));
                 expenseItemData.setImageId(Integer.parseInt(cursor.getString(2)));
@@ -392,6 +442,104 @@ public class DataBaseHandler extends SQLiteOpenHelper {
 
     }
 
+    public ArrayList<TransModel>getExpensecatList(String selectedcat){
+        ArrayList<TransModel>transModelArrayList=new ArrayList<>();
+        SQLiteDatabase db=this.getReadableDatabase();
+
+        Cursor cursor=db.query(ADD_INCOME_TABLE_NAME,new String[]{KEY_ID,KEY_NEWINCOME_DATE,KEY_NEWINCOME_CATG_NAME,KEY_NEWINCOME_CATG_IMG,KEY_NEWINCOME_ACC_NAME,KEY_NEWINCOME_ACC_IMG,KEY_NEWINCOME_AMNT,KEY_NEWINCOME_NOTE,KEY_NEWINCOME_TYPE,KEY_NEWINCOME_DAY_OF_MONTH,KEY_NEWINCOME_MONTH,KEY_NEWINCOME_YEAR,KEY_NEWINCOME_SELECTED_MONYEAR},
+                KEY_NEWINCOME_CATG_NAME+ "=?",new String[]{String.valueOf(selectedcat)},null,null,null,null);
+
+
+        if(cursor.moveToFirst()){
+            do{
+                TransModel transModel=new TransModel();
+                transModel.setId(Integer.parseInt(cursor.getString(0)));
+                transModel.setDate(cursor.getString(1));
+                transModel.setCategory_name(cursor.getString(2));
+                transModel.setCategory_img(Integer.parseInt(cursor.getString(3)));
+                transModel.setAccount_name(cursor.getString(4));
+                transModel.setAccount_img(Integer.parseInt(cursor.getString(5)));
+                transModel.setAmount(cursor.getString(6));
+                transModel.setNote(cursor.getString(7));
+                transModel.setType(cursor.getString(8));
+                transModel.setDay_of_month(cursor.getString(9));
+                transModel.setMonth(cursor.getString(10));
+                transModel.setYear(Integer.parseInt(cursor.getString(11)));
+                transModel.setSelectedmonthyear(cursor.getString(12));
+                transModelArrayList.add(transModel);
+            }while (cursor.moveToNext());
+        }
+        return transModelArrayList;
+
+
+    }
+
+
+
+    public ArrayList<TransModel>getCurrentaccList(String selectedacc){
+        ArrayList<TransModel>transModelArrayList=new ArrayList<>();
+        SQLiteDatabase db=this.getReadableDatabase();
+
+        Cursor cursor=db.query(ADD_INCOME_TABLE_NAME,new String[]{KEY_ID,KEY_NEWINCOME_DATE,KEY_NEWINCOME_CATG_NAME,KEY_NEWINCOME_CATG_IMG,KEY_NEWINCOME_ACC_NAME,KEY_NEWINCOME_ACC_IMG,KEY_NEWINCOME_AMNT,KEY_NEWINCOME_NOTE,KEY_NEWINCOME_TYPE,KEY_NEWINCOME_DAY_OF_MONTH,KEY_NEWINCOME_MONTH,KEY_NEWINCOME_YEAR,KEY_NEWINCOME_SELECTED_MONYEAR},
+                KEY_NEWINCOME_ACC_NAME+ "=?",new String[]{String.valueOf(selectedacc)},null,null,null,null);
+
+
+        if(cursor.moveToFirst()){
+            do{
+                TransModel transModel=new TransModel();
+                transModel.setId(Integer.parseInt(cursor.getString(0)));
+                transModel.setDate(cursor.getString(1));
+                transModel.setCategory_name(cursor.getString(2));
+                transModel.setCategory_img(Integer.parseInt(cursor.getString(3)));
+                transModel.setAccount_name(cursor.getString(4));
+                transModel.setAccount_img(Integer.parseInt(cursor.getString(5)));
+                transModel.setAmount(cursor.getString(6));
+                transModel.setNote(cursor.getString(7));
+                transModel.setType(cursor.getString(8));
+                transModel.setDay_of_month(cursor.getString(9));
+                transModel.setMonth(cursor.getString(10));
+                transModel.setYear(Integer.parseInt(cursor.getString(11)));
+                transModel.setSelectedmonthyear(cursor.getString(12));
+                transModelArrayList.add(transModel);
+            }while (cursor.moveToNext());
+        }
+        return transModelArrayList;
+
+
+    }
+
+    public ArrayList<TransModel>getMonthList(String slectedMonth){
+        ArrayList<TransModel>transModelArrayList=new ArrayList<>();
+        SQLiteDatabase db=this.getReadableDatabase();
+
+        Cursor cursor=db.query(ADD_INCOME_TABLE_NAME,new String[]{KEY_ID,KEY_NEWINCOME_DATE,KEY_NEWINCOME_CATG_NAME,KEY_NEWINCOME_CATG_IMG,KEY_NEWINCOME_ACC_NAME,KEY_NEWINCOME_ACC_IMG,KEY_NEWINCOME_AMNT,KEY_NEWINCOME_NOTE,KEY_NEWINCOME_TYPE,KEY_NEWINCOME_DAY_OF_MONTH,KEY_NEWINCOME_MONTH,KEY_NEWINCOME_YEAR,KEY_NEWINCOME_SELECTED_MONYEAR},
+                KEY_NEWINCOME_MONTH+ "=?",new String[]{String.valueOf(slectedMonth)},null,null,null,null);
+
+
+        if(cursor.moveToFirst()){
+            do{
+                TransModel transModel=new TransModel();
+                transModel.setId(Integer.parseInt(cursor.getString(0)));
+                transModel.setDate(cursor.getString(1));
+                transModel.setCategory_name(cursor.getString(2));
+                transModel.setCategory_img(Integer.parseInt(cursor.getString(3)));
+                transModel.setAccount_name(cursor.getString(4));
+                transModel.setAccount_img(Integer.parseInt(cursor.getString(5)));
+                transModel.setAmount(cursor.getString(6));
+                transModel.setNote(cursor.getString(7));
+                transModel.setType(cursor.getString(8));
+                transModel.setDay_of_month(cursor.getString(9));
+                transModel.setMonth(cursor.getString(10));
+                transModel.setYear(Integer.parseInt(cursor.getString(11)));
+                transModel.setSelectedmonthyear(cursor.getString(12));
+                transModelArrayList.add(transModel);
+            }while (cursor.moveToNext());
+        }
+        return transModelArrayList;
+
+
+    }
+
     public Integer deleteIncomeCatEntry(String ID)
     {
         SQLiteDatabase db=this.getReadableDatabase();
@@ -487,13 +635,42 @@ public class DataBaseHandler extends SQLiteOpenHelper {
         Log.d("update", "updateTransList: "+contentValues);
     }
 
-    public Cursor raw() {
+    public Cursor raw(String selectedcat) {
 
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor res = db.rawQuery("SELECT * FROM " + ADD_INCOME_TABLE_NAME , new String[]{});
 
-        return res;
+        Cursor cursor=db.query(ADD_INCOME_TABLE_NAME,new String[]{KEY_ID,KEY_NEWINCOME_DATE,KEY_NEWINCOME_CATG_NAME,KEY_NEWINCOME_CATG_IMG,KEY_NEWINCOME_ACC_NAME,KEY_NEWINCOME_ACC_IMG,KEY_NEWINCOME_AMNT,KEY_NEWINCOME_NOTE,KEY_NEWINCOME_TYPE,KEY_NEWINCOME_DAY_OF_MONTH,KEY_NEWINCOME_MONTH,KEY_NEWINCOME_YEAR,KEY_NEWINCOME_SELECTED_MONYEAR},
+                KEY_NEWINCOME_CATG_NAME+ "=?",new String[]{String.valueOf(selectedcat)},null,null,null,null);
+
+        return cursor;
     }
+
+    public Cursor account(String selectedacc) {
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res = db.rawQuery("SELECT * FROM " + ADD_INCOME_TABLE_NAME , new String[]{});
+
+        Cursor cursor=db.query(ADD_INCOME_TABLE_NAME,new String[]{KEY_ID,KEY_NEWINCOME_DATE,KEY_NEWINCOME_CATG_NAME,KEY_NEWINCOME_CATG_IMG,KEY_NEWINCOME_ACC_NAME,KEY_NEWINCOME_ACC_IMG,KEY_NEWINCOME_AMNT,KEY_NEWINCOME_NOTE,KEY_NEWINCOME_TYPE,KEY_NEWINCOME_DAY_OF_MONTH,KEY_NEWINCOME_MONTH,KEY_NEWINCOME_YEAR,KEY_NEWINCOME_SELECTED_MONYEAR},
+                KEY_NEWINCOME_ACC_NAME+ "=?",new String[]{String.valueOf(selectedacc)},null,null,null,null);
+
+        return cursor;
+    }
+
+    public Cursor monthlist(String selectedmonth) {
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res = db.rawQuery("SELECT * FROM " + ADD_INCOME_TABLE_NAME , new String[]{});
+
+        Cursor cursor=db.query(ADD_INCOME_TABLE_NAME,new String[]{KEY_ID,KEY_NEWINCOME_DATE,KEY_NEWINCOME_CATG_NAME,KEY_NEWINCOME_CATG_IMG,KEY_NEWINCOME_ACC_NAME,KEY_NEWINCOME_ACC_IMG,KEY_NEWINCOME_AMNT,KEY_NEWINCOME_NOTE,KEY_NEWINCOME_TYPE,KEY_NEWINCOME_DAY_OF_MONTH,KEY_NEWINCOME_MONTH,KEY_NEWINCOME_YEAR,KEY_NEWINCOME_SELECTED_MONYEAR},
+                KEY_NEWINCOME_MONTH+ "=?",new String[]{String.valueOf(selectedmonth)},null,null,null,null);
+
+        return cursor;
+    }
+
+
+
+
 
 
 
