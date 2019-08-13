@@ -50,10 +50,10 @@ public class TransAdapter extends RecyclerView.Adapter<TransAdapter.MyViewHolder
     long income,expense=0;
 
 
-    public TransAdapter(Context context, ArrayList<TransModel> transModelArrayList,Fragment fragment) {
+    public TransAdapter(Context context, ArrayList<TransModel> transModelArrayList) {
         this.context = context;
         this.transModelArrayList = transModelArrayList;
-        this.fragment=fragment;
+
     }
 
 
@@ -121,14 +121,14 @@ public class TransAdapter extends RecyclerView.Adapter<TransAdapter.MyViewHolder
                         delete(i);
                        // db.getAllNewIncome();
 
-                        if(fragment==SpendingFragment.getInstance()){
+                       /* if(fragment==SpendingFragment.getInstance()){
                             ((SpendingFragment) fragment).reload();
 
                         }else if(fragment==TransactionFragment.getInstance()){
                             ((TransactionFragment) fragment).reload();
 
 
-                        }
+                        }*/
                               //  ((SpendingFragment) fragment).reload();
 
                            // ((TransactionFragment) fragment).reload();

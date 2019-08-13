@@ -101,7 +101,9 @@ public class Add_New_ExpenseCatAdapter extends RecyclerView.Adapter<Add_New_Expe
                 final int[] iconList = {
                         R.string.icon_eye,R.string.fa_eye_dropper_solid,R.string.fa_address_book,
                         R.string.Account,R.string.Bank,R.string.card,R.string.cash,R.string.Education,R.string.Entertainment,
-                        R.string.Travel,R.string.Wifi,R.string.food,R.string.Shopping,R.string.gift};
+                        R.string.Travel,R.string.Wifi,R.string.food,R.string.Shopping,R.string.gift,R.string.Birthday,R.string.Ambulance,R.string.Barchart,R.string.Barcode,
+                        R.string.mobile,R.string.lap,R.string.book,R.string.coffee,R.string.desktop,R.string.dollar,R.string.Drinks,R.string.Drinks,R.string.fa_address_card_solid,R.string.fa_air_freshener_solid,R.string.fa_baby_carriage_solid,R.string.fa_baseball_ball_solid,R.string.fa_camera_solid,R.string.fa_broom_solid,R.string.fa_church_solid,R.string.fa_coins_solid,
+                        R.string.fa_file_image_solid};
 
 
                 final Dialog dialog=new Dialog(context);

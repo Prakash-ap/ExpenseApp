@@ -20,18 +20,19 @@
             android:layout_height="60dp"
             android:orientation="horizontal"
             android:layout_gravity="center">
-    <info.androidhive.fontawesome.FontTextView
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:id="@+id/add_acc_img"
-        app:solid_icon="true"
-        android:padding="4dp"
-        android:textSize="20sp"
-        android:layout_marginTop="2dp"
-        android:layout_gravity="center"
-        android:textColor="#5a5a5a"
 
-        />
+            <info.androidhive.fontawesome.FontTextView
+                android:id="@+id/add_acc_img"
+                android:layout_width="42dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="2dp"
+                android:padding="4dp"
+                android:textColor="#5a5a5a"
+                android:textSize="20sp"
+                app:solid_icon="true"
+
+                />
 
             <TextView
                 android:id="@+id/add_acc_text"

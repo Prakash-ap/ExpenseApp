@@ -130,7 +130,7 @@ public class SpendingFragment extends Fragment {
                 transModelArrayList = new ArrayList<>();
                 transModelArrayList = db.getTodayNewList(date1);
 
-                transAdapter = new TransAdapter(getContext(), transModelArrayList, SpendingFragment.this);
+                transAdapter = new TransAdapter(getContext(), transModelArrayList);
 
 
                 RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
@@ -294,7 +294,7 @@ public class SpendingFragment extends Fragment {
                 /*transModelArrayList = new ArrayList<>();
                 transModelArrayList = db.getTodayNewList(date1);*/
 
-        transAdapter = new TransAdapter(getContext(), transModelArrayList, SpendingFragment.this);
+        transAdapter = new TransAdapter(getContext(), transModelArrayList);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());

@@ -103,7 +103,13 @@ public class TransIncomeFragment extends Fragment implements View.OnClickListene
         notes=view.findViewById(R.id.edtnote);
 
         db=new DataBaseHandler(getContext());
+        String format="MMMM dd, yyyy";
+        simpleDateFormat=new SimpleDateFormat(format, Locale.getDefault());
+        String dat=date.getText().toString();
 
+        if(dat.equals("")) {
+            date.setText(simpleDateFormat.format(calendar.getTime()));
+        }
         save.setOnClickListener(this);
         cancel.setOnClickListener(this);
         category.setOnItemSelectedListener(this);
@@ -241,6 +247,10 @@ public class TransIncomeFragment extends Fragment implements View.OnClickListene
         if(v.getId()==R.id.btnsave){
 
      dateval=date.getText().toString();
+            dayofmonth = calendar.get(Calendar.DAY_OF_MONTH);
+            month = new SimpleDateFormat("MMMM").format(calendar.getTime());
+            year=calendar.get(Calendar.YEAR);
+            selectmonthyear=month + " " + String.valueOf(year);
 
      amountval=amount.getText().toString();
      noteval=notes.getText().toString();

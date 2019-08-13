@@ -1,6 +1,8 @@
 package com.eron.android.expenseapp.Fragments;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.net.Uri;
@@ -28,6 +30,7 @@ import com.eron.android.expenseapp.Database.DataBaseHandler;
 import com.eron.android.expenseapp.Model.TransModel;
 import com.eron.android.expenseapp.R;
 
+import java.text.DateFormatSymbols;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -37,7 +40,7 @@ import java.util.Date;
 import java.util.Locale;
 
 
-public class TransactionFragment extends Fragment {
+public class TransactionFragment extends Fragment implements DatePickerDialog.OnDateSetListener {
 
     private static TransactionFragment instance = null;
 
@@ -99,6 +102,7 @@ public class TransactionFragment extends Fragment {
         currentyear = Integer.parseInt(new SimpleDateFormat("YYYY").format(calendar.getTime()));
         currentdate = new SimpleDateFormat("MMMM dd, YYYY").format(calendar.getTime());
         formatter = NumberFormat.getCurrencyInstance(new Locale("en", "IN"));
+        Date date = calendar.getTime();
 
 
         dateselector.setText(monthpicker);
@@ -167,7 +171,7 @@ public class TransactionFragment extends Fragment {
                 transModelArrayList = db.getCurrentMonthList(s.toString());
                 if (transModelArrayList.size() != 0) {
 
-                    transAdapter = new TransAdapter(getContext(), transModelArrayList, TransactionFragment.this);
+                    transAdapter = new TransAdapter(getContext(), transModelArrayList);
                     RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
                     recyclerView.setLayoutManager(layoutManager);
                     recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -175,7 +179,7 @@ public class TransactionFragment extends Fragment {
                 } else {
 
                     transModelArrayList.clear();
-                    transAdapter = new TransAdapter(getContext(), transModelArrayList, TransactionFragment.this);
+                    transAdapter = new TransAdapter(getContext(), transModelArrayList);
                     RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
                     recyclerView.setLayoutManager(layoutManager);
                     recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -202,8 +206,10 @@ public class TransactionFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
+                datepicker().show();
 
-                DialogClass pickerDialog = new DialogClass();
+
+               /* DialogClass pickerDialog = new DialogClass();
                 pickerDialog.setListener(new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker datePicker, int year, int month, int i2) {
@@ -213,7 +219,7 @@ public class TransactionFragment extends Fragment {
 
                     }
                 });
-                pickerDialog.show(getChildFragmentManager(), "MonthYearPickerDialog");
+                pickerDialog.show(getChildFragmentManager(), "MonthYearPickerDialog");*/
 
             }
         });
@@ -242,7 +248,9 @@ public class TransactionFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
+                datepicker().show();
 
+/*
                 DialogClass pickerDialog = new DialogClass();
                 pickerDialog.setListener(new DatePickerDialog.OnDateSetListener() {
                     @Override
@@ -253,7 +261,7 @@ public class TransactionFragment extends Fragment {
 
                     }
                 });
-                pickerDialog.show(getChildFragmentManager(), "MonthYearPickerDialog");
+                pickerDialog.show(getChildFragmentManager(), "MonthYearPickerDialog");*/
 
             }
         });
@@ -262,16 +270,54 @@ public class TransactionFragment extends Fragment {
 
         return view;
     }
-
     String formatMonthYear(String str) {
-        Date date = null;
+
+
+        // Date date = null;
+        Date d1 = null;
         try {
-            date = input.parse(str);
+
+
+            d1 = input.parse(str);
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        return sdf.format(date);
+        return sdf.format(d1);
     }
+
+    public Dialog datepicker(){
+        final Calendar c = Calendar.getInstance();
+        int year = c.get(Calendar.YEAR);
+        int month = c.get(Calendar.MONTH);
+        int day = c.get(Calendar.DAY_OF_MONTH);
+
+        DatePickerDialog dpd = new DatePickerDialog(getActivity(), AlertDialog.THEME_HOLO_LIGHT,this,year, month, day){
+            @Override
+            protected void onCreate(Bundle savedInstanceState)
+            {
+                super.onCreate(savedInstanceState);
+                int day = getContext().getResources().getIdentifier("android:id/day", null, null);
+                if(day != 0){
+                    View dayPicker = findViewById(day);
+                    if(dayPicker != null){
+                        //Set Day view visibility Off/Gone
+                        dayPicker.setVisibility(View.GONE);
+                    }
+                }
+            }
+        };
+
+
+      //  DatePicker dp = dpd.getDatePicker();
+
+        /*dp.setMinDate(c.getTimeInMillis());
+        dp.setMinDate(c.getTimeInMillis());
+        dp.setMaxDate(c.getTimeInMillis());*/
+
+        return dpd;
+    }
+
+
 
     private void select(int start) {
 
@@ -350,7 +396,7 @@ public class TransactionFragment extends Fragment {
         transModelArrayList = db.getCurrentMonthList(monthpicker);
 
 
-            transAdapter = new TransAdapter(getContext(), transModelArrayList, TransactionFragment.this);
+            transAdapter = new TransAdapter(getContext(), transModelArrayList);
             RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
             recyclerView.setLayoutManager(layoutManager);
             recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -405,7 +451,7 @@ public class TransactionFragment extends Fragment {
         transModelArrayList = db.getCurrentMonthList(selected_month);
 
         if (transModelArrayList.size() != 0) {
-            transAdapter = new TransAdapter(getContext(), transModelArrayList, TransactionFragment.this);
+            transAdapter = new TransAdapter(getContext(), transModelArrayList);
             RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
             recyclerView.setLayoutManager(layoutManager);
             recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -413,7 +459,7 @@ public class TransactionFragment extends Fragment {
         } else {
 
             transModelArrayList.clear();
-            transAdapter = new TransAdapter(getContext(), transModelArrayList, TransactionFragment.this);
+            transAdapter = new TransAdapter(getContext(), transModelArrayList);
             RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
             recyclerView.setLayoutManager(layoutManager);
             recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -438,6 +484,20 @@ public class TransactionFragment extends Fragment {
             getFragmentManager().beginTransaction().detach(this).attach(this).commit();
             Log.i("IsRefresh", "Yes");
         }
+
+
+    }
+
+    @Override
+    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+
+
+        String dateFormatSymbols;
+        dateFormatSymbols=new DateFormatSymbols().getMonths()[month];
+        String selecteddate=dateFormatSymbols+" "+year;
+
+        dateselector.setText(selecteddate);
+
 
 
     }

@@ -28,6 +28,7 @@
                 android:id="@+id/previous"
                 android:src="@drawable/befores"
                 android:layout_weight=".1"
+                android:visibility="gone"
                 />
 
             <TextView
@@ -45,7 +46,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/next"
-                android:src="@drawable/nexts"
+                android:src="@drawable/downarrow"
                 android:layout_weight=".1"
                 />
 

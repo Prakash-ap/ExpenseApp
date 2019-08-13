@@ -3,12 +3,15 @@ package com.eron.android.expenseapp;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -32,6 +35,7 @@ import com.eron.android.expenseapp.Fragments.AccountFragment;
 import com.eron.android.expenseapp.Fragments.CategoryFragment;
 import com.eron.android.expenseapp.Fragments.SpendingFragment;
 import com.eron.android.expenseapp.Fragments.TransactionFragment;
+import com.eron.android.expenseapp.Model.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,6 +47,8 @@ public class DashBoardActivity extends AppCompatActivity implements AdapterView.
     private static final String PASS_PREFS = "passprefs";
     private static final String CHECK_PREFS = "checkprefs";
     public  static ImageView edit,delete;
+    private ArrayList<User>userArrayList;
+    User user;
 
     TabLayout tabLayout;
     ViewPager viewPager;
@@ -57,6 +63,8 @@ public class DashBoardActivity extends AppCompatActivity implements AdapterView.
     FragmentManager fragmentManager;
     public static String spinnervalue="";
     FloatingActionButton floatingActionButton;
+    String pass,newpass,repass;
+    CoordinatorLayout coordinatorLayout;
 
 
 
@@ -68,6 +76,7 @@ public class DashBoardActivity extends AppCompatActivity implements AdapterView.
         edit=findViewById(R.id.cat_edt);
         delete=findViewById(R.id.cat_delete);
         db=new DataBaseHandler(this);
+        userArrayList=new ArrayList<>();
 
         floatingActionButton=findViewById(R.id.fab);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
@@ -134,24 +143,53 @@ public class DashBoardActivity extends AppCompatActivity implements AdapterView.
 
                                 // set values for custom dialog components - text, image and button
 
-                                EditText editText1=dialog.findViewById(R.id.new_password);
-                                EditText editText2=dialog.findViewById(R.id.reenterpasword);
+                                final EditText editText1=dialog.findViewById(R.id.new_password);
+                                final EditText editText2=dialog.findViewById(R.id.reenterpasword);
                                 Button button=dialog.findViewById(R.id.changepasword);
 
-
-                                dialog.show();
-
-
-                                // if decline button is clicked, close the custom dialog
                                 button.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
-                                        // Close dialog
-                                        Toast.makeText(DashBoardActivity.this, "Password Clicked", Toast.LENGTH_SHORT).show();
+                                        newpass=editText1.getText().toString();
+                                        repass=editText2.getText().toString();
 
-                                        dialog.dismiss();
+                                        userArrayList=db.getAllUser();
+                                        for(int i=0;i<userArrayList.size();i++){
+                                            user=userArrayList.get(i);
+                                            pass=user.getPassword();
+                                        }
+
+                                        if(pass.equals(newpass)){
+                                          Snackbar snackbar=Snackbar.make(v,"Password exists",Snackbar.LENGTH_LONG).setAction("Action",null);
+                                          View sview=snackbar.getView();
+                                          sview.setBackgroundColor(ContextCompat.getColor(getApplicationContext(),R.color.colorPrimary));
+                                          snackbar.show();
+
+                                        }else if(newpass.equals(repass)){
+
+                                            user.setPassword(newpass);
+                                            db.updateUserPassword(user);
+                                            sharedPreferences=getSharedPreferences(PREFS,0);
+                                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                                            editor.clear();
+                                            editor.commit();
+                                            Intent logoutintent=new Intent(DashBoardActivity.this,MainActivity.class);
+                                            startActivity(logoutintent);
+                                            dialog.dismiss();
+
+
+                                        }else{
+                                            Toast.makeText(DashBoardActivity.this, "Password does not match!", Toast.LENGTH_SHORT).show();
+                                        }
                                     }
                                 });
+
+
+
+                              dialog.show();
+
+
+                                // if decline button is clicked, close the custom dialog
 
 
 

@@ -144,9 +144,12 @@ public class AddnewIncomeCategory1 extends Activity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
 
-            //   icon.setImageIcon(iconList.length);
+
+
+
+                //   icon.setImageIcon(iconList.length);
                 IconsPosition = position;
-                icon.setText(iconList[position]);
+
                 // TODO: Implement
                 Log.d("icon", "onItemClick: "+icon);
                 Toast.makeText(view.getContext(), "Clicked position is: " + icon, Toast.LENGTH_LONG).show();
@@ -160,6 +163,10 @@ public class AddnewIncomeCategory1 extends Activity {
         builder.setPositiveButton("SELECT", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+
+
+                icon.setText(IconsPosition);
+
                 dialog.dismiss();
             }
         });

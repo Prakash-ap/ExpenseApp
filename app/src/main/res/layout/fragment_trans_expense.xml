@@ -236,6 +236,8 @@
                 android:layout_margin="10dp"
                 android:background="@drawable/btn_shape"
                 android:textColor="@android:color/white"
+                android:textSize="22sp"
+                android:textStyle="bold"
                 android:layout_weight=".5"/>
         </LinearLayout>
     </RelativeLayout>

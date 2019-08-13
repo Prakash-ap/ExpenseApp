@@ -1,12 +1,16 @@
 package com.eron.android.expenseapp;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
+import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -76,16 +80,21 @@ public class MainActivity extends AppCompatActivity {
        String sppass=(sharedPreferences.getString(PASS_PREFS, ""));
        Boolean sboolean=(sharedPreferences.getBoolean(CHECK_PREFS,false));
 
- if(sboolean){
+         if(sboolean){
            Intent intent=new Intent(MainActivity.this,DashBoardActivity.class);
            startActivity(intent);
      phone_number.setText(spphone);
      password.setText(sppass);
      remember_me.setChecked(sboolean);
        }
+
+
         btn_login.setOnClickListener(new View.OnClickListener() {
                                          @Override
                                          public void onClick(View v) {
+
+                                             hideKeyboard(v);
+
 
 
                                              User user = new User();
@@ -97,7 +106,12 @@ public class MainActivity extends AppCompatActivity {
                                              upass = password.getText().toString();
 
                                              if (uphone_no.equals("") || upass.equals("")) {
-                                                 Toast.makeText(MainActivity.this, "Enter the Credentials", Toast.LENGTH_SHORT).show();
+
+                                                 Snackbar snackbar=Snackbar.make(v,"Signedin Successfully",Snackbar.LENGTH_LONG).setAction("Action",null);
+                                                 View sview=snackbar.getView();
+                                                 sview.setBackgroundColor(ContextCompat.getColor(getApplicationContext(),R.color.colorPrimary));
+                                                 snackbar.show();
+                                                // Toast.makeText(MainActivity.this, "Enter the Credentials", Toast.LENGTH_SHORT).show();
                                              }
 
                                              userArrayList = db.getAllUser();
@@ -109,16 +123,21 @@ public class MainActivity extends AppCompatActivity {
 
                                              }
                                              if (dbphone_no==null || dbpass==null) {
-                                                 Toast.makeText(MainActivity.this, "No Account is found", Toast.LENGTH_SHORT).show();
+                                                // Toast.makeText(MainActivity.this, "No Account is found", Toast.LENGTH_SHORT).show();
                                              }else if (uphone_no.matches(dbphone_no) && upass.matches(dbpass)) {
 
                                                  Intent intent = new Intent(MainActivity.this, DashBoardActivity.class);
                                                  startActivity(intent);
 
-                                                 Toast.makeText(MainActivity.this, "Signed In Successfully" + Build.MODEL, Toast.LENGTH_SHORT).show();
+                                                 Snackbar snackbar=Snackbar.make(v,"Signedin Successfully",Snackbar.LENGTH_LONG).setAction("Action",null);
+                                                 View sview=snackbar.getView();
+                                                 sview.setBackgroundColor(ContextCompat.getColor(getApplicationContext(),R.color.colorPrimary));
+                                                 snackbar.show();
                                              } else {
-                                                 Toast.makeText(MainActivity.this, "Autherization Error!", Toast.LENGTH_SHORT).show();
-                                             }
+                                                 Snackbar snackbar=Snackbar.make(v,"Authentication Error!!",Snackbar.LENGTH_LONG).setAction("Action",null);
+                                                 View sview=snackbar.getView();
+                                                 sview.setBackgroundColor(ContextCompat.getColor(getApplicationContext(),R.color.colorPrimary));
+                                                 snackbar.show();                                             }
 
 
                                              if (remember_me.isChecked()) {
@@ -161,6 +180,12 @@ public class MainActivity extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
         finishAffinity();
+    }
+
+    protected void hideKeyboard(View view){
+        InputMethodManager in = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        in.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+
     }
 }
 

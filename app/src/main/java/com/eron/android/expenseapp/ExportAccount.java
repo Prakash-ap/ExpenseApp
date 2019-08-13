@@ -2,7 +2,9 @@ package com.eron.android.expenseapp;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -55,6 +57,8 @@ public class ExportAccount extends AppCompatActivity implements AdapterView.OnIt
     String oaccname;
     String[] permissions;
     Acc_Model acc_model;
+    AlertDialog.Builder builder;
+    File file;
 
     private int REQUEST_CODE = 1;
 
@@ -65,6 +69,7 @@ public class ExportAccount extends AppCompatActivity implements AdapterView.OnIt
         spinner=findViewById(R.id.spinneraccountexport);
         export_btn=findViewById(R.id.btnaccountexport);
         recyclerView=findViewById(R.id.exportaccountlist);
+        builder=new AlertDialog.Builder(this);
         permissions = new String[]{
                 Manifest.permission.READ_EXTERNAL_STORAGE,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE};
@@ -194,7 +199,7 @@ public class ExportAccount extends AppCompatActivity implements AdapterView.OnIt
             File exportDir = new File(Environment.getExternalStorageDirectory(), "/codesss/");
             if (!exportDir.exists()) { exportDir.mkdirs(); }
 
-            File file = new File(exportDir, "account.csv");
+         file = new File(exportDir, "account.csv");
             try {
                 file.createNewFile();
                 CsvWriter csvWrite = new CsvWriter(new FileWriter(file));
@@ -220,6 +225,19 @@ public class ExportAccount extends AppCompatActivity implements AdapterView.OnIt
         protected void onPostExecute(final Boolean success) {
             if (this.dialog.isShowing()) { this.dialog.dismiss(); }
             if (success) {
+
+                builder.setMessage("File Path : "+file)
+                        .setCancelable(false)
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                finish();
+
+                            }
+                        });
+                AlertDialog alert = builder.create();
+                //Setting the title manually
+                alert.setTitle("File Path");
+                alert.show();
                 Toast.makeText(ExportAccount.this, "Export successful!", Toast.LENGTH_SHORT).show();
               //           ShareFile();
             } else {

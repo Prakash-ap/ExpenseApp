@@ -572,6 +572,19 @@ public class DataBaseHandler extends SQLiteOpenHelper {
 
     }
 
+    public  void  updateUserPassword(User user)
+    {
+        SQLiteDatabase db=this.getWritableDatabase();
+        ContentValues updatedValues = new ContentValues();
+        updatedValues.put(KEY_ID,user.getId());
+        updatedValues.put(KEY_PASSWORD,user.getPassword());
+
+        db.update(TABLE_NAME,updatedValues, KEY_ID+ "=?", new String[]{String.valueOf(user.getId())});
+        db.close();
+
+    }
+
+
 
     public  void  updateIncomeCatEntry(CatItemData catItemData)
     {

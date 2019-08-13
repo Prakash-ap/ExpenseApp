@@ -2,7 +2,9 @@ package com.eron.android.expenseapp;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -10,6 +12,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Environment;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -62,6 +65,8 @@ public class ExportCatAcc extends AppCompatActivity implements AdapterView.OnIte
     ArrayList<CatItemData>catItemDataArrayList2;
     ArrayList<CatItemData>cat;
     ArrayList<CatItemData>cate;
+    File file;
+    AlertDialog.Builder builder;
 
     private int REQUEST_CODE = 1;
 
@@ -82,6 +87,7 @@ public class ExportCatAcc extends AppCompatActivity implements AdapterView.OnIte
         db=new DataBaseHandler(this);
         loadCatg();
         spinner.setOnItemSelectedListener(this);
+        builder=new AlertDialog.Builder(this);
 
 
         transModel=new TransModel();
@@ -216,7 +222,7 @@ public class ExportCatAcc extends AppCompatActivity implements AdapterView.OnIte
             File exportDir = new File(Environment.getExternalStorageDirectory(), "/codesss/");
             if (!exportDir.exists()) { exportDir.mkdirs(); }
 
-            File file = new File(exportDir, "Category.csv");
+           file = new File(exportDir, "Category.csv");
             try {
                 file.createNewFile();
                 CsvWriter csvWrite = new CsvWriter(new FileWriter(file));
@@ -242,7 +248,20 @@ public class ExportCatAcc extends AppCompatActivity implements AdapterView.OnIte
         protected void onPostExecute(final Boolean success) {
             if (this.dialog.isShowing()) { this.dialog.dismiss(); }
             if (success) {
-                Toast.makeText(ExportCatAcc.this, "Export successful!", Toast.LENGTH_SHORT).show();
+                builder.setMessage("File Path : "+file)
+                        .setCancelable(false)
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                finish();
+
+                            }
+                        });
+                AlertDialog alert = builder.create();
+                //Setting the title manually
+                alert.setTitle("File Path");
+                alert.show();
+
+                Toast.makeText(ExportCatAcc.this, "Export successful!"+file, Toast.LENGTH_SHORT).show();
               //           ShareFile();
             } else {
                 Toast.makeText(ExportCatAcc.this, "Export failed", Toast.LENGTH_SHORT).show();

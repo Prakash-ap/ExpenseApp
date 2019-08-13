@@ -87,6 +87,7 @@ public class TransExpenseFragment extends Fragment implements View.OnClickListen
     int dayofmonth;
     int year;
     String selectmonthyear;
+    SimpleDateFormat simpleDateFormat;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -102,6 +103,14 @@ public class TransExpenseFragment extends Fragment implements View.OnClickListen
         notes=view.findViewById(R.id.edtnote);
         save=view.findViewById(R.id.btnsave);
         db=new DataBaseHandler(getContext());
+
+        String format="MMMM dd, yyyy";
+        simpleDateFormat=new SimpleDateFormat(format, Locale.getDefault());
+        String dat=date.getText().toString();
+
+        if(dat.equals("")) {
+            date.setText(simpleDateFormat.format(calendar.getTime()));
+        }
 
         save.setOnClickListener(this);
         category.setOnItemSelectedListener(this);
@@ -334,6 +343,10 @@ public class TransExpenseFragment extends Fragment implements View.OnClickListen
         if(v.getId()==R.id.btnsave){
 
             adate=date.getText().toString();
+            dayofmonth = calendar.get(Calendar.DAY_OF_MONTH);
+            month = new SimpleDateFormat("MMMM").format(calendar.getTime());
+            year=calendar.get(Calendar.YEAR);
+            selectmonthyear=month + " " + String.valueOf(year);
             aamnt=amount.getText().toString();
             anotes=notes.getText().toString();
             type="expense";
